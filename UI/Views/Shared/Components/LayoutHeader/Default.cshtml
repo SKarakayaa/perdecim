@@ -1,0 +1,40 @@
+@model IEnumerable<Entities.Concrete.Category>
+
+<li class="active"><a href="index.html" class="act">Ana Sayfa</a></li>
+
+@foreach (var category in Model)
+{
+    <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">@category.Name
+        @if (category.ChildCategories.Count >= 1)
+            {
+                <b class="caret"></b>
+            }
+        </a>
+        @if (category.ChildCategories.Count >= 1)
+        {
+            <ul class="dropdown-menu multi-column columns-3">
+                <div class="row">
+                    <div class="col-sm-6  multi-gd-img">
+                        <ul class="multi-column-dropdown">
+                            <h6>@category.Name</h6>
+                            @foreach (var childCategory in category.ChildCategories)
+                            {
+                                <li><a href="products.html">@childCategory.Name</a></li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="col-sm-3  multi-gd-img">
+                        <a href="products.html"><img src="images/woo.jpg" alt=" " /></a>
+                    </div>
+                    <div class="col-sm-3  multi-gd-img">
+                        <a href="products.html"><img src="images/woo1.jpg" alt=" " /></a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </ul>
+        }
+
+    </li>
+}
+<li><a href="mail.html">İletişim</a></li>

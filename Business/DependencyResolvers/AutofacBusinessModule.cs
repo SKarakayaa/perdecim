@@ -12,6 +12,9 @@ namespace Business.DependencyResolvers
         {
             builder.RegisterType<CategoryManager>().As<ICategoryService>();
             builder.RegisterType<CategoryDAL>().As<ICategoryDAL>();
+
+            builder.RegisterType<ProductManager>().As<IProductService>();
+            builder.RegisterType<ProductDAL>().As<IProductDAL>();
         }
     }
 }
