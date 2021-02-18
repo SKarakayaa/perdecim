@@ -5,7 +5,8 @@ namespace Data.Context
 {
     public class MatmazelContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseNpgsql("Server=37.148.212.91;Database=perdecim; User Id=postgres; Password=postgres;Port=5432;");
+        public MatmazelContext(DbContextOptions<MatmazelContext> options) : base(options)
+        { }
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Color> Colors { get; set; }

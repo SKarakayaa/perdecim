@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Entities.Abstract;
 
-namespace Core.Repository
+namespace Data.Repository
 {
     public interface IRepositoryBase<T> where T : class, IEntity, new()
     {

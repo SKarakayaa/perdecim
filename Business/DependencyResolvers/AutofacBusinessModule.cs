@@ -6,7 +6,7 @@ using Data.Concrete;
 
 namespace Business.DependencyResolvers
 {
-    public class AutofacBusinessModule:Module
+    public class AutofacBusinessModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
@@ -15,6 +15,7 @@ namespace Business.DependencyResolvers
 
             builder.RegisterType<ProductManager>().As<IProductService>();
             builder.RegisterType<ProductDAL>().As<IProductDAL>();
+            builder.RegisterType<UnitOfWork.UnitOfWork>().As<UnitOfWork.IUnitOfWork>();
         }
     }
 }

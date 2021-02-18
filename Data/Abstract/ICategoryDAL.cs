@@ -1,4 +1,4 @@
-using Core.Repository;
+using Data.Repository;
 using Entities.Concrete;
 
 namespace Data.Abstract
