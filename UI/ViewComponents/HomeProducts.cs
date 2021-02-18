@@ -35,6 +35,7 @@ namespace UI.ViewComponents
                     ViewBag.Title = "Popüler Ürünler";
                     break;
                 default:
+                    products = await _productService.GetListAsync();
                     break;
             }
 

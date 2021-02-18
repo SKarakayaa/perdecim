@@ -1,0 +1,6 @@
+@model List<Entities.Concrete.Category>
+
+@foreach (var subCategory in Model)
+{
+    <li><input type="checkbox" id="item-@subCategory.ParentId-@subCategory.Id" /><label for="item-0-0">@subCategory.Name</label></li>
+}
