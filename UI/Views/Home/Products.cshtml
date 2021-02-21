@@ -18,7 +18,7 @@
                                         @foreach (var category in Model.Categories.Where(x=>x.ParentId == null))
                                         {
                                             <li>
-                                                <input type="checkbox" checked="checked" id="item-@category.Id"/><label for=item-@category.Id><span></span>@category.Name</label>
+                                                <input type="checkbox" checked="checked" id="item-@category.Id"/><label for="item-@category.Id">@category.Name</label>
                                                 @if(category.ChildCategories.Count > 0)
                                                 {
                                                     <ul>

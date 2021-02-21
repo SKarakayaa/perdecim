@@ -36,7 +36,7 @@ namespace UI.Controllers
         }
         public async Task<JsonResult> GetProductList(int categoryId)
         {
-            var products = await _productService.GetListAsync(x => x.CategoryId == categoryId);
+            var products = (await _productService.GetListAsync(x => x.CategoryId == categoryId)).Data;
             return Json(products);
         }
     }

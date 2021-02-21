@@ -1,0 +1,116 @@
+@{
+    ViewData["Title"] = "Ürün";
+    string baseUrl = ViewBag.BaseUrl;
+}
+
+<div class="content">
+    <!--single-->
+    <div class="single-wl3">
+        <div class="container">
+            <div class="single-grids">
+                <div class="col-md-9 single-grid">
+                    <div clas="single-top">
+                        <div class="single-left">
+                            <div class="flexslider">
+                                <ul class="slides">
+                                    <li data-thumb="@baseUrl/images/si.jpg">
+                                        <div class="thumb-image"> <img src="@baseUrl/images/si.jpg" data-imagezoom="true"
+                                                class="img-responsive"> </div>
+                                    </li>
+                                    <li data-thumb="@baseUrl/images/si1.jpg">
+                                        <div class="thumb-image"> <img src="@baseUrl/images/si1.jpg" data-imagezoom="true"
+                                                class="img-responsive"> </div>
+                                    </li>
+                                    <li data-thumb="@baseUrl/images/si2.jpg">
+                                        <div class="thumb-image"> <img src="@baseUrl/images/si2.jpg" data-imagezoom="true"
+                                                class="img-responsive"> </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="single-right simpleCart_shelfItem">
+                            <h4>Sed do eiusmod tempor</h4>
+                            <div class="block">
+                                <div class="starbox small ghosting"> </div>
+                            </div>
+                            <p class="price item_price">$ 14.00</p>
+                            <div class="description">
+                                <p><span>Quick Overview : </span> In cursus faucibus tortor eu vestibulum. Ut eget
+                                    turpis ac justo porta varius. Donec vel felis ante, ac vehicula ipsum. Quisque sed
+                                    diam metus. Quisque eget leo sit amet erat varius rutrum vitae dapibus lectus.
+                                    Vivamus et sapien ante. Suspendisse potenti. Fusce in tellus est, ac consequat.</p>
+                            </div>
+                            <div class="color-quality">
+                                <h6>Quality :</h6>
+                                <div class="quantity">
+                                    <div class="quantity-select">
+                                        <div class="entry value-minus1">&nbsp;</div>
+                                        <div class="entry value1"><span>1</span></div>
+                                        <div class="entry value-plus1 active">&nbsp;</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="women">
+                                <span class="size">XL / XXL / S </span>
+                                <a href="#" data-text="Add To Cart" class="my-cart-b item_add">Add To Cart</a>
+                            </div>
+                            <div class="social-icon">
+                                <a href="#"><i class="icon"></i></a>
+                                <a href="#"><i class="icon1"></i></a>
+                                <a href="#"><i class="icon2"></i></a>
+                                <a href="#"><i class="icon3"></i></a>
+                            </div>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+<script>
+    jQuery(function () {
+        jQuery('.starbox').each(function () {
+            var starbox = jQuery(this);
+            starbox.starbox({
+                average: starbox.attr('data-start-value'),
+                changeable: starbox.hasClass('unchangeable') ? false : starbox.hasClass('clickonce') ? 'once' : true,
+                ghosting: starbox.hasClass('ghosting'),
+                autoUpdateAverage: starbox.hasClass('autoupdate'),
+                buttons: starbox.hasClass('smooth') ? false : starbox.attr('data-button-count') || 5,
+                stars: starbox.attr('data-star-count') || 5
+            }).bind('starbox-value-changed', function (event, value) {
+                if (starbox.hasClass('random')) {
+                    var val = Math.random();
+                    starbox.next().text(' ' + val);
+                    return val;
+                }
+            })
+        });
+    });
+     $('.value-plus1').on('click', function () {
+                                        var divUpd = $(this).parent().find('.value1'), newVal = parseInt(divUpd.text(), 10) + 1;
+                                        divUpd.text(newVal);
+                                    });
+
+                                    $('.value-minus1').on('click', function () {
+                                        var divUpd = $(this).parent().find('.value1'), newVal = parseInt(divUpd.text(), 10) - 1;
+                                        if (newVal >= 1) divUpd.text(newVal);
+                                    });
+    $(document).ready(function () {
+        $("#owl-demo").owlCarousel({
+            items: 1,
+            lazyLoad: true,
+            autoPlay: true,
+            navigation: false,
+            navigationText: false,
+            pagination: true,
+        });
+         $('.flexslider').flexslider({
+            animation: "slide",
+            controlNav: "thumbnails"
+        });
+    });
+</script>
+}
