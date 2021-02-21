@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Business.Abstract;
 using Business.UnitOfWork;
-using Data.Abstract;
+using Core.Utilities.Results;
 using Entities.Concrete;
 
 namespace Business.Concrete
@@ -16,9 +16,10 @@ namespace Business.Concrete
         {
             _uow = uow;
         }
-        public async Task<List<Product>> GetListAsync(Expression<Func<Product, bool>> filter, string[] children = null)
+        public async Task<IDataResult<List<Product>>> GetListAsync(Expression<Func<Product, bool>> filter = null, string[] children = null)
         {
-            return await _uow.Products.GetListAsync(filter, children);
+            var products = await _uow.Products.GetListAsync(filter, children);
+            return new SuccessDataResult<List<Product>>(products);
         }
     }
 }

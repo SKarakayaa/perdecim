@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Business.Abstract;
 using Business.UnitOfWork;
-using Data.Abstract;
+using Core.Utilities.Results;
 using Entities.Concrete;
 
 namespace Business.Concrete
@@ -14,9 +14,12 @@ namespace Business.Concrete
         {
             _uow = uow;
         }
-        public async Task<List<Category>> GetListAsync()
+
+
+        public async Task<IDataResult<List<Category>>> GetListAsync()
         {
-            return await _uow.Categories.GetListAsync();
+            var categories = await _uow.Categories.GetListAsync();
+            return new SuccessDataResult<List<Category>>(categories);
         }
     }
 }
