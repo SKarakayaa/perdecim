@@ -23,19 +23,19 @@ namespace UI.ViewComponents
             switch (productType)
             {
                 case (int)ProductType.NEW_PRODUCT:
-                    products = await _productService.GetListAsync(x => x.IsNew, navigation);
+                    products = (await _productService.GetListAsync(x => x.IsNew, navigation)).Data;
                     ViewBag.Title = "Yeni Ürünler";
                     break;
                 case (int)ProductType.DISCOUNTED_PRODUCT:
-                    products = await _productService.GetListAsync(x => x.DiscountRate != 0, navigation);
+                    products = (await _productService.GetListAsync(x => x.DiscountRate != 0, navigation)).Data;
                     ViewBag.Title = "İndirimli Ürünler";
                     break;
                 case (int)ProductType.POPULAR_PRODUCT:
-                    products = await _productService.GetListAsync(x => x.IsPopular, navigation);
+                    products = (await _productService.GetListAsync(x => x.IsPopular, navigation)).Data;
                     ViewBag.Title = "Popüler Ürünler";
                     break;
                 default:
-                    products = await _productService.GetListAsync();
+                    products = (await _productService.GetListAsync()).Data;
                     break;
             }
 

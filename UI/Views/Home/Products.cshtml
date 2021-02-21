@@ -33,74 +33,14 @@
 									<h3>Price Range</h3>
 									<ul class="dropdown-menu6">
 										<li>                
-											<div id="slider-range"></div>							
+											<div id="slider"></div>							
 											<input type="text" id="amount" style="border: 0; color: #ffffff; font-weight: normal;" />
 										</li>			
 									</ul>
 									
 									
 								</div>
-								<div class="top-rates">
-									<h3>Top Rates products</h3>
-									<div class="recent-grids">
-										<div class="recent-left">
-											<a href="single.html"><img class="img-responsive " src="~/images/r.jpg" alt=""></a>	
-										</div>
-										<div class="recent-right">
-											<h6 class="best2"><a href="single.html">Lorem ipsum dolor </a></h6>
-											<p><del>$100.00</del> <em class="item_price">$09.00</em></p>
-										</div>	
-										<div class="clearfix"> </div>
-									</div>
-									<div class="recent-grids">
-										<div class="recent-left">
-											<a href="single.html"><img class="img-responsive " src="~/images/r1.jpg" alt=""></a>	
-										</div>
-										<div class="recent-right">
-											<h6 class="best2"><a href="single.html">Duis aute irure </a></h6>
-											<p><del>$100.00</del> <em class="item_price">$19.00</em></p>
-										</div>	
-										<div class="clearfix"> </div>
-									</div>
-									<div class="recent-grids">
-										<div class="recent-left">
-											<a href="single.html"><img class="img-responsive " src="~/images/r2.jpg" alt=""></a>	
-										</div>
-										<div class="recent-right">
-											<h6 class="best2"><a href="single.html">Lorem ipsum dolor </a></h6>
-											<p><del>$100.00</del> <em class="item_price">$39.00</em></p>
-										</div>
-										<div class="clearfix"> </div>
-									</div>
-									<div class="recent-grids">
-										<div class="recent-left">
-											<a href="single.html"><img class="img-responsive " src="~/images/r3.jpg" alt=""></a>	
-										</div>
-										<div class="recent-right">
-											<h6 class="best2"><a href="single.html">Ut enim ad minim </a></h6>
-											<p><em class="item_price">$39.00</em></p>
-										</div>	
-										<div class="clearfix"> </div>
-									</div>
-								</div>
-								<div class="brand-w3l">
-									<h3>Brands Filter</h3>
-									<ul>
-										<li><a href="#">Ralph Lauren</a></li>
-										<li><a href="#">adidas</a></li>
-										<li><a href="#">Bottega Veneta</a></li>
-										<li><a href="#">Valentino</a></li>
-										<li><a href="#">Nike</a></li>
-										<li><a href="#">Burberry</a></li>
-										<li><a href="#">Michael Kors</a></li>
-										<li><a href="#">Louis Vuitton</a></li>
-										<li><a href="#">Jimmy Choo</a></li>
-									</ul>
-								</div>
-								<div class="cat-img">
-									<img class="img-responsive " src="~/images/45.jpg" alt="">
-								</div>
-							</div>
+							</div> 
 							<div class="col-md-9 product-agileinfon-grid1 w3l">
 								<div class="product-agileinfon-top">
 									<div class="col-md-6 product-agileinfon-top-left">
@@ -315,42 +255,5 @@
 				</div>
 			</div>
 @section scripts{
-    @* <script type='text/javascript'>//<![CDATA[ 
-									$(window).load(function(){
-									
-
-									});//]]>  
-
-									</script> *@
-    <script>
-        $(window).load(function(){
-                                    $("#slider-range").slider({
-												range: true,
-												min: 0,
-												max: 9000,
-												values: [ 1000, 7000 ],
-												slide: function( event, ui ) {$("#amount").val("$" + ui.values[0] + " - $" + ui.values[1] );
-												}
-									 });
-									$("#amount").val("$" + $("#slider-range").slider("values",0) + " - $" + $("#slider-range").slider("values",1));
-        })
-        var url = window.location.origin;
-        var products = [];
-        $(document).ready(function(){
-            var categoryId = $("#categoryId").val();
-            $.post('/Home/GetProductList',{categoryId:categoryId},function(response){
-                response.forEach(product=>{
-                    products.push(product);
-                })
-                loadProducts();
-            })
-        })
-        loadProducts = () => {
-            var row = '';
-            products.forEach(product=>{
-                row += '<div class="col-md-4 product-tab-grid simpleCart_shelfItem"><div class="grid-arr"><div class="grid-arrival"><figure><a href="#" class="new-gri" data-toggle="modal" data-target="#myModal1"><div class="grid-img"><img src="'+url+'/images/p6.jpg" class="img-responsive" alt=""></div><div class="grid-img"><img src="'+url+'/images/p5.jpg" class="img-responsive" alt=""></div></a></figure></div><div class="block"><div class="starbox small ghosting"> </div></div><div class="women"><h6><a href="single.html">Sed ut perspiciatis unde</a></h6><span class="size">XL / XXL / S </span><p><del>$100.00</del><em class="item_price">$70.00</em></p><a href="#" data-text="Add To Cart" class="my-cart-b item_add">Add To Cart</a></div></div></div>';
-            })
-            $(".product-tab").html('').append(row);
-        }
-    </script>
+  <script src="~/page-js/Home/products.js"></script>
 }

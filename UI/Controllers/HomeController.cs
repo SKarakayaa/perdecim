@@ -1,10 +1,7 @@
-﻿using System.Diagnostics;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using UI.Models;
 using UI.Models.Home;
 
 namespace UI.Controllers
@@ -24,7 +21,7 @@ namespace UI.Controllers
         {
             HomeViewModel homeViewModel = new HomeViewModel();
             var categories = await _categoryService.GetListAsync();
-            homeViewModel.Categories = categories.Take(4).ToList();
+            homeViewModel.Categories = categories.Data.Take(4).ToList();
             return View(homeViewModel);
         }
 
@@ -34,7 +31,7 @@ namespace UI.Controllers
             HomeViewModel homeViewModel = new HomeViewModel();
             var categories = await _categoryService.GetListAsync();
 
-            homeViewModel.Categories = categories;
+            homeViewModel.Categories = categories.Data;
             return View(homeViewModel);
         }
         public async Task<JsonResult> GetProductList(int categoryId)

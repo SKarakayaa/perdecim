@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Business.Abstract;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +16,7 @@ namespace UI.ViewComponents
         }
         public IViewComponentResult Invoke()
         {
-            List<Category> categories = _categoryService.GetListAsync().Result.Where(x=>x.ParentId == null).ToList();
+            List<Category> categories = (_categoryService.GetListAsync().Result).Data.Where(x=>x.ParentId == null).ToList();
             return View(categories);
         }
     }
