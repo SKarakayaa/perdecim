@@ -9,6 +9,7 @@ namespace Entities.Concrete
         public int DemandTypeId { get; set; }
         public string ImageName { get; set; }
         public string Name { get; set; }
+        public decimal Price { get; set; }
 
         [ForeignKey(nameof(DemandTypeId))]
         public virtual DemandType DemandType { get; set; }

@@ -3,15 +3,17 @@ using System;
 using Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Data.Migrations
 {
     [DbContext(typeof(MatmazelContext))]
-    partial class MatmazelContextModelSnapshot : ModelSnapshot
+    [Migration("20210227090349_DemandPriceAdded")]
+    partial class DemandPriceAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,39 +84,39 @@ namespace Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2021, 2, 27, 13, 2, 23, 43, DateTimeKind.Local).AddTicks(6170),
+                            CreatedAt = new DateTime(2021, 2, 27, 12, 3, 48, 935, DateTimeKind.Local).AddTicks(8751),
                             Name = "Perde"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2021, 2, 27, 13, 2, 23, 48, DateTimeKind.Local).AddTicks(2675),
+                            CreatedAt = new DateTime(2021, 2, 27, 12, 3, 48, 939, DateTimeKind.Local).AddTicks(7463),
                             Name = "Yatak Örtüsü"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2021, 2, 27, 13, 2, 23, 48, DateTimeKind.Local).AddTicks(2759),
+                            CreatedAt = new DateTime(2021, 2, 27, 12, 3, 48, 939, DateTimeKind.Local).AddTicks(7540),
                             Name = "Çeyiz"
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2021, 2, 27, 13, 2, 23, 48, DateTimeKind.Local).AddTicks(2766),
+                            CreatedAt = new DateTime(2021, 2, 27, 12, 3, 48, 939, DateTimeKind.Local).AddTicks(7547),
                             Name = "Tül Perde",
                             ParentId = 1
                         },
                         new
                         {
                             Id = 5,
-                            CreatedAt = new DateTime(2021, 2, 27, 13, 2, 23, 48, DateTimeKind.Local).AddTicks(2776),
+                            CreatedAt = new DateTime(2021, 2, 27, 12, 3, 48, 939, DateTimeKind.Local).AddTicks(7553),
                             Name = "Normal Perde",
                             ParentId = 1
                         },
                         new
                         {
                             Id = 6,
-                            CreatedAt = new DateTime(2021, 2, 27, 13, 2, 23, 48, DateTimeKind.Local).AddTicks(2781),
+                            CreatedAt = new DateTime(2021, 2, 27, 12, 3, 48, 939, DateTimeKind.Local).AddTicks(7560),
                             Name = "Zebra Perde",
                             ParentId = 1
                         });
@@ -306,7 +308,7 @@ namespace Data.Migrations
                             BrandId = 4,
                             CategoryId = 6,
                             ColorId = 1,
-                            CreatedAt = new DateTime(2021, 2, 27, 13, 2, 23, 52, DateTimeKind.Local).AddTicks(1217),
+                            CreatedAt = new DateTime(2021, 2, 27, 12, 3, 48, 942, DateTimeKind.Local).AddTicks(3847),
                             Description = "Zebra Stor Perde",
                             DiscountRate = 0,
                             InStock = true,
@@ -321,7 +323,7 @@ namespace Data.Migrations
                             BrandId = 4,
                             CategoryId = 6,
                             ColorId = 2,
-                            CreatedAt = new DateTime(2021, 2, 27, 13, 2, 23, 52, DateTimeKind.Local).AddTicks(6262),
+                            CreatedAt = new DateTime(2021, 2, 27, 12, 3, 48, 942, DateTimeKind.Local).AddTicks(6327),
                             Description = "Zebra Stor Perde",
                             DiscountRate = 20,
                             InStock = true,
@@ -374,46 +376,6 @@ namespace Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Entities.Concrete.ProductImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("ImageName")
-                        .HasColumnType("text");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductImages");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ImageName = "si.jpg",
-                            ProductId = 2
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ImageName = "si1.jpg",
-                            ProductId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ImageName = "si2.jpg",
-                            ProductId = 2
-                        });
-                });
-
             modelBuilder.Entity("Entities.Concrete.Category", b =>
                 {
                     b.HasOne("Entities.Concrete.Category", "ParentCategory")
@@ -424,7 +386,7 @@ namespace Data.Migrations
             modelBuilder.Entity("Entities.Concrete.Demand", b =>
                 {
                     b.HasOne("Entities.Concrete.DemandType", "DemandType")
-                        .WithMany("Demands")
+                        .WithMany()
                         .HasForeignKey("DemandTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -460,16 +422,7 @@ namespace Data.Migrations
                         .IsRequired();
 
                     b.HasOne("Entities.Concrete.Product", "Product")
-                        .WithMany("ProductDemands")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Entities.Concrete.ProductImage", b =>
-                {
-                    b.HasOne("Entities.Concrete.Product", "Product")
-                        .WithMany("ProductImages")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

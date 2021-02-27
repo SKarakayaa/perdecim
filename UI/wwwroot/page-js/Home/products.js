@@ -37,7 +37,7 @@ loadProducts = () => {
     row += "<h2>Ürün Bulunamadı !</h2>";
   } else {
     products.forEach((product) => {
-      row += `<div class="col-md-4 product-tab-grid simpleCart_shelfItem"><div class="grid-arr"><div class="grid-arrival"><figure><a href="#" class="new-gri" data-toggle="modal" data-target="#myModal1"><div class="grid-img"><img src="${url}/images/p6.jpg" class="img-responsive" alt=""></div><div class="grid-img"><img src="${url}/images/p5.jpg" class="img-responsive" alt=""></div></a></figure></div><div class="block"><div class="starbox small ghosting"> </div></div><div class="women"><h6><a href="single.html">${product.name}</a></h6><span class="size">${product.description}</span>`;
+      row += `<div class="col-md-4 product-tab-grid simpleCart_shelfItem"><div class="grid-arr"><div class="grid-arrival"><figure><a href="#" class="new-gri" data-toggle="modal" data-target="#myModal1"><div class="grid-img"><img src="${url}/images/p6.jpg" class="img-responsive" alt=""></div><div class="grid-img"><img src="${url}/images/p5.jpg" class="img-responsive" alt=""></div></a></figure></div><div class="block"><div class="starbox small ghosting"> </div></div><div class="women"><h6><a href="/Product/Index/${product.id}">${product.name}</a></h6><span class="size">${product.description}</span>`;
       if (product.discountRate !== 0) {
         var discountedPrice =
           product.price - product.price * (product.discountRate / 100);

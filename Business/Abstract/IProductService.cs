@@ -10,5 +10,6 @@ namespace Business.Abstract
     public interface IProductService
     {
         Task<IDataResult<List<Product>>> GetListAsync(Expression<Func<Product, bool>> filter = null, string[] children = null);
+        Task<IDataResult<Product>> GetByIdAsync(int id, string[] children);
     }
 }

@@ -26,7 +26,7 @@ namespace Data.Repository
 
         public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter, string[] children = null)
         {
-            IQueryable<TEntity> query = _context.Set<TEntity>();
+            IQueryable<TEntity> query = _context.Set<TEntity>().Where(filter);
             if (children != null)
                 foreach (var child in children)
                     query = query.Include(child);

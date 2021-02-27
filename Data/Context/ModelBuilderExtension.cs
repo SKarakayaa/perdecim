@@ -38,18 +38,27 @@ namespace Data.Context
             );
 
             modelBuilder.Entity<Demand>().HasData(
-                new Demand { Id = 1, DemandTypeId = 1, ImageName = "jumbo_kasa.jpeg", Name = "Jumbo Kasa" },
-                new Demand { Id = 2, DemandTypeId = 1, ImageName = "metal_kasa.jpeg", Name = "Metal Kasa" }
+                new Demand { Id = 1, DemandTypeId = 1, ImageName = "jumbo_kasa.jpeg", Name = "Jumbo Kasa", Price = 5.0M },
+                new Demand { Id = 2, DemandTypeId = 1, ImageName = "metal_kasa.jpeg", Name = "Metal Kasa", Price = 10.0M },
+                new Demand { Id = 3, DemandTypeId = 2, ImageName = "metal_zincir.jpeg", Name = "Metal Zincir", Price = 0 },
+                new Demand { Id = 4, DemandTypeId = 2, ImageName = "plasti_zincir.jpeg", Name = "Plastik Zincir", Price = 0 }
             );
 
             modelBuilder.Entity<Product>().HasData(
-                new Product { Id = 1, Name = "Yıldız Desen Baskılı Zebra Stor Perde", BrandId = 4, CategoryId = 6, ColorId = 1, Description = "Zebra Stor Perde", DiscountRate = 0, InStock = true, IsNew = true,IsPopular=true, Price = 65.00M },
-                new Product { Id = 2, Name = "Jakarlı Zebra Stop Perde Su Yolu", BrandId = 4, CategoryId = 6, ColorId = 2, Description = "Zebra Stor Perde", DiscountRate = 20, InStock = true, IsNew = false,IsPopular=false, Price = 65.00M }
+                new Product { Id = 1, Name = "Yıldız Desen Baskılı Zebra Stor Perde", BrandId = 4, CategoryId = 6, ColorId = 1, Description = "Zebra Stor Perde", DiscountRate = 0, InStock = true, IsNew = true, IsPopular = true, Price = 65.00M },
+                new Product { Id = 2, Name = "Jakarlı Zebra Stop Perde Su Yolu", BrandId = 4, CategoryId = 6, ColorId = 2, Description = "Zebra Stor Perde", DiscountRate = 20, InStock = true, IsNew = false, IsPopular = false, Price = 65.00M }
             );
 
             modelBuilder.Entity<ProductDemand>().HasData(
                 new ProductDemand { Id = 1, DemandTypeId = 1, ProductId = 1 },
-                new ProductDemand { Id = 2, DemandTypeId = 1, ProductId = 2 }
+                new ProductDemand { Id = 2, DemandTypeId = 1, ProductId = 2 },
+                new ProductDemand { Id = 3, DemandTypeId = 2, ProductId = 2 }
+            );
+
+            modelBuilder.Entity<ProductImage>().HasData(
+                new ProductImage { Id = 1, ImageName = "si.jpg", ProductId = 2 },
+                new ProductImage { Id = 2, ImageName = "si1.jpg", ProductId = 2 },
+                new ProductImage { Id = 3, ImageName = "si2.jpg", ProductId = 2 }
             );
         }
     }

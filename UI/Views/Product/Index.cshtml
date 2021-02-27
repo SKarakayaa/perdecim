@@ -1,3 +1,4 @@
+@model Entities.Concrete.Product
 @{
     ViewData["Title"] = "Ürün";
     string baseUrl = ViewBag.BaseUrl;
@@ -12,36 +13,69 @@
                     <div clas="single-top">
                         <div class="single-left">
                             <div class="flexslider">
+
                                 <ul class="slides">
-                                    <li data-thumb="@baseUrl/images/si.jpg">
-                                        <div class="thumb-image"> <img src="@baseUrl/images/si.jpg" data-imagezoom="true"
+                                    @foreach (var image in Model.ProductImages)
+                                    {
+                                        <li data-thumb="@baseUrl/images/@image.ImageName">
+                                            <div class="thumb-image"> <img src="@baseUrl/images/@image.ImageName" data-imagezoom="true"
                                                 class="img-responsive"> </div>
-                                    </li>
-                                    <li data-thumb="@baseUrl/images/si1.jpg">
-                                        <div class="thumb-image"> <img src="@baseUrl/images/si1.jpg" data-imagezoom="true"
-                                                class="img-responsive"> </div>
-                                    </li>
-                                    <li data-thumb="@baseUrl/images/si2.jpg">
-                                        <div class="thumb-image"> <img src="@baseUrl/images/si2.jpg" data-imagezoom="true"
-                                                class="img-responsive"> </div>
-                                    </li>
+                                        </li>    
+                                    }
                                 </ul>
+
                             </div>
                         </div>
                         <div class="single-right simpleCart_shelfItem">
-                            <h4>Sed do eiusmod tempor</h4>
+                            <h4>@Model.Name</h4>
                             <div class="block">
                                 <div class="starbox small ghosting"> </div>
                             </div>
-                            <p class="price item_price">$ 14.00</p>
+                            <p class="price item_price">
+                                @if(Model.DiscountRate != 0)
+                                {
+                                    <del>@Model.Price ₺</del>
+                                    @(Model.Price - (Model.Price * (Convert.ToDecimal(Model.DiscountRate)/100))) <span>₺</span>
+                                }
+                                else
+                                {
+                                    @Model.Price <span>₺</span>
+                                }
+                            </p>
                             <div class="description">
-                                <p><span>Quick Overview : </span> In cursus faucibus tortor eu vestibulum. Ut eget
-                                    turpis ac justo porta varius. Donec vel felis ante, ac vehicula ipsum. Quisque sed
-                                    diam metus. Quisque eget leo sit amet erat varius rutrum vitae dapibus lectus.
-                                    Vivamus et sapien ante. Suspendisse potenti. Fusce in tellus est, ac consequat.</p>
+                                <p><span>Açıklama : </span> @Model.Description</p>
                             </div>
+                            @if(Model.ProductDemands.Count != 0)
+                            {
+                                foreach (var productDemands in Model.ProductDemands)
+                                {
+                                    <div class="row">
+                                        <div class="col-md-12">@productDemands.DemandType.Name<span style="color:red">*</span></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <select class="form-control" id="@productDemands.DemandType.Name.ToLower().Replace(" ","_")">
+                                                <option value="">Seçiniz...</option>
+                                                @foreach (var demand in productDemands.DemandType.Demands)
+                                                {
+                                                    <option value="@demand.Id">
+                                                        @demand.Name
+                                                        @if(demand.Price != 0)
+                                                        {
+                                                            <span>(+@demand.Price ₺)</span>
+                                                        }
+                                                    </option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <br />
+                                }
+                            
+                            }
+                            
                             <div class="color-quality">
-                                <h6>Quality :</h6>
+                                <h6>Adet :</h6>
                                 <div class="quantity">
                                     <div class="quantity-select">
                                         <div class="entry value-minus1">&nbsp;</div>
@@ -51,8 +85,8 @@
                                 </div>
                             </div>
                             <div class="women">
-                                <span class="size">XL / XXL / S </span>
-                                <a href="#" data-text="Add To Cart" class="my-cart-b item_add">Add To Cart</a>
+                                <span class="size">@Model.Category.Name</span>
+                                <a href="#" data-text="Add To Cart" class="my-cart-b item_add">Sepete Ekle</a>
                             </div>
                             <div class="social-icon">
                                 <a href="#"><i class="icon"></i></a>
