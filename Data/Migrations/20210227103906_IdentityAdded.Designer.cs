@@ -3,15 +3,17 @@ using System;
 using Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Data.Migrations
 {
     [DbContext(typeof(MatmazelContext))]
-    partial class MatmazelContextModelSnapshot : ModelSnapshot
+    [Migration("20210227103906_IdentityAdded")]
+    partial class IdentityAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,20 +40,6 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ConcurrencyStamp = "8b254839-1777-434a-81f6-36d714398481",
-                            Name = "User"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ConcurrencyStamp = "77518cbd-2822-45e2-a37c-3522d62847db",
-                            Name = "Admin"
-                        });
                 });
 
             modelBuilder.Entity("Entities.Concrete.AppUser", b =>
@@ -79,9 +67,6 @@ namespace Data.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("text");
 
@@ -98,9 +83,6 @@ namespace Data.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Surname")
                         .HasColumnType("text");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -177,39 +159,39 @@ namespace Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2021, 2, 27, 13, 44, 21, 513, DateTimeKind.Local).AddTicks(3817),
+                            CreatedAt = new DateTime(2021, 2, 27, 13, 39, 5, 775, DateTimeKind.Local).AddTicks(3100),
                             Name = "Perde"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2021, 2, 27, 13, 44, 21, 517, DateTimeKind.Local).AddTicks(1549),
+                            CreatedAt = new DateTime(2021, 2, 27, 13, 39, 5, 781, DateTimeKind.Local).AddTicks(257),
                             Name = "Yatak Örtüsü"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2021, 2, 27, 13, 44, 21, 517, DateTimeKind.Local).AddTicks(1598),
+                            CreatedAt = new DateTime(2021, 2, 27, 13, 39, 5, 781, DateTimeKind.Local).AddTicks(347),
                             Name = "Çeyiz"
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2021, 2, 27, 13, 44, 21, 517, DateTimeKind.Local).AddTicks(1604),
+                            CreatedAt = new DateTime(2021, 2, 27, 13, 39, 5, 781, DateTimeKind.Local).AddTicks(358),
                             Name = "Tül Perde",
                             ParentId = 1
                         },
                         new
                         {
                             Id = 5,
-                            CreatedAt = new DateTime(2021, 2, 27, 13, 44, 21, 517, DateTimeKind.Local).AddTicks(1614),
+                            CreatedAt = new DateTime(2021, 2, 27, 13, 39, 5, 781, DateTimeKind.Local).AddTicks(394),
                             Name = "Normal Perde",
                             ParentId = 1
                         },
                         new
                         {
                             Id = 6,
-                            CreatedAt = new DateTime(2021, 2, 27, 13, 44, 21, 517, DateTimeKind.Local).AddTicks(1618),
+                            CreatedAt = new DateTime(2021, 2, 27, 13, 39, 5, 781, DateTimeKind.Local).AddTicks(402),
                             Name = "Zebra Perde",
                             ParentId = 1
                         });
@@ -401,7 +383,7 @@ namespace Data.Migrations
                             BrandId = 4,
                             CategoryId = 6,
                             ColorId = 1,
-                            CreatedAt = new DateTime(2021, 2, 27, 13, 44, 21, 520, DateTimeKind.Local).AddTicks(3519),
+                            CreatedAt = new DateTime(2021, 2, 27, 13, 39, 5, 786, DateTimeKind.Local).AddTicks(4322),
                             Description = "Zebra Stor Perde",
                             DiscountRate = 0,
                             InStock = true,
@@ -416,7 +398,7 @@ namespace Data.Migrations
                             BrandId = 4,
                             CategoryId = 6,
                             ColorId = 2,
-                            CreatedAt = new DateTime(2021, 2, 27, 13, 44, 21, 521, DateTimeKind.Local).AddTicks(5784),
+                            CreatedAt = new DateTime(2021, 2, 27, 13, 39, 5, 786, DateTimeKind.Local).AddTicks(9739),
                             Description = "Zebra Stor Perde",
                             DiscountRate = 20,
                             InStock = true,

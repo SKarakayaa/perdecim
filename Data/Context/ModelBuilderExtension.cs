@@ -1,5 +1,6 @@
 using System;
 using Entities.Concrete;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Context
@@ -60,6 +61,15 @@ namespace Data.Context
                 new ProductImage { Id = 2, ImageName = "si1.jpg", ProductId = 2 },
                 new ProductImage { Id = 3, ImageName = "si2.jpg", ProductId = 2 }
             );
+
+            modelBuilder.Entity<AppRole>().HasData(
+                new AppRole { Id = 1, Name = "User" },
+                new AppRole { Id = 2, Name = "Admin" }
+            );
+
+            modelBuilder.Entity<IdentityUserLogin<int>>().HasNoKey();
+            modelBuilder.Entity<IdentityUserRole<int>>().HasNoKey();
+            modelBuilder.Entity<IdentityUserToken<int>>().HasNoKey();
         }
     }
 }

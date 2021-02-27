@@ -1,11 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Business.Extensions;
 using Data.Context;
+using Entities.Concrete;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,8 +23,20 @@ namespace UI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddFluentValidation();
+            services.AddValidationInjection();
+
             services.AddDbContext<MatmazelContext>(option => option.UseNpgsql("Server=37.148.212.91;Database=perdecim; User Id=postgres; Password=1234;Port=5432;"));
+            services.AddIdentity<AppUser, AppRole>(_ =>
+             {
+                 _.Password.RequiredLength = 5;
+                 _.Password.RequireNonAlphanumeric = false;
+                 _.Password.RequireLowercase = false;
+                 _.Password.RequireUppercase = false;
+
+                 _.User.RequireUniqueEmail = true;
+                 _.User.AllowedUserNameCharacters = "abcçdefghiıjklmnoöpqrsştuüvwxyzABCÇDEFGHIİJKLMNOÖPQRSŞTUÜVWXYZ0123456789-._@+";
+             }).AddEntityFrameworkStores<MatmazelContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,7 +56,8 @@ namespace UI
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
+            // app.UseMiddleware<ExceptionMiddleware>();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

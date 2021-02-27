@@ -1,0 +1,56 @@
+@model Entities.DTO.Auth.RegisterDto
+@{
+    ViewData["Title"] = "Kayıt Ol";
+}
+<div class="content">
+    <!--login-->
+    <div class="login">
+        <div class="main-agileits">
+            <div class="form-w3agile form1">
+                <h3>Kayıt Ol</h3>
+                <form asp-action="Register" asp-controller="Auth" method="post">
+                    <div asp-asp-validation-summary="All"></div>
+                    <span style="color:red;" asp-validation-for="UserName"></span>
+                    <div class="key">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <input type="text" asp-for="UserName" placeholder="Kullanıcı Adı">
+                        <div class="clearfix"></div>
+                    </div>
+                    <span style="color:red;" asp-validation-for="Email"></span>
+                    <div class="key">
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                        <input type="text" asp-for="Email" placeholder="Email">
+                        <div class="clearfix"></div>
+                    </div>
+                    <span style="color:red;" asp-validation-for="Password"></span>
+                    <div class="key">
+                        <i class="fa fa-lock" aria-hidden="true"></i>
+                        <input type="password" asp-for="Password" placeholder="Şifre">
+                        <div class="clearfix"></div>
+                    </div>
+                    <span style="color:red;" asp-validation-for="PhoneNumber"></span>
+                    <div class="key">
+                        <i class="fa fa-phone" aria-hidden="true"></i>
+                        <input type="text" asp-for="PhoneNumber" placeholder="Telefon Numarası">
+                        <div class="clearfix"></div>
+                    </div>
+                    <span style="color:red;" asp-validation-for="Name"></span>
+                    <div class="key">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <input type="text" asp-for="Name" placeholder="Ad">
+                        <div class="clearfix"></div>
+                    </div>
+                    <span style="color:red;" asp-validation-for="Surname"></span>
+                    <div class="key">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <input type="text" asp-for="Surname" placeholder="Soyad">
+                        <div class="clearfix"></div>
+                    </div>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <!--login-->
+</div>

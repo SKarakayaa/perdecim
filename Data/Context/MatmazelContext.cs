@@ -1,9 +1,10 @@
 using Entities.Concrete;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Context
 {
-    public class MatmazelContext : DbContext
+    public class MatmazelContext : IdentityDbContext<AppUser,AppRole,int>
     {
         public MatmazelContext(DbContextOptions<MatmazelContext> options) : base(options)
         { }

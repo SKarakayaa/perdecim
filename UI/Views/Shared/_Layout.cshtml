@@ -18,6 +18,13 @@
     <script
         type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
     <script src="~/js/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"
+        integrity="sha512-UdIMMlVx0HEynClOIFSyOrPggomfhBKJE28LKl8yR3ghkgugPnG6iLfRfHwushZl1MOPSY6TsuBDGPK2X4zYKg=="
+        crossorigin="anonymous"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"
+        integrity="sha512-o6XqxgrUsKmchwy9G5VRNWSSxTS4Urr4loO6/0hYdpWmFUfHqGzawGxeQGMDqYzxjY9sbktPbNlkIQJWagVZQg=="
+        crossorigin="anonymous"></script>
     <link href='//fonts.googleapis.com/css?family=Cagliostro' rel='stylesheet' type='text/css'>
     <link
         href='//fonts.googleapis.com/css?family=Open+Sans:400,800italic,800,700italic,700,600italic,600,400italic,300italic,300'
@@ -27,7 +34,7 @@
     <!--search jQuery-->
     <script src="~/js/responsiveslides.min.js"></script>
     <script>
-        $(function () {
+        $(function () { 
             $("#slider").responsiveSlides({
                 auto: true,
                 nav: true,
@@ -84,7 +91,7 @@
                     <ul>
                         <li><a href="checkout.html">Checkout</a></li>
                         <li><a href="login.html">Login</a></li>
-                        <li><a href="registered.html"> Create Account </a></li>
+                        <li><a href="/Auth/Register"> Kayıt Ol </a></li>
                     </ul>
                 </div>
                 <div class="clearfix"></div>
@@ -110,7 +117,7 @@
                             </div>
                             <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                                 <ul class="nav navbar-nav">
-                                   @await Component.InvokeAsync("LayoutHeader")
+                                    @await Component.InvokeAsync("LayoutHeader")
                                 </ul>
                             </div>
                         </nav>
