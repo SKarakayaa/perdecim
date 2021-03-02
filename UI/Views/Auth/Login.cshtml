@@ -1,0 +1,42 @@
+@model Entities.DTO.Auth.LoginDto
+@{
+    ViewData["Title"] = "Giriş";
+}
+<style>
+    .error {
+        color: red
+    }
+</style>
+
+<div class="content">
+    <!--login-->
+    <div class="login">
+        <div class="main-agileits">
+            <div class="form-w3agile">
+                <h3>Giriş</h3>
+                <form asp-action="Login" asp-controller="Auth" method="post">
+                    <div asp-validation-summary="All"></div>
+                    <span asp-validation-for="UserName" class="error" />
+                    <div class="key">
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                        <input type="text" asp-for="UserName" name="UserName" placeholder="Kullanıcı Adı" required>
+                        <div class="clearfix"></div>
+                    </div>
+                    <span asp-validation-for="Password" class="error" />
+                    <div class="key">
+                        <i class="fa fa-lock" aria-hidden="true"></i>
+                        <input type="password" asp-for="Password" name="Password" placeholder="Şifre" required>
+                        <div class="clearfix"></div>
+                    </div>
+                    <input type="submit" value="Giriş">
+                </form>
+            </div>
+            <div class="forg">
+                <a href="#" class="forg-left">Şifremi Unuttum</a>
+                <a href="registered.html" class="forg-right">Kayıt Ol</a>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <!--login-->
+</div>

@@ -1,9 +1,13 @@
+using System;
 using Business.Extensions;
+using Business.Factory;
 using Data.Context;
 using Entities.Concrete;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,7 +40,25 @@ namespace UI
 
                  _.User.RequireUniqueEmail = true;
                  _.User.AllowedUserNameCharacters = "abcçdefghiıjklmnoöpqrsştuüvwxyzABCÇDEFGHIİJKLMNOÖPQRSŞTUÜVWXYZ0123456789-._@+";
-             }).AddEntityFrameworkStores<MatmazelContext>();
+             }).AddEntityFrameworkStores<MatmazelContext>()
+             .AddDefaultTokenProviders();
+
+            services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, MyUserClaimsPrincipalFactory>();
+
+            services.ConfigureApplicationCookie(_ =>
+            {
+                _.LoginPath = new PathString("/Auth/Login");
+                _.LogoutPath = new PathString("/Auth/Logout");
+                _.Cookie = new CookieBuilder
+                {
+                    Name = "AccessToken",
+                    HttpOnly = false,
+                    SameSite = SameSiteMode.Lax,
+                    SecurePolicy = CookieSecurePolicy.Always
+                };
+                _.SlidingExpiration = true;
+                _.ExpireTimeSpan = TimeSpan.FromHours(3);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

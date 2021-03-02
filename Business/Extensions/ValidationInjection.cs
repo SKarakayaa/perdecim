@@ -9,7 +9,8 @@ namespace Business.Extensions
     {
         public static void AddValidationInjection(this IServiceCollection services)
         {
-            services.AddTransient<IValidator<RegisterDto>,RegisterDtoValidation>();
+            services.AddTransient<IValidator<RegisterDto>, RegisterDtoValidation>();
+            services.AddTransient<IValidator<LoginDto>, LoginDtoValidation>();
         }
     }
 }
