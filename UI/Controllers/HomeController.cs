@@ -16,7 +16,7 @@ namespace UI.Controllers
             _categoryService = categoryService;
             _productService = productService;
         }
-
+        
         public async Task<IActionResult> Index()
         {
             HomeViewModel homeViewModel = new HomeViewModel();

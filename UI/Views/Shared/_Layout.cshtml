@@ -21,10 +21,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"
         integrity="sha512-UdIMMlVx0HEynClOIFSyOrPggomfhBKJE28LKl8yR3ghkgugPnG6iLfRfHwushZl1MOPSY6TsuBDGPK2X4zYKg=="
         crossorigin="anonymous"></script>
-    <script
+    @* <script
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"
         integrity="sha512-o6XqxgrUsKmchwy9G5VRNWSSxTS4Urr4loO6/0hYdpWmFUfHqGzawGxeQGMDqYzxjY9sbktPbNlkIQJWagVZQg=="
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script> *@
     <link href='//fonts.googleapis.com/css?family=Cagliostro' rel='stylesheet' type='text/css'>
     <link
         href='//fonts.googleapis.com/css?family=Open+Sans:400,800italic,800,700italic,700,600italic,600,400italic,300italic,300'
@@ -130,21 +130,7 @@
                             </div>
                         </nav>
                     </div>
-                    <div class="header-right2">
-                        <div class="cart box_1">
-                            <a href="checkout.html">
-                                <h3>
-                                    <div class="total">
-                                        <span class="simpleCart_total"></span> (<span id="simpleCart_quantity"
-                                            class="simpleCart_quantity"></span> items)
-                                    </div>
-                                    <img src="images/bag.png" alt="" />
-                                </h3>
-                            </a>
-                            <p><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
-                            <div class="clearfix"> </div>
-                        </div>
-                    </div>
+                    @await Component.InvokeAsync("LayoutCart")
                     <div class="clearfix"> </div>
                 </div>
             </div>

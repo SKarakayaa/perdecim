@@ -4,6 +4,9 @@
     string baseUrl = ViewBag.BaseUrl;
 }
 
+<input hidden id="demandCount" value="@Model.ProductDemands.Count" />
+<input hidden id="productId" value="@Model.Id"/>
+
 <div class="content">
     <!--single-->
     <div class="single-wl3">
@@ -45,6 +48,9 @@
                             <div class="description">
                                 <p><span>Açıklama : </span> @Model.Description</p>
                             </div>
+                            <div class="description">
+                                <p style="color:red" id="demandError" hidden>Lütfen Gerekli Alanları Seçiniz !</p>
+                            </div>
                             @if(Model.ProductDemands.Count != 0)
                             {
                                 foreach (var productDemands in Model.ProductDemands)
@@ -54,7 +60,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <select class="form-control" id="@productDemands.DemandType.Name.ToLower().Replace(" ","_")">
+                                            <select class="form-control" onchange="demandChange(this)" id="@productDemands.DemandType.Id">
                                                 <option value="">Seçiniz...</option>
                                                 @foreach (var demand in productDemands.DemandType.Demands)
                                                 {
@@ -86,7 +92,7 @@
                             </div>
                             <div class="women">
                                 <span class="size">@Model.Category.Name</span>
-                                <a href="#" data-text="Add To Cart" class="my-cart-b item_add">Sepete Ekle</a>
+                                <a href="#" data-text="Add To Cart" class="my-cart-b item_add2">Sepete Ekle</a>
                             </div>
                             <div class="social-icon">
                                 <a href="#"><i class="icon"></i></a>
@@ -104,6 +110,8 @@
 </div>
 @section scripts{
 <script>
+    var choosedDemands=[];
+
     jQuery(function () {
         jQuery('.starbox').each(function () {
             var starbox = jQuery(this);
@@ -146,5 +154,25 @@
             controlNav: "thumbnails"
         });
     });
+
+    demandChange = (e) => {
+        if(!choosedDemands.includes(e.id))
+            choosedDemands.push({Id: e.id, Value:e.value});
+    }
+
+    $(".item_add2").click(()=>{
+        const demandCount = parseInt($("#demandCount").val());
+        if(demandCount !== choosedDemands.length)
+            $("#demandError").show();
+        else{
+            $("#demandError").hide();
+            var productId = $("#productId").val();
+            var quantity = parseInt($(".value1").text(),10);
+            const model = {ProductId:productId,DemandTypes:choosedDemands,Quantity:quantity};
+            $.post("/Cart/AddToCart",{model:model},(response)=>{
+                
+            })
+        }
+    })
 </script>
 }
