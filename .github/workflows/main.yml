@@ -6,7 +6,7 @@ on:
       name:
         description: 'Sefa Karakaya'
         required: true
-        default: 'main
+        default: 'main'
 
 jobs:
   build:
