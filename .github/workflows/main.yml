@@ -1,5 +1,7 @@
 name: .NET Core
-
+env:
+  icon: play
+  color: green
 on:
   push:
     branches: [ $default-branch ]
