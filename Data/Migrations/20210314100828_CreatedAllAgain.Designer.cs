@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(MatmazelContext))]
-    [Migration("20210214173328_MoneyChangesAsPrice")]
-    partial class MoneyChangesAsPrice
+    [Migration("20210314100828_CreatedAllAgain")]
+    partial class CreatedAllAgain
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,101 @@ namespace Data.Migrations
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
                 .HasAnnotation("ProductVersion", "3.1.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
+
+            modelBuilder.Entity("Entities.Concrete.AppRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ConcurrencyStamp = "e2bc170b-6776-488d-b932-da807331697f",
+                            Name = "User"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ConcurrencyStamp = "52e87537-00c8-40bc-91d1-177849be7985",
+                            Name = "Admin"
+                        });
+                });
+
+            modelBuilder.Entity("Entities.Concrete.AppUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Surname")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
 
             modelBuilder.Entity("Entities.Concrete.Brand", b =>
                 {
@@ -84,39 +179,39 @@ namespace Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2021, 2, 14, 20, 33, 27, 498, DateTimeKind.Local).AddTicks(2549),
+                            CreatedAt = new DateTime(2021, 3, 14, 13, 8, 27, 989, DateTimeKind.Local).AddTicks(44),
                             Name = "Perde"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2021, 2, 14, 20, 33, 27, 503, DateTimeKind.Local).AddTicks(5245),
+                            CreatedAt = new DateTime(2021, 3, 14, 13, 8, 27, 991, DateTimeKind.Local).AddTicks(2865),
                             Name = "Yatak Örtüsü"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2021, 2, 14, 20, 33, 27, 503, DateTimeKind.Local).AddTicks(5319),
+                            CreatedAt = new DateTime(2021, 3, 14, 13, 8, 27, 991, DateTimeKind.Local).AddTicks(2895),
                             Name = "Çeyiz"
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2021, 2, 14, 20, 33, 27, 503, DateTimeKind.Local).AddTicks(5328),
+                            CreatedAt = new DateTime(2021, 3, 14, 13, 8, 27, 991, DateTimeKind.Local).AddTicks(2899),
                             Name = "Tül Perde",
                             ParentId = 1
                         },
                         new
                         {
                             Id = 5,
-                            CreatedAt = new DateTime(2021, 2, 14, 20, 33, 27, 503, DateTimeKind.Local).AddTicks(5337),
+                            CreatedAt = new DateTime(2021, 3, 14, 13, 8, 27, 991, DateTimeKind.Local).AddTicks(2904),
                             Name = "Normal Perde",
                             ParentId = 1
                         },
                         new
                         {
                             Id = 6,
-                            CreatedAt = new DateTime(2021, 2, 14, 20, 33, 27, 503, DateTimeKind.Local).AddTicks(5344),
+                            CreatedAt = new DateTime(2021, 3, 14, 13, 8, 27, 991, DateTimeKind.Local).AddTicks(2907),
                             Name = "Zebra Perde",
                             ParentId = 1
                         });
@@ -175,6 +270,9 @@ namespace Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DemandTypeId");
@@ -187,14 +285,32 @@ namespace Data.Migrations
                             Id = 1,
                             DemandTypeId = 1,
                             ImageName = "jumbo_kasa.jpeg",
-                            Name = "Jumbo Kasa"
+                            Name = "Jumbo Kasa",
+                            Price = 5.0m
                         },
                         new
                         {
                             Id = 2,
                             DemandTypeId = 1,
                             ImageName = "metal_kasa.jpeg",
-                            Name = "Metal Kasa"
+                            Name = "Metal Kasa",
+                            Price = 10.0m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DemandTypeId = 2,
+                            ImageName = "metal_zincir.jpeg",
+                            Name = "Metal Zincir",
+                            Price = 0m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DemandTypeId = 2,
+                            ImageName = "plasti_zincir.jpeg",
+                            Name = "Plastik Zincir",
+                            Price = 0m
                         });
                 });
 
@@ -287,7 +403,7 @@ namespace Data.Migrations
                             BrandId = 4,
                             CategoryId = 6,
                             ColorId = 1,
-                            CreatedAt = new DateTime(2021, 2, 14, 20, 33, 27, 507, DateTimeKind.Local).AddTicks(8458),
+                            CreatedAt = new DateTime(2021, 3, 14, 13, 8, 27, 992, DateTimeKind.Local).AddTicks(7434),
                             Description = "Zebra Stor Perde",
                             DiscountRate = 0,
                             InStock = true,
@@ -302,7 +418,7 @@ namespace Data.Migrations
                             BrandId = 4,
                             CategoryId = 6,
                             ColorId = 2,
-                            CreatedAt = new DateTime(2021, 2, 14, 20, 33, 27, 508, DateTimeKind.Local).AddTicks(1070),
+                            CreatedAt = new DateTime(2021, 3, 14, 13, 8, 27, 992, DateTimeKind.Local).AddTicks(9499),
                             Description = "Zebra Stor Perde",
                             DiscountRate = 20,
                             InStock = true,
@@ -346,7 +462,140 @@ namespace Data.Migrations
                             Id = 2,
                             DemandTypeId = 1,
                             ProductId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DemandTypeId = 2,
+                            ProductId = 2
                         });
+                });
+
+            modelBuilder.Entity("Entities.Concrete.ProductImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("ImageName")
+                        .HasColumnType("text");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductImages");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ImageName = "si.jpg",
+                            ProductId = 2
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ImageName = "si1.jpg",
+                            ProductId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ImageName = "si2.jpg",
+                            ProductId = 2
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("text");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.ToTable("UserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.ToTable("UserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("text");
+
+                    b.ToTable("UserTokens");
                 });
 
             modelBuilder.Entity("Entities.Concrete.Category", b =>
@@ -359,7 +608,7 @@ namespace Data.Migrations
             modelBuilder.Entity("Entities.Concrete.Demand", b =>
                 {
                     b.HasOne("Entities.Concrete.DemandType", "DemandType")
-                        .WithMany()
+                        .WithMany("Demands")
                         .HasForeignKey("DemandTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -395,7 +644,16 @@ namespace Data.Migrations
                         .IsRequired();
 
                     b.HasOne("Entities.Concrete.Product", "Product")
-                        .WithMany()
+                        .WithMany("ProductDemands")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Entities.Concrete.ProductImage", b =>
+                {
+                    b.HasOne("Entities.Concrete.Product", "Product")
+                        .WithMany("ProductImages")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

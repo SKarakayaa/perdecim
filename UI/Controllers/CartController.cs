@@ -21,11 +21,11 @@ namespace UI.Controllers
         [HttpPost]
         public async Task<JsonResult> AddToCart(AddToCartModel model)
         {
-            await SetCookie(model);
-            return Json(true);
+            List<CartModel> cart = await SetCookie(model);
+            return Json(new { totalPrice = cart.Sum(x => x.Quantity * x.TotalUnitPrice), CartCount = cart.Sum(x => x.Quantity) });
         }
 
-        private async Task SetCookie(AddToCartModel model)
+        private async Task<List<CartModel>> SetCookie(AddToCartModel model)
         {
             var cartString = Request.Cookies["basket"]?.ToString();
             List<CartModel> cart;
@@ -34,7 +34,7 @@ namespace UI.Controllers
             else
                 cart = new List<CartModel>();
 
-            var existCartItem = cart.FirstOrDefault(x => x.ProductId == model.ProductId && model.DemandTypes.SequenceEqual(model.DemandTypes));
+            var existCartItem = cart.FirstOrDefault(x => x.ProductId == model.ProductId && x.DemandTypes.SequenceEqual(model.DemandTypes));
             if (existCartItem != null)
             {
                 cart.Remove(existCartItem);
@@ -56,6 +56,7 @@ namespace UI.Controllers
                 Secure = true
             };
             Response.Cookies.Append("basket", JsonSerializer.Serialize(cart), cookie);
+            return cart;
         }
     }
 }

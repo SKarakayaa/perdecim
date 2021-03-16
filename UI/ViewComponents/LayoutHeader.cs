@@ -17,6 +17,7 @@ namespace UI.ViewComponents
         public IViewComponentResult Invoke()
         {
             List<Category> categories = (_categoryService.GetListAsync().Result).Data.Where(x=>x.ParentId == null).ToList();
+            ViewBag.BaseUrl = "https://" + HttpContext.Request.Host.ToString();
             return View(categories);
         }
     }

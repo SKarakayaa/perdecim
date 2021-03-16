@@ -30,7 +30,7 @@ namespace UI
             services.AddControllersWithViews().AddFluentValidation();
             services.AddValidationInjection();
 
-            services.AddDbContext<MatmazelContext>(option => option.UseNpgsql("Server=37.148.212.91;Database=perdecim; User Id=sefakarakaya; Password=10117Sefa;Port=5432;"));
+            services.AddDbContext<MatmazelContext>(option => option.UseNpgsql("Server=161.35.219.52; Database=perdecim; User Id=skarakaya; Password=10117Sefa.; Port=5432;"));
             services.AddIdentity<AppUser, AppRole>(_ =>
              {
                  _.Password.RequiredLength = 5;

@@ -13,25 +13,14 @@
     <link rel="stylesheet" href="~/css/flexslider.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="css/jstarbox.css" type="text/css" media="screen" charset="utf-8" />
     <!--css-->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!--JS-->
     <script
         type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
     <script src="~/js/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"
         integrity="sha512-UdIMMlVx0HEynClOIFSyOrPggomfhBKJE28LKl8yR3ghkgugPnG6iLfRfHwushZl1MOPSY6TsuBDGPK2X4zYKg=="
         crossorigin="anonymous"></script>
-    @* <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"
-        integrity="sha512-o6XqxgrUsKmchwy9G5VRNWSSxTS4Urr4loO6/0hYdpWmFUfHqGzawGxeQGMDqYzxjY9sbktPbNlkIQJWagVZQg=="
-        crossorigin="anonymous"></script> *@
-    <link href='//fonts.googleapis.com/css?family=Cagliostro' rel='stylesheet' type='text/css'>
-    <link
-        href='//fonts.googleapis.com/css?family=Open+Sans:400,800italic,800,700italic,700,600italic,600,400italic,300italic,300'
-        rel='stylesheet' type='text/css'>
-    <!--search jQuery-->
     <script src="~/js/main.js"></script>
-    <!--search jQuery-->
     <script src="~/js/responsiveslides.min.js"></script>
     <script>
         $(function () {
@@ -44,12 +33,8 @@
             });
         });
     </script>
-    <!--mycart-->
     <script type="text/javascript" src="~/js/bootstrap-3.1.1.min.js"></script>
-    <!-- cart -->
     <script src="~/js/simpleCart.min.js"></script>
-    <!-- cart -->
-    <!--start-rate-->
     <script src="~/js/jstarbox.js"></script>
     <script type="text/javascript">
         jQuery(function () {
@@ -76,6 +61,17 @@
     <script src="~/js/owl.carousel.js"></script>
     <script defer src="~/js/jquery.flexslider.js"></script>
     <script src="~/js/imagezoom.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.all.min.js"></script>
+    <!--JS-->
+    <!--FONTS-->
+    <link href='//fonts.googleapis.com/css?family=Cagliostro' rel='stylesheet' type='text/css'>
+    <link
+        href='//fonts.googleapis.com/css?family=Open+Sans:400,800italic,800,700italic,700,600italic,600,400italic,300italic,300'
+        rel='stylesheet' type='text/css'>
+    <!--FONTS-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
     <title>@ViewData["Title"] - UI</title>
 
 </head>
@@ -84,15 +80,12 @@
     <div class="header">
         <div class="header-top">
             <div class="container">
-                <div class="top-left">
-                    <a href="#"> Help <i class="glyphicon glyphicon-phone" aria-hidden="true"></i> +0123-456-789</a>
-                </div>
                 <div class="top-right">
                     <ul>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li><a href="profile.html">@User.FindFirst("Surname").Value</a></li>
-                            <li><a href="logout.html">Çıkış</a></li>
+                            <li><a href="#">@User.FindFirst("Surname").Value</a></li>
+                            <li><a href="#">Çıkış</a></li>
                         }
                         else
                         {
@@ -153,25 +146,7 @@
                         <a href="#"><i class="icon3"></i></a>
                     </div>
                 </div>
-                <div class="col-md-3 footer-grid">
-                    <h4>My Account</h4>
-                    <ul>
-                        <li><a href="checkout.html">Checkout</a></li>
-                        <li><a href="login.html">Login</a></li>
-                        <li><a href="registered.html"> Create Account </a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3 footer-grid">
-                    <h4>Information</h4>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="products.html">Products</a></li>
-                        <li><a href="codes.html">Short Codes</a></li>
-                        <li><a href="mail.html">Mail Us</a></li>
-                        <li><a href="products1.html">products1</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3 footer-grid foot">
+                <div class="col-md-3 footer-grid foot pull-right">
                     <h4>Contacts</h4>
                     <ul>
                         <li><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i><a href="#">E Comertown Rd,
@@ -196,9 +171,7 @@
                 <p>&copy; 2016 New Shop . All rights reserved | Design by <a href="http://w3layouts.com">W3layouts</a>
                 </p>
             </div>
-            <div class="copy-right">
-                <img src="images/card.png" alt="" />
-            </div>
+           
             <div class="clearfix"></div>
         </div>
     </div>

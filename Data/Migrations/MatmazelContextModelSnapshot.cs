@@ -43,13 +43,13 @@ namespace Data.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "8b254839-1777-434a-81f6-36d714398481",
+                            ConcurrencyStamp = "e2bc170b-6776-488d-b932-da807331697f",
                             Name = "User"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "77518cbd-2822-45e2-a37c-3522d62847db",
+                            ConcurrencyStamp = "52e87537-00c8-40bc-91d1-177849be7985",
                             Name = "Admin"
                         });
                 });
@@ -177,39 +177,39 @@ namespace Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2021, 2, 27, 13, 44, 21, 513, DateTimeKind.Local).AddTicks(3817),
+                            CreatedAt = new DateTime(2021, 3, 14, 13, 8, 27, 989, DateTimeKind.Local).AddTicks(44),
                             Name = "Perde"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2021, 2, 27, 13, 44, 21, 517, DateTimeKind.Local).AddTicks(1549),
+                            CreatedAt = new DateTime(2021, 3, 14, 13, 8, 27, 991, DateTimeKind.Local).AddTicks(2865),
                             Name = "Yatak Örtüsü"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2021, 2, 27, 13, 44, 21, 517, DateTimeKind.Local).AddTicks(1598),
+                            CreatedAt = new DateTime(2021, 3, 14, 13, 8, 27, 991, DateTimeKind.Local).AddTicks(2895),
                             Name = "Çeyiz"
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2021, 2, 27, 13, 44, 21, 517, DateTimeKind.Local).AddTicks(1604),
+                            CreatedAt = new DateTime(2021, 3, 14, 13, 8, 27, 991, DateTimeKind.Local).AddTicks(2899),
                             Name = "Tül Perde",
                             ParentId = 1
                         },
                         new
                         {
                             Id = 5,
-                            CreatedAt = new DateTime(2021, 2, 27, 13, 44, 21, 517, DateTimeKind.Local).AddTicks(1614),
+                            CreatedAt = new DateTime(2021, 3, 14, 13, 8, 27, 991, DateTimeKind.Local).AddTicks(2904),
                             Name = "Normal Perde",
                             ParentId = 1
                         },
                         new
                         {
                             Id = 6,
-                            CreatedAt = new DateTime(2021, 2, 27, 13, 44, 21, 517, DateTimeKind.Local).AddTicks(1618),
+                            CreatedAt = new DateTime(2021, 3, 14, 13, 8, 27, 991, DateTimeKind.Local).AddTicks(2907),
                             Name = "Zebra Perde",
                             ParentId = 1
                         });
@@ -401,7 +401,7 @@ namespace Data.Migrations
                             BrandId = 4,
                             CategoryId = 6,
                             ColorId = 1,
-                            CreatedAt = new DateTime(2021, 2, 27, 13, 44, 21, 520, DateTimeKind.Local).AddTicks(3519),
+                            CreatedAt = new DateTime(2021, 3, 14, 13, 8, 27, 992, DateTimeKind.Local).AddTicks(7434),
                             Description = "Zebra Stor Perde",
                             DiscountRate = 0,
                             InStock = true,
@@ -416,7 +416,7 @@ namespace Data.Migrations
                             BrandId = 4,
                             CategoryId = 6,
                             ColorId = 2,
-                            CreatedAt = new DateTime(2021, 2, 27, 13, 44, 21, 521, DateTimeKind.Local).AddTicks(5784),
+                            CreatedAt = new DateTime(2021, 3, 14, 13, 8, 27, 992, DateTimeKind.Local).AddTicks(9499),
                             Description = "Zebra Stor Perde",
                             DiscountRate = 20,
                             InStock = true,
