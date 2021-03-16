@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       name:
-        description: 'Sefa Karakaya'
+        description: "Sefa Karakaya"
         required: true
-        default: 'main'
+        default: "main"
 
 jobs:
   build:
@@ -27,6 +27,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
+          passphrase: ${{ secrests.PASSPHRASE }}
           script: |
             whoami
             ls -al
