@@ -29,5 +29,5 @@ jobs:
           port: ${{ secrets.PORT }}
           passphrase: ${{ secrests.PASSPHRASE }}
           script: |
-            whoami
-            ls -al
+            sudo cp -r /home/runner/work/perdecim/perdecim/UI/bin/Debug/netcoreapp3.1/publish /home/skarakaya/var/html/www/perdecim/
+            sudo systemctl restart perdecim.service
