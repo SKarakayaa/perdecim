@@ -24,7 +24,7 @@ jobs:
         uses: garygrossgarten/github-action-scp@release
         with:
           local: /home/runner/work/perdecim/perdecim/UI/bin/Debug/netcoreapp3.1/publish
-          remote: /home/skarakaya/var/www/
+          remote: /var/www/perdecim/
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           port: ${{ secrets.PORT }}
@@ -33,9 +33,10 @@ jobs:
       - name: Restart service
         uses: garygrossgarten/github-action-scp@release
         with:
-          command: systemctl restart perdecim.service
+          command: sudo systemctl restart perdecim.service
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           port: ${{ secrets.PORT }}
           privateKey : ${{secrets.KEY}}
+          password: ${{secrets.PASSWORD}}
           passphrase : ${{secrets.PASSPHRASE}}
