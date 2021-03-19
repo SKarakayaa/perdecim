@@ -8,7 +8,7 @@ namespace Data.Context
         public MatmazelContext CreateDbContext(string[] args)
         {
             var builder = new DbContextOptionsBuilder<MatmazelContext>();
-            var connectionString = "Server=161.35.219.52;Database=perdecim; User Id=skarakaya; Password=10117Sefa.; Port=5432;";
+            var connectionString = "Server=167.172.186.80;Database=perdecim; User Id=perdecimuser; Password=H}WuON<QXIIGfX; Port=5432;";
             builder.UseNpgsql(connectionString);
             return new MatmazelContext(builder.Options);
         }

@@ -30,7 +30,7 @@ namespace UI
             services.AddControllersWithViews().AddFluentValidation();
             services.AddValidationInjection();
 
-            services.AddDbContext<MatmazelContext>(option => option.UseNpgsql("Server=161.35.219.52; Database=perdecim; User Id=skarakaya; Password=10117Sefa.; Port=5432;"));
+            services.AddDbContext<MatmazelContext>(option => option.UseNpgsql("Server=167.172.186.80; Database=perdecim; User Id=perdecimuser; Password=H}WuON<QXIIGfX; Port=5432;"));
             services.AddIdentity<AppUser, AppRole>(_ =>
              {
                  _.Password.RequiredLength = 5;
@@ -74,7 +74,7 @@ namespace UI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
