@@ -4,10 +4,53 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Data.Migrations
 {
-    public partial class CreatedAllAgain : Migration
+    public partial class RemovedSeedData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AspNetRoles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserName = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
+                    Email = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
+                    PasswordHash = table.Column<string>(nullable: true),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Surname = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Brands",
                 columns: table => new
@@ -69,7 +112,7 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RoleClaims",
+                name: "AspNetRoleClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -80,26 +123,17 @@ namespace Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoleClaims", x => x.Id);
+                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Roles",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(nullable: true),
-                    NormalizedName = table.Column<string>(nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Roles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserClaims",
+                name: "AspNetUserClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -110,24 +144,37 @@ namespace Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserClaims", x => x.Id);
+                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserLogins",
+                name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(nullable: true),
-                    ProviderKey = table.Column<string>(nullable: true),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserRoles",
+                name: "AspNetUserRoles",
                 columns: table => new
                 {
                     UserId = table.Column<int>(nullable: false),
@@ -135,47 +182,39 @@ namespace Data.Migrations
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserName = table.Column<string>(nullable: true),
-                    NormalizedUserName = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    NormalizedEmail = table.Column<string>(nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    PasswordHash = table.Column<string>(nullable: true),
-                    SecurityStamp = table.Column<string>(nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Surname = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserTokens",
+                name: "AspNetUserTokens",
                 columns: table => new
                 {
                     UserId = table.Column<int>(nullable: false),
-                    LoginProvider = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -287,106 +326,42 @@ namespace Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Brands",
-                columns: new[] { "Id", "Name" },
-                values: new object[,]
-                {
-                    { 1, "Taç" },
-                    { 2, "English Home" },
-                    { 3, "Belenay" },
-                    { 4, "Matmazel" }
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetRoleClaims_RoleId",
+                table: "AspNetRoleClaims",
+                column: "RoleId");
 
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "CreatedAt", "Name", "ParentId" },
-                values: new object[,]
-                {
-                    { 1, new DateTime(2021, 3, 14, 13, 8, 27, 989, DateTimeKind.Local).AddTicks(44), "Perde", null },
-                    { 2, new DateTime(2021, 3, 14, 13, 8, 27, 991, DateTimeKind.Local).AddTicks(2865), "Yatak Örtüsü", null },
-                    { 3, new DateTime(2021, 3, 14, 13, 8, 27, 991, DateTimeKind.Local).AddTicks(2895), "Çeyiz", null }
-                });
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles",
+                column: "NormalizedName",
+                unique: true);
 
-            migrationBuilder.InsertData(
-                table: "Colors",
-                columns: new[] { "Id", "Name" },
-                values: new object[,]
-                {
-                    { 1, "Ekru" },
-                    { 2, "Pudra" },
-                    { 3, "Vizon" },
-                    { 4, "Kahve" }
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserClaims_UserId",
+                table: "AspNetUserClaims",
+                column: "UserId");
 
-            migrationBuilder.InsertData(
-                table: "DemandTypes",
-                columns: new[] { "Id", "Name" },
-                values: new object[,]
-                {
-                    { 1, "Kasa Tipi" },
-                    { 2, "Zincir Tipi" },
-                    { 3, "Kasa Seçeneği" }
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserLogins_UserId",
+                table: "AspNetUserLogins",
+                column: "UserId");
 
-            migrationBuilder.InsertData(
-                table: "Roles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[,]
-                {
-                    { 1, "e2bc170b-6776-488d-b932-da807331697f", "User", null },
-                    { 2, "52e87537-00c8-40bc-91d1-177849be7985", "Admin", null }
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserRoles_RoleId",
+                table: "AspNetUserRoles",
+                column: "RoleId");
 
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "CreatedAt", "Name", "ParentId" },
-                values: new object[,]
-                {
-                    { 4, new DateTime(2021, 3, 14, 13, 8, 27, 991, DateTimeKind.Local).AddTicks(2899), "Tül Perde", 1 },
-                    { 5, new DateTime(2021, 3, 14, 13, 8, 27, 991, DateTimeKind.Local).AddTicks(2904), "Normal Perde", 1 },
-                    { 6, new DateTime(2021, 3, 14, 13, 8, 27, 991, DateTimeKind.Local).AddTicks(2907), "Zebra Perde", 1 }
-                });
+            migrationBuilder.CreateIndex(
+                name: "EmailIndex",
+                table: "AspNetUsers",
+                column: "NormalizedEmail");
 
-            migrationBuilder.InsertData(
-                table: "Demands",
-                columns: new[] { "Id", "DemandTypeId", "ImageName", "Name", "Price" },
-                values: new object[,]
-                {
-                    { 1, 1, "jumbo_kasa.jpeg", "Jumbo Kasa", 5.0m },
-                    { 2, 1, "metal_kasa.jpeg", "Metal Kasa", 10.0m },
-                    { 3, 2, "metal_zincir.jpeg", "Metal Zincir", 0m },
-                    { 4, 2, "plasti_zincir.jpeg", "Plastik Zincir", 0m }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Products",
-                columns: new[] { "Id", "BrandId", "CategoryId", "ColorId", "CreatedAt", "Description", "DiscountRate", "InStock", "IsNew", "IsPopular", "Name", "Price" },
-                values: new object[,]
-                {
-                    { 1, 4, 6, 1, new DateTime(2021, 3, 14, 13, 8, 27, 992, DateTimeKind.Local).AddTicks(7434), "Zebra Stor Perde", 0, true, true, true, "Yıldız Desen Baskılı Zebra Stor Perde", 65.00m },
-                    { 2, 4, 6, 2, new DateTime(2021, 3, 14, 13, 8, 27, 992, DateTimeKind.Local).AddTicks(9499), "Zebra Stor Perde", 20, true, false, false, "Jakarlı Zebra Stop Perde Su Yolu", 65.00m }
-                });
-
-            migrationBuilder.InsertData(
-                table: "ProductDemands",
-                columns: new[] { "Id", "DemandTypeId", "ProductId" },
-                values: new object[,]
-                {
-                    { 1, 1, 1 },
-                    { 2, 1, 2 },
-                    { 3, 2, 2 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "ProductImages",
-                columns: new[] { "Id", "ImageName", "ProductId" },
-                values: new object[,]
-                {
-                    { 1, "si.jpg", 2 },
-                    { 2, "si1.jpg", 2 },
-                    { 3, "si2.jpg", 2 }
-                });
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers",
+                column: "NormalizedUserName",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Categories_ParentId",
@@ -432,6 +407,21 @@ namespace Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AspNetRoleClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserLogins");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserRoles");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
                 name: "Demands");
 
             migrationBuilder.DropTable(
@@ -441,25 +431,10 @@ namespace Data.Migrations
                 name: "ProductImages");
 
             migrationBuilder.DropTable(
-                name: "RoleClaims");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Roles");
-
-            migrationBuilder.DropTable(
-                name: "UserClaims");
-
-            migrationBuilder.DropTable(
-                name: "UserLogins");
-
-            migrationBuilder.DropTable(
-                name: "UserRoles");
-
-            migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "UserTokens");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "DemandTypes");

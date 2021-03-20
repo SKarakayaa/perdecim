@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data.Context
 {
-    public class MatmazelContext : IdentityDbContext<AppUser,AppRole,int>
+    public class MatmazelContext : IdentityDbContext<AppUser, AppRole, int>
     {
         public MatmazelContext(DbContextOptions<MatmazelContext> options) : base(options)
         { }
@@ -18,9 +18,5 @@ namespace Data.Context
         public DbSet<ProductDemand> ProductDemands { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Seed();
-        }
     }
 }

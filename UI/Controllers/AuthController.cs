@@ -15,10 +15,12 @@ namespace UI.Controllers
     {
         private readonly IAuthService _authService;
         private readonly SignInManager<AppUser> _signInManager;
-        public AuthController(IAuthService authService, SignInManager<AppUser> signInManager)
+        private readonly RoleManager<AppRole> _roleManager;
+        public AuthController(IAuthService authService, SignInManager<AppUser> signInManager, RoleManager<AppRole> roleManager)
         {
             _authService = authService;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
         [HttpGet]
         public IActionResult Register()
@@ -33,9 +35,12 @@ namespace UI.Controllers
                 return View(register);
 
             var result = await _authService.Register(register);
-            
+
             if (!result.Succeeded)
                 result.Errors.ToList().ForEach(x => ModelState.AddModelError(x.Code, x.Description));
+
+            AppUser user = await _authService.GetUserAsync(register.UserName);
+            // await _authService.AssignRoleAsync(user);
             return View();
         }
 
@@ -58,7 +63,11 @@ namespace UI.Controllers
                 if (result.Succeeded)
                 {
                     await _authService.ResetFailedCount(userIsExist.Data);
-                    
+
+                    var userRole = (await _authService.GetUserRolesAsync(userIsExist.Data)).FirstOrDefault();
+                    if (userRole.Equals("Admin"))
+                        return RedirectToAction("Index", "Admin");
+
                     if (string.IsNullOrEmpty(TempData["returnUrl"]?.ToString()))
                         return RedirectToAction("Index", "Home");
                     return Redirect(TempData["returnUrl"].ToString());

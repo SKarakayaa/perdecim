@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Business.Abstract;
 using Core.Utilities.Results;
@@ -55,9 +56,16 @@ namespace Business.Concrete
                 PhoneNumber = register.PhoneNumber
             };
             IdentityResult result = await _userManager.CreateAsync(user, register.Password);
+            await _userManager.AddToRoleAsync(user,"User");
             return result;
         }
 
+        public async Task<AppUser> GetUserAsync(string userName)
+        {
+            AppUser user = await _userManager.FindByNameAsync(userName);
+            return user;
+        }
 
+        public async Task<List<string>> GetUserRolesAsync(AppUser user) =>  await _userManager.GetRolesAsync(user) as List<string>;
     }
 }
