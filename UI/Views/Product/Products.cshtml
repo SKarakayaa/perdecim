@@ -1,0 +1,76 @@
+@model List<Entities.Concrete.Product>
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="accordion" id="product-accordion">
+        <div class="panel panel-danger">
+            <div class="panel-heading" id="head-two">
+                <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse-two"
+                    aria-expanded="true" aria-controls="collapse-two">ÜRÜN EKLE</button>
+            </div>
+            <div id="collapse-two" class="collapse" aria-labelledby="head-two" data-parent="product-accordion">
+                <div class="panel-body">
+                    Ürün Ekleme
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-success">
+            <div class="panel-heading" id="head-one">
+                <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse-one"
+                    aria-expanded="true" aria-controls="collapse-one">ÜRÜNLER</button>
+            </div>
+            <div id="collapse-one" class="collapse show" aria-labelledby="head-one" data-parent="product-accordion">
+                <div class="panel-body">
+                    <table id="product-table" class="table table-striped table-bordered" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Ürün Adı</th>
+                                <th>Kategori</th>
+                                <th>Renk</th>
+                                <th>Stok Durumu</th>
+                                <th>Popülerlik</th>
+                                <th>Price</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td>@item.Category.Name</td>
+                                    <td>@item.ColorId</td>
+                                    <td>@item.InStock</td>
+                                    <td>@item.IsPopular</td>
+                                    <td>@item.Price</td>
+                                    <td><button>Delete</button></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(() => {
+        $("#product-table").dataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
+            },
+            "searching": true,
+            "ordering": true,
+            "paging": true,
+            "pagingType": "full_numbers",
+            "pageLength": 10,
+            "responsive": true,
+            "columnDefs": [{
+                "targets": 3,
+                "orderable": false
+            }]
+        })
+    });
+</script>
