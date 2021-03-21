@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Business.Abstract;
 using Core.Utilities.Results;
 using Entities.DTO.Demand;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,12 +17,14 @@ namespace UI.Controllers
         {
             _demandService = demandService;
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             ViewBag.DemandTypes = await _demandService.GetListAsync();
             return View();
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DemandTypeCreate(DemandTypeCreateDto demandTypeCreate)
         {
@@ -41,6 +44,7 @@ namespace UI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DemandCreate(DemandCreateDto demandCreate)
         {

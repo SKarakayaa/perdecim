@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Business.Abstract;
 using Entities.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace UI.Controllers
@@ -13,6 +14,7 @@ namespace UI.Controllers
         {
             _categoryService = categoryService;
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             ViewBag.Categories = (await _categoryService.GetListAsync()).Data;
@@ -20,6 +22,7 @@ namespace UI.Controllers
         }
         
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Category category)
         {
