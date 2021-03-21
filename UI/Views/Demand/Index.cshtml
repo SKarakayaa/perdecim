@@ -1,0 +1,103 @@
+@using Core.Utilities.Results
+@using Entities.Concrete
+@model Entities.DTO.Demand.CreateDto
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    IDataResult<List<DemandType>> DemandTypes = (IDataResult<List<DemandType>>)ViewBag.DemandTypes;
+}
+<link href="~/page-css/Category/index.css" rel="stylesheet" type="text/css" />
+<div class="row">
+    <div asp-validation-summary="All"></div>
+    <div class="accordion" id="product-accordion">
+        <div class="panel panel-danger">
+            <div class="panel-heading" id="head-one">
+                <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse-one"
+                    aria-expanded="true" aria-controls="collapse-one">TALEP TÜRÜ</button>
+            </div>
+            <div id="collapse-one" class="collapse" aria-labelledby="head-one" data-parent="product-accordion">
+                <div class="panel-body">
+                    <form asp-action="DemandTypeCreate" asp-controller="Demand">
+                        <div class="form-group">
+                            <label for="DemandTypeCreate.Name">Talep Türü Adı</label>
+                            <input class="form-control" type="text" placeholder="Talep Türü Adı Giriniz"
+                                name="DemandTypeCreate.Name" />
+                            <span asp-validation-for="DemandTypeCreate.Name" style="color: red;"></span>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success">Kaydet</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-warning">
+            <div class="panel-heading" id="head-two">
+                <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse-two"
+                    aria-expanded="true" aria-controls="collapse-two">TALEP SEÇENEĞİ EKLE</button>
+            </div>
+            <div id="collapse-two" class="collapse" aria-labelledby="head-two" data-parent="product-accordion">
+                <div class="panel-body">
+                    <form asp-action="DemandCreate" asp-controller="Demand" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label>Talep Türü</label>
+                            <select class="form-control" asp-for="DemandCreate.DemandTypeId"
+                                asp-items="@(new SelectList(DemandTypes.Data,"Id","Name"))">
+                                <option>Seçiniz</option>
+                            </select>
+                            <span asp-validation-for="DemandCreate.DemandTypeId" style="color: red;"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="DemandCreate.Name">Seçenek Adı</label>
+                            <input type="text" asp-for="DemandCreate.Name" class="form-control" autocomplete="off"
+                                placeholder="Seçenek Adı Giriniz" />
+                            <span asp-validation-for="DemandCreate.Name" style="color: red;"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="DemandCreate.Price">Seçenek Fiyatı</label>
+                            <input type="number" asp-for="DemandCreate.Price" class="form-control" autocomplete="off"
+                                placeholder="Seçenek Fiyatı Giriniz (Boş bırakırsanız 0 ₺ olarak kaydedilir)" />
+                        </div>
+                        <div class="form-group">
+                            <label for="DemandCreate.Image">Resim</label>
+                            <input type="file" asp-for="DemandCreate.Image" class="form-control"/>
+                            <span asp-validation-for="DemandCreate.Image" style="color: red;"></span>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success">Kaydet</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-success">
+            <div class="panel-heading">KATEGORİLER</div>
+            <div class="panel-body">
+                @if (!DemandTypes.IsSuccess)
+                {
+                    <span style="color:red">@DemandTypes.Message</span>
+                }
+                else
+                {
+                    <div class="col-md-4">
+                        <ul id="tree3">
+                            @foreach (var demandType in DemandTypes.Data)
+                            {
+                                <li>@demandType.Name</li>
+                                @if(demandType.Demands.Count > 0)
+                                {
+                                    <ul>
+                                        @foreach (var demand in demandType.Demands)
+                                        {
+                                            <li>@demand.Name</li>
+                                        }
+                                    </ul>
+                                }   
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/page-js/Category/index.js"></script>

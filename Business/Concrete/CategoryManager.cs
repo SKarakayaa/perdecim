@@ -15,6 +15,13 @@ namespace Business.Concrete
             _uow = uow;
         }
 
+        public async Task<IResult> CreateCategoryAsync(Category category)
+        {
+            await _uow.Categories.AddAsync(category);
+            int result = await _uow.Complete();
+            if (result == 1) return new SuccessResult();
+            return new ErrorResult();
+        }
 
         public async Task<IDataResult<List<Category>>> GetListAsync()
         {

@@ -10,12 +10,16 @@ namespace Business.UnitOfWork
         private readonly MatmazelContext _context;
         public IProductDAL Products { get; }
         public ICategoryDAL Categories { get; }
+        public IDemandDAL Demands { get; }
+        public IDemandTypeDAL DemandTypes { get; }
 
-        public UnitOfWork(MatmazelContext context, IProductDAL productDAL, ICategoryDAL categoryDAL)
+        public UnitOfWork(MatmazelContext context, IProductDAL productDAL, ICategoryDAL categoryDAL, IDemandDAL demandDAL, IDemandTypeDAL demandTypeDAL)
         {
             _context = context;
             Products = productDAL;
             Categories = categoryDAL;
+            Demands = demandDAL;
+            DemandTypes = demandTypeDAL;
         }
 
         public async Task<int> Complete()

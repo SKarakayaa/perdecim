@@ -8,5 +8,7 @@ namespace Business.Abstract
     public interface ICategoryService
     {
         Task<IDataResult<List<Category>>> GetListAsync();
+
+        Task<IResult> CreateCategoryAsync(Category category);
     }
 }

@@ -1,0 +1,59 @@
+@model Entities.Concrete.Category
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    List<Entities.Concrete.Category> Categories = (List<Entities.Concrete.Category>)ViewBag.Categories;
+}
+<link href="~/page-css/Category/index.css" rel="stylesheet" type="text/css"/>
+<div class="row">
+    <div class="accordion" id="product-accordion">
+        <div class="panel panel-danger">
+            <div class="panel-heading" id="head-two">
+                <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse-two"
+                    aria-expanded="true" aria-controls="collapse-two">KATEGORİ EKLE</button>
+            </div>
+            <div id="collapse-two" class="collapse" aria-labelledby="head-two" data-parent="product-accordion">
+                <div class="panel-body">
+                    <form asp-action="Create" asp-controller="Category">
+                        <div class="form-group">
+                            <label for="ParentId">Üst Kategori</label>
+                            <select class="form-control" asp-for="ParentId"
+                                asp-items="@(new SelectList(Categories,"Id","Name"))">
+                                <option>Seçiniz</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="Name">Kategori Adı</label>
+                            <input type="text" name="Name" class="form-control" autocomplete="off"
+                                placeholder="Kategori Adı Giriniz" />
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success">Kaydet</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-success">
+            <div class="panel-heading">KATEGORİLER</div>
+            <div class="panel-body">
+                <div class="col-md-4">
+                    <ul id="tree3">
+                        @if (Categories.Count == 0)
+                        {
+                            <span>Kategori Bulunamadı !</span>
+                        }
+                        else
+                        {
+                            foreach (var category in Categories.Where(x => x.ParentId == 1))
+                            {
+                                @await Component.InvokeAsync("CategoriesHierarchy",new {category = category})
+                                ;
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/page-js/Category/index.js"></script>

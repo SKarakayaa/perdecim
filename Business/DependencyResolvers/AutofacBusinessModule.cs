@@ -19,6 +19,11 @@ namespace Business.DependencyResolvers
 
             builder.RegisterType<ProductManager>().As<IProductService>();
             builder.RegisterType<ProductDAL>().As<IProductDAL>();
+
+            builder.RegisterType<DemandTypeDAL>().As<IDemandTypeDAL>();
+            builder.RegisterType<DemandDAL>().As<IDemandDAL>();
+            builder.RegisterType<DemandManager>().As<IDemandService>();
+
             builder.RegisterType<UnitOfWork.UnitOfWork>().As<UnitOfWork.IUnitOfWork>();
 
             // var assembly = System.Reflection.Assembly.GetExecutingAssembly();

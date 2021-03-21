@@ -1,0 +1,14 @@
+@model Entities.Concrete.Category
+
+
+<li><a href="#">@Model.Name</a>
+    @if (Model.ChildCategories.Count != 0)
+    {
+        <ul>
+            @foreach (var chieldCategory in Model.ChildCategories)
+            {
+                @await Component.InvokeAsync("CategoriesHierarchy",new {category=chieldCategory})
+            }
+        </ul>
+    }
+</li>

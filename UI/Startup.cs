@@ -3,6 +3,7 @@ using Business.Extensions;
 using Business.Factory;
 using Data.Context;
 using Entities.Concrete;
+using Entities.Config;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,6 +29,7 @@ namespace UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews().AddFluentValidation();
+            services.Configure<FileUploadSettings>(Configuration.GetSection("FileUploadSettings"));
             services.AddValidationInjection();
 
             services.AddDbContext<MatmazelContext>(option => option.UseNpgsql("Server=167.172.186.80; Database=perdecim; User Id=perdecimuser; Password=H}WuON<QXIIGfX; Port=5432;"));

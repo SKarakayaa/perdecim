@@ -8,6 +8,8 @@ namespace Business.UnitOfWork
     {
         IProductDAL Products { get; }
         ICategoryDAL Categories { get; }
+        IDemandDAL Demands { get; }
+        IDemandTypeDAL DemandTypes { get; }
         Task<int> Complete();
     }
 }
