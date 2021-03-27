@@ -24,6 +24,12 @@ namespace Business.DependencyResolvers
             builder.RegisterType<DemandDAL>().As<IDemandDAL>();
             builder.RegisterType<DemandManager>().As<IDemandService>();
 
+            builder.RegisterType<ColorDAL>().As<IColorDAL>();
+            builder.RegisterType<ColorManager>().As<IColorService>();
+
+            builder.RegisterType<BrandDAL>().As<IBrandDAL>();
+            builder.RegisterType<BrandManager>().As<IBrandService>();
+
             builder.RegisterType<UnitOfWork.UnitOfWork>().As<UnitOfWork.IUnitOfWork>();
 
             // var assembly = System.Reflection.Assembly.GetExecutingAssembly();

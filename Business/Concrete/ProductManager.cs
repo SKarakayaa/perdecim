@@ -6,6 +6,7 @@ using Business.Abstract;
 using Business.UnitOfWork;
 using Core.Utilities.Results;
 using Entities.Concrete;
+using Entities.DTO.Product;
 
 namespace Business.Concrete
 {
@@ -21,6 +22,16 @@ namespace Business.Concrete
         {
             Product product = await _uow.Products.GetAsync(x => x.Id == id, children);
             return new SuccessDataResult<Product>(product);
+        }
+
+        public async Task<IDataResult<CreateProductElementsDto>> GetCreateProductElements()
+        {
+            CreateProductElementsDto createProductElements = new CreateProductElementsDto();
+            createProductElements.Brands = await _uow.Brands.GetListAsync();
+            createProductElements.Categories = await _uow.Categories.GetListAsync();
+            createProductElements.Colors = await _uow.Colors.GetListAsync();
+            createProductElements.DemandTypes = await _uow.DemandTypes.GetListAsync();
+            return new SuccessDataResult<CreateProductElementsDto>(createProductElements);
         }
 
         public async Task<IDataResult<List<Product>>> GetListAsync(Expression<Func<Product, bool>> filter = null, string[] children = null)

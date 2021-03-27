@@ -17,7 +17,7 @@ namespace Business.Concrete
 
         public async Task<IResult> CreateCategoryAsync(Category category)
         {
-            await _uow.Categories.AddAsync(category);
+            _uow.Categories.Add(category);
             int result = await _uow.Complete();
             if (result == 1) return new SuccessResult();
             return new ErrorResult();

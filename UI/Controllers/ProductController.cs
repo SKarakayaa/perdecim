@@ -16,6 +16,7 @@ namespace UI.Controllers
         {
             _productService = productService;
         }
+        [HttpGet]
         public async Task<IActionResult> Index(int id)
         {
             string[] navigation = { "Category", "ProductDemands", "ProductImages", "ProductDemands.DemandType", "ProductDemands.DemandType.Demands" };
@@ -30,7 +31,9 @@ namespace UI.Controllers
         {
             string[] navigation = { "Category" };
             IDataResult<List<Product>> products = _productService.GetListAsync(null, navigation).Result;
-            return View(products.Data);
+            ViewBag.Products = products.Data;
+            ViewBag.CreateProductElements = _productService.GetCreateProductElements().Result;
+            return View();
         }
     }
 }

@@ -18,6 +18,7 @@ namespace UI.Controllers
             _demandService = demandService;
         }
         [Authorize(Roles = "Admin")]
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             ViewBag.DemandTypes = await _demandService.GetListAsync();

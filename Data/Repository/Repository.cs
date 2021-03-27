@@ -17,10 +17,9 @@ namespace Data.Repository
         {
             _context = context;
         }
-        public async Task<TEntity> AddAsync(TEntity model)
+        public TEntity Add(TEntity model)
         {
             _context.Entry(model).State = EntityState.Added;
-            await _context.SaveChangesAsync();
             return model;
         }
 
@@ -46,16 +45,15 @@ namespace Data.Repository
             return await query.ToListAsync();
         }
 
-        public async Task RemoveAsync(TEntity model)
+        public TEntity Remove(TEntity model)
         {
             _context.Entry(model).State = EntityState.Deleted;
-            await _context.SaveChangesAsync();
+            return model;
         }
 
-        public async Task<TEntity> UpdateAsync(TEntity model)
+        public TEntity Update(TEntity model)
         {
             _context.Entry(model).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
             return model;
         }
     }

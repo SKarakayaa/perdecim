@@ -22,6 +22,7 @@ namespace Entities.Concrete
         public bool IsNew { get; set; }
         public bool InStock { get; set; }
         public bool IsPopular { get; set; }
+        public bool CanNotable { get; set; }
         public decimal Price { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 

@@ -1,0 +1,73 @@
+@model Entities.Concrete.Color
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="accordion" id="color-accordion">
+        <div class="panel panel-danger">
+            <div class="panel-heading" id="head-two">
+                <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse-two"
+                    aria-expanded="true" aria-controls="collapse-two">RENK EKLE</button>
+            </div>
+            <div id="collapse-two" class="collapse" aria-labelledby="head-two" data-parent="color-accordion">
+                <div class="panel-body">
+                    <form asp-action="CreateColor" asp-controller="Color">
+                        <div asp-validation-summary="All"></div>
+                        <div class="form-group">
+                            <label>Renk Adı</label>
+                            <input asp-for="Name" class="form-control" autocomplete="off"
+                                placeholder="Renk Giriniz" />
+                            <span asp-validation-for="Name" style="color:red;"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-success" value="Kaydet"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-success">
+            <div class="panel-heading" id="head-one">
+                <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse-one"
+                    aria-expanded="true" aria-controls="collapse-one">RENKLER</button>
+            </div>
+            <div id="collapse-one" class="collapse show" aria-labelledby="head-one" data-parent="color-accordion">
+                <div class="panel-body">
+                    <table id="color-table" class="table table-striped table-bordered" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Renk</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.Colors)
+                            {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td class="text-center"><button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(() => {
+        $("#color-table").dataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
+            },
+            "searching": true,
+            "ordering": true,
+            "paging": true,
+            "pagingType": "full_numbers",
+            "pageLength": 10,
+            "responsive": true
+        })
+    });
+</script>

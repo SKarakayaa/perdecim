@@ -15,6 +15,7 @@ namespace UI.Controllers
             _categoryService = categoryService;
         }
         [Authorize(Roles = "Admin")]
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             ViewBag.Categories = (await _categoryService.GetListAsync()).Data;

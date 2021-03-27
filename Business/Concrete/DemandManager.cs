@@ -25,15 +25,15 @@ namespace Business.Concrete
         public async Task<IResult> CreateDemandAsync(DemandCreateDto demandCreateDto)
         {
             string imageName = Guid.NewGuid().ToString() + "." + demandCreateDto.Image.FileName.Split('.')[1];
-            var result = await _uow.Demands.AddAsync(new Demand
+            _uow.Demands.Add(new Demand
             {
                 DemandTypeId = demandCreateDto.DemandTypeId,
                 ImageName = $"{_fileUploadSettings.DemandImagePath}{imageName}",
                 Name = demandCreateDto.Name,
                 Price = demandCreateDto.Price
             });
-
-            if (result.Id == 0)
+            int result = await _uow.Complete();
+            if (result == 0)
                 return new ErrorResult("Kayıt Esnasında Bir Hata Meydana Geldi !");
 
             var fileLocate = $"{_fileUploadSettings.MainPath}{_fileUploadSettings.DemandImagePath}{imageName}";
@@ -46,15 +46,16 @@ namespace Business.Concrete
 
         public async Task<IResult> CreateDemandTypeAsync(DemandTypeCreateDto demandTypeDto)
         {
-            var result = await _uow.DemandTypes.AddAsync(new DemandType { Name = demandTypeDto.Name });
-            if (result.Id > 0)
+            _uow.DemandTypes.Add(new DemandType { Name = demandTypeDto.Name });
+            int result = await _uow.Complete();
+            if (result > 0)
                 return new SuccessResult();
             return new ErrorResult("Kayıt Esnasında Bir Hata Meydana Geldi !");
         }
 
         public async Task<IDataResult<List<DemandType>>> GetListAsync()
         {
-            var demandTypes = await _uow.DemandTypes.GetListAsync();
+            var demandTypes = await _uow.DemandTypes.GetListAsync(null, new[] { "Demands" });
             if (demandTypes.Count == 0)
                 return new ErrorDataResult<List<DemandType>>(demandTypes, "Kayıt Bulunamadı !");
             return new SuccessDataResult<List<DemandType>>(demandTypes);

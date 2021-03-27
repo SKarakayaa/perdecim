@@ -1,4 +1,4 @@
-@model List<Entities.Concrete.Product>
+@model Entities.DTO.Product.CreateProductDto
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
@@ -12,7 +12,14 @@
             </div>
             <div id="collapse-two" class="collapse" aria-labelledby="head-two" data-parent="product-accordion">
                 <div class="panel-body">
-                    Ürün Ekleme
+                    <form asp-action="CreateProduct" asp-controller="Product" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label>Ürün Adı</label>
+                            <input asp-for="Name" class="form-control" autocomplete="off"
+                                placeholder="Ürün adını giriniz !" />
+                            <span asp-validation-for="Name" style="color"></span>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -36,7 +43,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model)
+                            @foreach (var item in ViewBag.Products)
                             {
                                 <tr>
                                     <td>@item.Name</td>

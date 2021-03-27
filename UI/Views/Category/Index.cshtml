@@ -3,15 +3,15 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     List<Entities.Concrete.Category> Categories = (List<Entities.Concrete.Category>)ViewBag.Categories;
 }
-<link href="~/page-css/Category/index.css" rel="stylesheet" type="text/css"/>
+<link href="~/page-css/Category/index.css" rel="stylesheet" type="text/css" />
 <div class="row">
-    <div class="accordion" id="product-accordion">
+    <div class="accordion" id="category-accordion">
         <div class="panel panel-danger">
             <div class="panel-heading" id="head-two">
                 <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse-two"
                     aria-expanded="true" aria-controls="collapse-two">KATEGORİ EKLE</button>
             </div>
-            <div id="collapse-two" class="collapse" aria-labelledby="head-two" data-parent="product-accordion">
+            <div id="collapse-two" class="collapse" aria-labelledby="head-two" data-parent="category-accordion">
                 <div class="panel-body">
                     <form asp-action="Create" asp-controller="Category">
                         <div class="form-group">

@@ -8,13 +8,13 @@
 <link href="~/page-css/Category/index.css" rel="stylesheet" type="text/css" />
 <div class="row">
     <div asp-validation-summary="All"></div>
-    <div class="accordion" id="product-accordion">
+    <div class="accordion" id="demand-accordion">
         <div class="panel panel-danger">
             <div class="panel-heading" id="head-one">
                 <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse-one"
                     aria-expanded="true" aria-controls="collapse-one">TALEP TÜRÜ</button>
             </div>
-            <div id="collapse-one" class="collapse" aria-labelledby="head-one" data-parent="product-accordion">
+            <div id="collapse-one" class="collapse" aria-labelledby="head-one" data-parent="demand-accordion">
                 <div class="panel-body">
                     <form asp-action="DemandTypeCreate" asp-controller="Demand">
                         <div class="form-group">
@@ -35,7 +35,7 @@
                 <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse-two"
                     aria-expanded="true" aria-controls="collapse-two">TALEP SEÇENEĞİ EKLE</button>
             </div>
-            <div id="collapse-two" class="collapse" aria-labelledby="head-two" data-parent="product-accordion">
+            <div id="collapse-two" class="collapse" aria-labelledby="head-two" data-parent="demand-accordion">
                 <div class="panel-body">
                     <form asp-action="DemandCreate" asp-controller="Demand" enctype="multipart/form-data">
                         <div class="form-group">
@@ -70,7 +70,7 @@
             </div>
         </div>
         <div class="panel panel-success">
-            <div class="panel-heading">KATEGORİLER</div>
+            <div class="panel-heading">ÜRÜN SEÇENEKLERİ</div>
             <div class="panel-body">
                 @if (!DemandTypes.IsSuccess)
                 {

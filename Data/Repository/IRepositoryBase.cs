@@ -10,8 +10,8 @@ namespace Data.Repository
     {
         Task<List<T>> GetListAsync(Expression<Func<T, bool>> filter = null, string[] children = null);
         Task<T> GetAsync(Expression<Func<T, bool>> filter, string[] children = null);
-        Task<T> AddAsync(T model);
-        Task<T> UpdateAsync(T model);
-        Task RemoveAsync(T model);
+        T Add(T model);
+        T Update(T model);
+        T Remove(T model);
     }
 }
