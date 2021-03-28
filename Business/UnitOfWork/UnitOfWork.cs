@@ -14,8 +14,10 @@ namespace Business.UnitOfWork
         public IDemandTypeDAL DemandTypes { get; }
         public IBrandDAL Brands { get; }
         public IColorDAL Colors { get; }
+        public IProductDemandDAL ProductDemands { get; }
+        public IProductImageDAL ProductImages { get; }
 
-        public UnitOfWork(MatmazelContext context, IProductDAL productDAL, ICategoryDAL categoryDAL, IDemandDAL demandDAL, IDemandTypeDAL demandTypeDAL, IColorDAL colorDAL, IBrandDAL brandDAL)
+        public UnitOfWork(MatmazelContext context, IProductDAL productDAL, ICategoryDAL categoryDAL, IDemandDAL demandDAL, IDemandTypeDAL demandTypeDAL, IColorDAL colorDAL, IBrandDAL brandDAL, IProductDemandDAL productDemandDAL, IProductImageDAL productImageDAL)
         {
             _context = context;
             Products = productDAL;
@@ -24,6 +26,8 @@ namespace Business.UnitOfWork
             DemandTypes = demandTypeDAL;
             Brands = brandDAL;
             Colors = colorDAL;
+            ProductDemands = productDemandDAL;
+            ProductImages = productImageDAL;
         }
 
         public async Task<int> Complete()

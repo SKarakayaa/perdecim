@@ -1,7 +1,8 @@
 @model Entities.Concrete.Category
 
 
-<li><a href="#">@Model.Name</a>
+<li>@Model.Name<a href="#">&emsp;<i class="fa fa-trash text-danger"></i></a><a href="#">&emsp;<i
+            class="fa fa-edit text-success"></i></a>
     @if (Model.ChildCategories.Count != 0)
     {
         <ul>

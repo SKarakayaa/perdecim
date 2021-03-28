@@ -12,6 +12,8 @@ namespace Business.UnitOfWork
         IDemandTypeDAL DemandTypes { get; }
         IColorDAL Colors { get; }
         IBrandDAL Brands { get; }
+        IProductDemandDAL ProductDemands { get; }
+        IProductImageDAL ProductImages { get; }
         Task<int> Complete();
     }
 }

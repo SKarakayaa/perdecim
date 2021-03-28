@@ -1,4 +1,3 @@
-@model Entities.DTO.Product.CreateProductDto
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
@@ -7,20 +6,7 @@
     <div class="accordion" id="product-accordion">
         <div class="panel panel-danger">
             <div class="panel-heading" id="head-two">
-                <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse-two"
-                    aria-expanded="true" aria-controls="collapse-two">ÜRÜN EKLE</button>
-            </div>
-            <div id="collapse-two" class="collapse" aria-labelledby="head-two" data-parent="product-accordion">
-                <div class="panel-body">
-                    <form asp-action="CreateProduct" asp-controller="Product" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label>Ürün Adı</label>
-                            <input asp-for="Name" class="form-control" autocomplete="off"
-                                placeholder="Ürün adını giriniz !" />
-                            <span asp-validation-for="Name" style="color"></span>
-                        </div>
-                    </form>
-                </div>
+                <a tclass="btn btn-link" href="/Product/CreateOrEditProduct">ÜRÜN EKLE</a>
             </div>
         </div>
         <div class="panel panel-success">
@@ -36,6 +22,7 @@
                                 <th>Ürün Adı</th>
                                 <th>Kategori</th>
                                 <th>Renk</th>
+                                <th>Marka</th>
                                 <th>Stok Durumu</th>
                                 <th>Popülerlik</th>
                                 <th>Price</th>
@@ -48,11 +35,16 @@
                                 <tr>
                                     <td>@item.Name</td>
                                     <td>@item.Category.Name</td>
-                                    <td>@item.ColorId</td>
+                                    <td>@item.Color.Name</td>
+                                    <td>@item.Brand.Name</td>
                                     <td>@item.InStock</td>
                                     <td>@item.IsPopular</td>
-                                    <td>@item.Price</td>
-                                    <td><button>Delete</button></td>
+                                    <td>@item.Price ₺</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>&emsp;
+                                        <a href="/Product/CreateOrEditProduct/@item.Id" class="btn btn-info btn-sm"><i
+                                                class="fa fa-edit"></i></a>
+                                    </td>
                                 </tr>
                             }
                         </tbody>
@@ -74,10 +66,21 @@
             "pagingType": "full_numbers",
             "pageLength": 10,
             "responsive": true,
-            "columnDefs": [{
-                "targets": 3,
-                "orderable": false
-            }]
+            "columnDefs": [
+                {
+                    "targets": 4,
+                    "render": function (data, type, row, meta) {
+                        return Boolean(data) == true ? "Var" : "Yok";
+
+                    }
+                },
+                {
+                    "targets": 5,
+                    "render": function (data, type, row, meta) {
+                        return Boolean(data) == true ? "Popüler" : "Popüler Değil";
+                    }
+                }
+            ]
         })
     });
 </script>

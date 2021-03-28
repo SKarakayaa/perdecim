@@ -30,7 +30,12 @@ namespace Business.DependencyResolvers
             builder.RegisterType<BrandDAL>().As<IBrandDAL>();
             builder.RegisterType<BrandManager>().As<IBrandService>();
 
+            builder.RegisterType<ProductDemandDAL>().As<IProductDemandDAL>();
+
+            builder.RegisterType<ProductImageDAL>().As<IProductImageDAL>();
+
             builder.RegisterType<UnitOfWork.UnitOfWork>().As<UnitOfWork.IUnitOfWork>();
+
 
             // var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             // builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces().EnableInterfaceInterceptors(new Castle.DynamicProxy.ProxyGenerationOptions()

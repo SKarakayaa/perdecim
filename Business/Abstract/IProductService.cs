@@ -13,5 +13,6 @@ namespace Business.Abstract
         Task<IDataResult<List<Product>>> GetListAsync(Expression<Func<Product, bool>> filter = null, string[] children = null);
         Task<IDataResult<Product>> GetByIdAsync(int id, string[] children);
         Task<IDataResult<CreateProductElementsDto>> GetCreateProductElements();
+        Task<IResult> CreateOrEditProductAsync(CreateProductDto productDto);
     }
 }

@@ -1,0 +1,112 @@
+@model Entities.DTO.Product.CreateProductDto
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="row">
+    <div class="panel panel-info">
+        <div class="panel-heading" id="head-two">
+            <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse-two"
+                aria-expanded="true" aria-controls="collapse-two">ÜRÜN EKLE</button>
+        </div>
+        <div class="panel-body">
+            <form asp-action="CreateOrEditProduct" asp-controller="Product" enctype="multipart/form-data">
+                <input hidden asp-for="ProductId" />
+                <div asp-validation-summary="All"></div>
+                <div class="form-group">
+                    <label>Ürün Adı</label>
+                    <input asp-for="Name" class="form-control" autocomplete="off" placeholder="Ürün adını giriniz !"
+                        type="text" />
+                    <span asp-validation-for="Name" style="color:red;"></span>
+                </div>
+                <div class="form-group">
+                    <label>Kategori</label>
+                    <select class="form-control" asp-for="CategoryId"
+                        asp-items="@(new SelectList(ViewBag.CreateProductElements.Categories,"Id","Name"))">
+                        <option>Seçiniz</option>
+                    </select>
+                    <span asp-validation-for="CategoryId" style="color:red;"></span>
+                </div>
+                <div class="form-group">
+                    <label>Marka</label>
+                    <select class="form-control" asp-for="BrandId"
+                        asp-items="@(new SelectList(ViewBag.CreateProductElements.Brands,"Id","Name"))">
+                        <option>Seçiniz</option>
+                    </select>
+                    <span asp-validation-for="BrandId" style="color:red;"></span>
+                </div>
+                <div class="form-group">
+                    <label>Renk</label>
+                    <select class="form-control" asp-for="ColorId"
+                        asp-items="@(new SelectList(ViewBag.CreateProductElements.Colors,"Id","Name"))">
+                        <option>Seçiniz</option>
+                    </select>
+                    <span asp-validation-for="ColorId" style="color:red;"></span>
+                </div>
+                <div class="form-group">
+                    <label>Fiyat</label>
+                    <input asp-for="Price" class="form-control" autocomplete="off" type="number"
+                        placeholder="Ürün fiyatını giriniz !" />
+                    <span asp-validation-for="Price" style="color:red;"></span>
+                </div>
+                <div class="form-group">
+                    <label>İndirim Oranı (İndirim yok ise boş bırakınız)</label>
+                    <input asp-for="DiscountRate" class="form-control" autocomplete="off" type="number"
+                        placeholder="İndirim Oranı Giriniz" />
+                    <span asp-validation-for="DiscountRate" style="color:red;"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="IsNew" type="checkbox" />
+                    <label>Yeni Ürün</label>
+                </div>
+                <div class="form-group">
+                    <input asp-for="IsPopular" type="checkbox" />
+                    <label>Popüler Ürün</label>
+                </div>
+                <div class="form-group">
+                    <input asp-for="IsStock" type="checkbox" />
+                    <label>Stok Durumu</label>
+                </div>
+                <div class="form-group">
+                    <input asp-for="CanNotable" type="checkbox" />
+                    <label>İstek Notu Eklenebilir Mi ?</label>
+                </div>
+                <div class="form-group">
+                    <label>Ürün Açıklaması</label>
+                    <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                    <span asp-validation-for="Description" style="color:red;"></span>
+                </div>
+                <div class="form-group">
+                    <label>Ürün Seçenekleri</label>
+                    <select asp-for="DemandTypeIds" class="form-control"
+                        asp-items="@(new SelectList(ViewBag.CreateProductElements.DemandTypes,"Id","Name"))"
+                        multiple="multiple"></select>
+                    <span asp-validation-for="DemandTypeIds" style="color:red;"></span>
+                </div>
+                <div class="form-group">
+                    <label>Resimler</label>
+                    <input asp-for="Images" type="file" class="form-control" multiple />
+                    <span asp-validation-for="Images" style="color:red;"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-success" value="Kaydet" />
+                </div>
+            </form>
+            @if(ViewBag.ImagePaths != null)
+            {
+                <div class="row">
+                    @foreach (var image in ViewBag.ImagePaths)
+                    {
+                        <div class="col-md-3">
+                            <img src="@image" width="50" height="50"/>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(() => {
+        $("#DemandTypeIds").select2({ width: '100%' });
+    })
+</script>
