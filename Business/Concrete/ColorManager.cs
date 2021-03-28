@@ -16,15 +16,26 @@ namespace Business.Concrete
         }
         public async Task<IResult> AddAsync(Color color)
         {
-            _uow.Colors.Add(color);
+            if(color.Id != 0)
+                _uow.Colors.Update(color);
+            else
+                _uow.Colors.Add(color);
             int result = await _uow.Complete();
 
             return new SuccessResult();
         }
 
+        public async Task<IResult> DeleteAsync(int id)
+        {
+            Color color = await _uow.Colors.GetAsync(x => x.Id == id);
+            _uow.Colors.Remove(color);
+            await _uow.Complete();
+            return new SuccessResult();
+        }
+
         public async Task<List<Color>> GetListAsync()
         {
-            return await _uow.Colors.GetListAsync(); 
+            return await _uow.Colors.GetListAsync();
         }
     }
 }

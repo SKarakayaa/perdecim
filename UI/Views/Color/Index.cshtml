@@ -7,21 +7,23 @@
     <div class="accordion" id="color-accordion">
         <div class="panel panel-danger">
             <div class="panel-heading" id="head-two">
-                <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse-two"
-                    aria-expanded="true" aria-controls="collapse-two">RENK EKLE</button>
+                <button id="collapse-color-panel" type="button" class="btn btn-link" data-toggle="collapse"
+                    data-target="#collapse-two" aria-expanded="true" aria-controls="collapse-two">RENK EKLE</button>
             </div>
             <div id="collapse-two" class="collapse" aria-labelledby="head-two" data-parent="color-accordion">
                 <div class="panel-body">
                     <form asp-action="CreateColor" asp-controller="Color">
+                        <input hidden asp-for="Id" />
                         <div asp-validation-summary="All"></div>
                         <div class="form-group">
                             <label>Renk Adı</label>
-                            <input asp-for="Name" class="form-control" autocomplete="off"
-                                placeholder="Renk Giriniz" />
+                            <input asp-for="Name" class="form-control" autocomplete="off" placeholder="Renk Giriniz" />
                             <span asp-validation-for="Name" style="color:red;"></span>
                         </div>
                         <div class="form-group">
-                            <input type="submit" class="btn btn-success" value="Kaydet"/>
+                            <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Kaydet</button>
+                            <button type="button" class="btn btn-primary" onclick="RecoverForm()"><i
+                                    class="fa fa-refresh"></i> Sıfırla</button>
                         </div>
                     </form>
                 </div>
@@ -46,7 +48,15 @@
                             {
                                 <tr>
                                     <td>@item.Name</td>
-                                    <td class="text-center"><button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
+                                    <td class="text-center">
+                                        <button type='button' class="btn btn-danger btn-sm"
+                                            onclick="SwalDeleteQuestion('@item.Id','/Color/DeleteColor')"><i
+                                                class="fa fa-trash"></i></button>
+                                        &emsp;
+                                        <button type='button' class="btn btn-info btn-sm"
+                                            onclick="UpdateColor('@item.Id','@item.Name')"><i
+                                                class="fa fa-edit"></i></button>
+                                    </td>
                                 </tr>
                             }
                         </tbody>
@@ -70,4 +80,18 @@
             "responsive": true
         })
     });
+    UpdateColor = (id, name) => {
+        $("#Id").val(id);
+        $("#Name").val(name);
+
+        var isOpen = $("#collapse-two")[0].classList.contains('in');
+        if (!isOpen)
+            $("#collapse-color-panel").click();
+    }
+    RecoverForm = () => {
+        $("#Id").val(0);
+        $("#Name").val('');
+
+        Swal.fire("Form Sıfırlandı !", "", "success");
+    }
 </script>

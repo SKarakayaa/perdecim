@@ -9,5 +9,6 @@ namespace Business.Abstract
     {
         Task<List<Color>> GetListAsync();
         Task<IResult> AddAsync(Color color);
+        Task<IResult> DeleteAsync(int id);
     }
 }

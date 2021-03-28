@@ -21,27 +21,11 @@
         $("#Id").val(id);
         $("#Name").val(name);
         $("#ParentId").val(parentId);
-        $("#category-add-panel").click();
+        var isOpen = $("#collapse-two")[0].classList.contains('in');
+        if (!isOpen)
+            $("#category-add-panel").click();
     }
     DeleteCategory = (id) => {
-        Swal.fire({
-            title: 'Silmek istediğinize emin misiniz ?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sil',
-            cancelButtonText: 'Vazgeç'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.post('/Category/DeleteCategory', { id: id }, function (response) {
-                    debugger;
-                    if (response.isSuccess)
-                        window.location.reload();
-                    else
-                        Swal.fire('Hata', response.message, 'error');
-                })
-            }
-        })
+        SwalDeleteQuestion(id, '/Category/DeleteCategory');
     }
 </script>

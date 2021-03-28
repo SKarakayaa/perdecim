@@ -72,6 +72,28 @@
         @RenderBody()
     </div>
 </body>
-
+<script>
+    SwalDeleteQuestion = (id, url) => {
+        Swal.fire({
+            title: 'Silmek istediğinize emin misiniz ?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sil',
+            cancelButtonText: 'Vazgeç'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.post(url, { id: id }, function (response) {
+                    debugger;
+                    if (response.isSuccess)
+                        window.location.reload();
+                    else
+                        Swal.fire('Hata', response.message, 'error');
+                })
+            }
+        })
+    }
+</script>
 
 </html>

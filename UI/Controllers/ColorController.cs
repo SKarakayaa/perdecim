@@ -41,5 +41,13 @@ namespace UI.Controllers
 
             return RedirectToAction("Index", "Color");
         }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<JsonResult> DeleteColor(int id)
+        {
+            IResult result = await _colorService.DeleteAsync(id);
+            return Json(result);
+        }
     }
 }
