@@ -8,12 +8,13 @@
     <div class="accordion" id="category-accordion">
         <div class="panel panel-danger">
             <div class="panel-heading" id="head-two">
-                <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse-two"
-                    aria-expanded="true" aria-controls="collapse-two">KATEGORİ EKLE</button>
+                <button id="category-add-panel" type="button" class="btn btn-link" data-toggle="collapse"
+                    data-target="#collapse-two" aria-expanded="true" aria-controls="collapse-two">KATEGORİ EKLE</button>
             </div>
             <div id="collapse-two" class="collapse" aria-labelledby="head-two" data-parent="category-accordion">
                 <div class="panel-body">
-                    <form asp-action="Create" asp-controller="Category">
+                    <form asp-action="CreateOrEdit" asp-controller="Category">
+                        <input hidden asp-for="Id" />
                         <div class="form-group">
                             <label for="ParentId">Üst Kategori</label>
                             <select class="form-control" asp-for="ParentId"
@@ -23,11 +24,12 @@
                         </div>
                         <div class="form-group">
                             <label for="Name">Kategori Adı</label>
-                            <input type="text" name="Name" class="form-control" autocomplete="off"
+                            <input type="text" name="Name" asp-for="Name" class="form-control" autocomplete="off"
                                 placeholder="Kategori Adı Giriniz" />
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-success">Kaydet</button>
+                            <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Kaydet</button>
+                            <button type="button" onclick="RecoverForm()" class="btn btn-primary"><i class="fa fa-refresh"></i> Sıfırla</button>
                         </div>
                     </form>
                 </div>

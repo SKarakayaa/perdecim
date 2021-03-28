@@ -61,3 +61,11 @@ $("#tree3").treed({
   openedClass: "glyphicon-chevron-right",
   closedClass: "glyphicon-chevron-down",
 });
+
+RecoverForm = () => {
+  $("#Id").val(0);
+  $("#Name").val("");
+  $("#ParentId").val(null);
+
+  Swal.fire("Form Sıfırlandı !", "", "success");
+};
