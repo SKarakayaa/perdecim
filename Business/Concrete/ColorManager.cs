@@ -14,7 +14,7 @@ namespace Business.Concrete
         {
             _uow = uow;
         }
-        public async Task<IResult> AddAsync(Color color)
+        public async Task<IResult> AddOrEditAsync(Color color)
         {
             if(color.Id != 0)
                 _uow.Colors.Update(color);

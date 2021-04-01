@@ -85,7 +85,6 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.post(url, { id: id }, function (response) {
-                    debugger;
                     if (response.isSuccess)
                         window.location.reload();
                     else

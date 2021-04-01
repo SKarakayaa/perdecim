@@ -8,7 +8,7 @@ namespace Business.Abstract
     public interface IColorService
     {
         Task<List<Color>> GetListAsync();
-        Task<IResult> AddAsync(Color color);
+        Task<IResult> AddOrEditAsync(Color color);
         Task<IResult> DeleteAsync(int id);
     }
 }

@@ -30,7 +30,7 @@ namespace UI.Controllers
             if (!ModelState.IsValid)
                 return View("Index", brand);
 
-            IResult result = await _brandService.AddAsync(brand);
+            IResult result = await _brandService.AddOrEditAsync(brand);
 
             if (!result.IsSuccess)
             {
@@ -38,6 +38,13 @@ namespace UI.Controllers
                 return View("Index", brand);
             }
             return RedirectToAction("Index", "Brand");
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<JsonResult> DeleteBrand(int id)
+        {
+            IResult result = await _brandService.DeleteAsync(id);
+            return Json(result);
         }
     }
 }

@@ -8,6 +8,8 @@ namespace Business.Abstract
     public interface IBrandService
     {
         Task<List<Brand>> GetListAsync();
-        Task<IResult> AddAsync(Brand brand);
+        Task<IResult> AddOrEditAsync(Brand brand);
+
+        Task<IResult> DeleteAsync(int id);
     }
 }

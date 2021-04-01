@@ -7,13 +7,14 @@
     <div class="accordion" id="brand-accordion">
         <div class="panel panel-danger">
             <div class="panel-heading" id="head-two">
-                <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse-two"
+                <button id="collapse-brand-panel" type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse-two"
                     aria-expanded="true" aria-controls="collapse-two">MARKA EKLE</button>
             </div>
             <div id="collapse-two" class="collapse" aria-labelledby="head-two" data-parent="brand-accordion">
                 <div class="panel-body">
                     <form asp-action="CreateBrand" asp-controller="Brand">
                         <div asp-validation-summary="All"></div>
+                        <input hidden asp-for="Id"/>
                         <div class="form-group">
                             <label>Marka Adı</label>
                             <input asp-for="Name" class="form-control" autocomplete="off" placeholder="Renk Giriniz" />
@@ -21,6 +22,8 @@
                         </div>
                         <div class="form-group">
                             <input type="submit" class="btn btn-success" value="Kaydet" />
+                            <button type="button" class="btn btn-primary" onclick="RecoverForm()"><i
+                                    class="fa fa-refresh"></i> Sıfırla</button>
                         </div>
                     </form>
                 </div>
@@ -40,13 +43,18 @@
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody> 
                             @foreach (var item in ViewBag.Brands)
                             {
                                 <tr>
                                     <td>@item.Name</td>
-                                    <td class="text-center"><button class="btn btn-danger"><i
-                                                class="fa fa-trash"></i></button></td>
+                                    <td class="text-center"><button onclick="SwalDeleteQuestion('@item.Id','/Brand/DeleteBrand')" class="btn btn-danger"><i
+                                                class="fa fa-trash"></i></button>
+                                        &emsp;
+                                        <button type='button' class="btn btn-info btn-sm"
+                                            onclick="UpdateBrand('@item.Id','@item.Name')"><i
+                                                class="fa fa-edit"></i></button>       
+                                    </td>            
                                 </tr>
                             }
                         </tbody>
@@ -70,4 +78,19 @@
             "responsive": true
         })
     });
+    UpdateBrand = (id, name) => {
+        $("#Id").val(id);
+        $("#Name").val(name);
+
+        var isOpen = $("#collapse-two")[0].classList.contains('in');
+        if (!isOpen)
+            $("#collapse-brand-panel").click();
+    }
+
+    RecoverForm = () => {
+        $("#Id").val(0);
+        $("#Name").val('');
+
+        Swal.fire("Form Sıfırlandı !", "", "success");
+    }
 </script>

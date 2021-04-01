@@ -31,7 +31,7 @@ namespace UI.Controllers
             if (!ModelState.IsValid)
                 return View("Index", color);
 
-            IResult result = await _colorService.AddAsync(color);
+            IResult result = await _colorService.AddOrEditAsync(color);
 
             if (!result.IsSuccess)
             {
