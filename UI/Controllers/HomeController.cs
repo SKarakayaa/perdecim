@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
 using UI.Models.Home;
 
@@ -36,7 +38,11 @@ namespace UI.Controllers
         }
         public async Task<JsonResult> GetProductList(int categoryId)
         {
-            var products = (await _productService.GetListAsync(x => x.CategoryId == categoryId)).Data;
+            List<Product> products;
+            if(categoryId != 1)
+                products = (await _productService.GetListAsync(x => x.CategoryId == categoryId)).Data;
+            else
+                products = (await _productService.GetListAsync()).Data;
             return Json(products);
         }
     }

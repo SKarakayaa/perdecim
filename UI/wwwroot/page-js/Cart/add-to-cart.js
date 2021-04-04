@@ -24,10 +24,12 @@ $(".item_add2").click(() => {
     $("#demandError").hide();
     var productId = $("#productId").val();
     var quantity = parseInt($(".value1").text(), 10);
+    var note = $("#note").val();
     const model = {
       ProductId: productId,
       DemandTypes: choosedDemands,
       Quantity: quantity,
+      Note: note
     };
     $.post("/Cart/AddToCart", { model: model }, (response) => {
       $("#not-empty-cart").removeClass("hidden");
@@ -36,11 +38,7 @@ $(".item_add2").click(() => {
       $(".simpleCart_quantity2").text(response.cartCount);
       $(".simpleCart_total2").text(`${response.totalPrice} ₺`);
 
-      Swal.fire(
-        'Sepete Eklendi !',
-        'Ürününüz Sepete Eklenmiştir !',
-        'success'
-      )
+      Swal.fire("Sepete Eklendi !", "Ürününüz Sepete Eklenmiştir !", "success");
     });
   }
 });

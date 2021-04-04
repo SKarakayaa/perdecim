@@ -77,11 +77,14 @@ namespace UI.Controllers
         public async Task<IActionResult> CreateOrEditProduct(CreateProductDto productDto)
         {
             if (!ModelState.IsValid)
+            {
+                ViewBag.CreateProductElements = _productService.GetCreateProductElements().Result.Data;
                 return View(productDto);
+            }
 
             await _productService.CreateOrEditProductAsync(productDto);
 
-            return RedirectToAction("CreateOrEditProduct", "Product");
+            return RedirectToAction("Products", "Product");
         }
     }
 }

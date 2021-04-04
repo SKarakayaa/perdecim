@@ -19,7 +19,7 @@ namespace UI.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(int productType)
         {
             List<Product> products = new List<Product>();
-            string[] navigation = { "Category" };
+            string[] navigation = { "Category","Brand" };
             switch (productType)
             {
                 case (int)ProductType.NEW_PRODUCT:

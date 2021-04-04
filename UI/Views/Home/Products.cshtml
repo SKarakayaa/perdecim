@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Ürünler";
     int categoryId = (int)ViewBag.CategoryId;
-    string categoryName = Model.Categories.FirstOrDefault(x=>x.Id == categoryId).Name;
+    string categoryName = categoryId == 1 ? "Tüm Kategoriler" : Model.Categories.FirstOrDefault(x=>x.Id == categoryId).Name;
 }
 
 @Html.Hidden("categoryId",categoryId)
@@ -15,7 +15,7 @@
 								<div class="categories">
 									<h3>Kategoriler</h3>
 									<ul class="tree-list-pad">
-                                        @foreach (var category in Model.Categories.Where(x=>x.ParentId == null))
+                                        @foreach (var category in Model.Categories.Where(x=>x.ParentId == 1))
                                         {
                                             <li>
                                                 <input type="checkbox" checked="checked" id="item-@category.Id"/><label for="item-@category.Id">@category.Name</label>
@@ -51,31 +51,10 @@
 									</div>
 									<div class="clearfix"></div>
 								</div>
-								<div class="mens-toolbar">
-									<p >Showing 1–9 of 21 results</p>
-									 <p class="showing">Sorting By
-										<select>
-											  <option value=""> Name</option>
-											  <option value="">  Rate</option>
-												<option value=""> Color </option>
-												<option value=""> Price </option>
-										</select>
-									  </p> 
-									  <p>Show
-										<select>
-											  <option value=""> 9</option>
-											  <option value="">  10</option>
-												<option value=""> 11 </option>
-												<option value=""> 12 </option>
-										</select>
-									  </p>
-									<div class="clearfix"></div>		
-								</div>
+								
 								<div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
 									<ul id="myTab" class="nav1 nav1-tabs left-tab" role="tablist">
 										<ul id="myTab" class="nav nav-tabs left-tab" role="tablist">
-									<li role="presentation" class="active"><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><img src="~/images/menu1.png"></a></li>
-									<li role="presentation"><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile"><img src="~/images/menu.png"></a></li>
 									</ul>
 									<div id="myTabContent" class="tab-content">
 										<div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledby="home-tab">
@@ -86,166 +65,7 @@
 											</div>
 											
 										</div>
-										<div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledby="profile-tab">
-											<div class="product-tab1">
-												<div class="col-md-4 product-tab1-grid">
-													<div class="grid-arr">
-														<div  class="grid-arrival">
-															<figure>		
-																<a href="#" class="new-gri" data-toggle="modal" data-target="#myModal1">
-																	<div class="grid-img">
-																		<img  src="~/images/p6.jpg" class="img-responsive" alt="">
-																	</div>
-																	<div class="grid-img">
-																		<img  src="~/images/p5.jpg" class="img-responsive"  alt="">
-																	</div>			
-																</a>		
-															</figure>	
-														</div>
-													</div>
-												</div>
-												<div class="col-md-8 product-tab1-grid1 simpleCart_shelfItem">
-													<div class="block">
-														<div class="starbox small ghosting"> </div>
-													</div>
-													<div class="women">
-														<h6><a href="single.html">Sed ut perspiciatis unde</a></h6>
-														<span class="size">XL / XXL / S </span>
-														<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Atqui iste locus est, Piso, tibi etiam atque etiam confirmandus, inquam; Refert tamen, quo modo. Quod autem meum munus dicis non equidem recuso, sed te adiungo socium. </p>
-														<p ><del>$100.00</del><em class="item_price">$70.00</em></p>
-														<a href="#" data-text="Add To Cart" class="my-cart-b item_add">Add To Cart</a>
-													</div>
-												</div>
-												<div class="clearfix"></div>
-											</div>
-											<div class="product-tab1 prod3">
-												<div class="col-md-4 product-tab1-grid">
-													<div class="grid-arr">
-														<div  class="grid-arrival">
-															<figure>		
-																<a href="#" class="new-gri" data-toggle="modal" data-target="#myModal1">
-																	<div class="grid-img">
-																		<img  src="~/images/i2.jpg" class="img-responsive" alt="">
-																	</div>
-																	<div class="grid-img">
-																		<img  src="~/images/i1.jpg" class="img-responsive"  alt="">
-																	</div>			
-																</a>		
-															</figure>	
-														</div>
-													</div>
-												</div>
-												<div class="col-md-8 product-tab1-grid1 simpleCart_shelfItem">
-													<div class="block">
-														<div class="starbox small ghosting"> </div>
-													</div>
-													<div class="women">
-														<h6><a href="single.html">Sed ut perspiciatis unde</a></h6>
-														<span class="size">XL / XXL / S </span>
-														<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Atqui iste locus est, Piso, tibi etiam atque etiam confirmandus, inquam; Refert tamen, quo modo. Quod autem meum munus dicis non equidem recuso, sed te adiungo socium. </p>
-														<p ><del>$100.00</del><em class="item_price">$70.00</em></p>
-														<a href="#" data-text="Add To Cart" class="my-cart-b item_add">Add To Cart</a>
-													</div>
-												</div>
-												<div class="clearfix"></div>
-											</div>
-											<div class="product-tab1">
-												<div class="col-md-4 product-tab1-grid">
-													<div class="grid-arr">
-														<div  class="grid-arrival">
-															<figure>		
-																<a href="#" class="new-gri" data-toggle="modal" data-target="#myModal1">
-																	<div class="grid-img">
-																		<img  src="~/images/i4.jpg" class="img-responsive" alt="">
-																	</div>
-																	<div class="grid-img">
-																		<img  src="~/images/i3.jpg" class="img-responsive"  alt="">
-																	</div>			
-																</a>		
-															</figure>	
-														</div>
-														
-													</div>
-												</div>
-												<div class="col-md-8 product-tab1-grid1 simpleCart_shelfItem">
-													<div class="block">
-														<div class="starbox small ghosting"> </div>
-													</div>
-													<div class="women">
-														<h6><a href="single.html">Sed ut perspiciatis unde</a></h6>
-														<span class="size">XL / XXL / S </span>
-														<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Atqui iste locus est, Piso, tibi etiam atque etiam confirmandus, inquam; Refert tamen, quo modo. Quod autem meum munus dicis non equidem recuso, sed te adiungo socium. </p>
-														<p ><del>$100.00</del><em class="item_price">$70.00</em></p>
-														<a href="#" data-text="Add To Cart" class="my-cart-b item_add">Add To Cart</a>
-													</div>
-												</div>
-												<div class="clearfix"></div>
-											</div>
-											<div class="product-tab1 prod3">
-												<div class="col-md-4 product-tab1-grid">
-													<div class="grid-arr">
-														<div  class="grid-arrival">
-															<figure>		
-																<a href="#" class="new-gri" data-toggle="modal" data-target="#myModal1">
-																	<div class="grid-img">
-																		<img  src="~/images/i6.jpg" class="img-responsive" alt="">
-																	</div>
-																	<div class="grid-img">
-																		<img  src="~/images/i5.jpg" class="img-responsive"  alt="">
-																	</div>			
-																</a>		
-															</figure>	
-														</div>
-														
-													</div>
-												</div>
-												<div class="col-md-8 product-tab1-grid1 simpleCart_shelfItem">
-													<div class="block">
-														<div class="starbox small ghosting"> </div>
-													</div>
-													<div class="women">
-														<h6><a href="single.html">Sed ut perspiciatis unde</a></h6>
-														<span class="size">XL / XXL / S </span>
-														<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Atqui iste locus est, Piso, tibi etiam atque etiam confirmandus, inquam; Refert tamen, quo modo. Quod autem meum munus dicis non equidem recuso, sed te adiungo socium. </p>
-														<p ><del>$100.00</del><em class="item_price">$70.00</em></p>
-														<a href="#" data-text="Add To Cart" class="my-cart-b item_add">Add To Cart</a>
-													</div>
-												</div>
-												<div class="clearfix"></div>
-											</div>
-											<div class="product-tab1">
-												<div class="col-md-4 product-tab1-grid">
-													<div class="grid-arr">
-														<div  class="grid-arrival">
-															<figure>		
-																<a href="#" class="new-gri" data-toggle="modal" data-target="#myModal1">
-																	<div class="grid-img">
-																		<img  src="~/images/i8.jpg" class="img-responsive" alt="">
-																	</div>
-																	<div class="grid-img">
-																		<img  src="~/images/i7.jpg" class="img-responsive"  alt="">
-																	</div>			
-																</a>		
-															</figure>	
-														</div>
-													</div>
-												</div>
-												<div class="col-md-8 product-tab1-grid1 simpleCart_shelfItem">
-													<div class="block">
-														<div class="starbox small ghosting"> </div>
-													</div>
-													<div class="women">
-														<h6><a href="single.html">Sed ut perspiciatis unde</a></h6>
-														<span class="size">XL / XXL / S </span>
-														<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Atqui iste locus est, Piso, tibi etiam atque etiam confirmandus, inquam; Refert tamen, quo modo. Quod autem meum munus dicis non equidem recuso, sed te adiungo socium. </p>
-														<p ><del>$100.00</del><em class="item_price">$70.00</em></p>
-														<a href="#" data-text="Add To Cart" class="my-cart-b item_add">Add To Cart</a>
-													</div>
-												</div>
-												<div class="clearfix"></div>
-											</div>
-											
-										</div>
+										
 									</div>
 								</div>
 							</div>

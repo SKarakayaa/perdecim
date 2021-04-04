@@ -27,14 +27,14 @@ namespace UI.Controllers
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DemandTypeCreate(DemandTypeCreateDto demandTypeCreate)
+        public async Task<IActionResult> DemandTypeCreateOrUpdate(DemandTypeCreateDto demandTypeCreate)
         {
             if (!ModelState.IsValid)
             {
                 ViewBag.DemandTypes = await _demandService.GetListAsync();
                 return View("Index", new CreateDto { DemandTypeCreate = demandTypeCreate });
             }
-            IResult result = await _demandService.CreateDemandTypeAsync(demandTypeCreate);
+            IResult result = await _demandService.CreateOrUpdateDemandTypeAsync(demandTypeCreate);
             if (!result.IsSuccess)
             {
                 ModelState.AddModelError("SaveError", result.Message);
@@ -64,6 +64,22 @@ namespace UI.Controllers
                 return View("Index", new CreateDto { DemandCreate = demandCreate });
             }
             return RedirectToAction("Index", "Demand");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteDemand(int id)
+        {
+            IResult result = await _demandService.DeleteDemandAsync(id);
+            return Json(result);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteDemandType(int id)
+        {
+            IResult result = await _demandService.DeleteDemandTypeAsync(id);
+            return Json(result);
         }
     }
 }

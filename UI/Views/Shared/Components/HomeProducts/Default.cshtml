@@ -40,8 +40,8 @@
                             <div class="starbox small ghosting"> </div>
                         </div>
                         <div class="women">
-                            <h6><a href="single.html">@product.Name</a></h6>
-                            <span class="size">XL / XXL / S </span>
+                            <h6><a href="/Product/Index/@product.Id">@product.Name</a></h6>
+                            <span class="size">@product.Brand.Name</span>
                             @if(product.DiscountRate != 0)
                             {
                                 <p><del>@product.Price</del>
@@ -52,7 +52,7 @@
                                 <p><em class="item_price">@product.Price ₺</em></p>
                             }
 
-                            <a href="#" data-text="Add To Cart" class="my-cart-b item_add">Sepete Ekle</a>
+                            @* <a href="#" data-text="Add To Cart" class="my-cart-b item_add">Sepete Ekle</a> *@
                         </div>
                     </div>
                 </div>

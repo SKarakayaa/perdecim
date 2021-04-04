@@ -81,6 +81,10 @@
                     <ul>
                         @if (User.Identity.IsAuthenticated)
                         {
+                            if(User.IsInRole("Admin"))
+                            {
+                                <li><a href="/Admin/Index">Dashboard</a></li>
+                            }
                             <li><a href="#">@User.FindFirst("Surname").Value</a></li>
                             <li><a href="#">Çıkış</a></li>
                         }

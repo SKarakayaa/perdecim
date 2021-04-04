@@ -11,20 +11,22 @@
     <div class="accordion" id="demand-accordion">
         <div class="panel panel-danger">
             <div class="panel-heading" id="head-one">
-                <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse-one"
+                <button id="collapse-demandtype-panel" type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapse-one"
                     aria-expanded="true" aria-controls="collapse-one">TALEP TÜRÜ</button>
             </div>
             <div id="collapse-one" class="collapse" aria-labelledby="head-one" data-parent="demand-accordion">
                 <div class="panel-body">
-                    <form asp-action="DemandTypeCreate" asp-controller="Demand">
+                    <form asp-action="DemandTypeCreateOrUpdate" asp-controller="Demand">
+                        <input asp-for="DemandTypeCreate.Id" hidden/>
                         <div class="form-group">
                             <label for="DemandTypeCreate.Name">Talep Türü Adı</label>
-                            <input class="form-control" type="text" placeholder="Talep Türü Adı Giriniz"
+                            <input class="form-control" type="text" asp-for="DemandTypeCreate.Name" placeholder="Talep Türü Adı Giriniz"
                                 name="DemandTypeCreate.Name" />
                             <span asp-validation-for="DemandTypeCreate.Name" style="color: red;"></span>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-success">Kaydet</button>
+                            <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Kaydet</button>
+                            <button type="button" class="btn btn-primary" onclick="RefreshForm()"><i class="fa fa-refresh"></i> Sıfırla</button>
                         </div>
                     </form>
                 </div>
@@ -82,13 +84,18 @@
                         <ul id="tree3">
                             @foreach (var demandType in DemandTypes.Data)
                             {
-                                <li>@demandType.Name</li>
+                                <li>@demandType.Name
+                                    <button class="btn btn-sm" onclick="SwalDeleteQuestion('@demandType.Id','/Demand/DeleteDemandType')"><i class="fa fa-trash"></i></button> 
+                                    <button class="btn btn-sm" onclick="UpdateDemandType('@demandType.Id','@demandType.Name')"><i class="fa fa-edit"></i></button>
+                                </li> 
                                 @if(demandType.Demands.Count > 0)
                                 {
                                     <ul>
                                         @foreach (var demand in demandType.Demands)
                                         {
-                                            <li>@demand.Name</li>
+                                            <li>@demand.Name 
+                                                <button class="btn btn-sm" onclick="SwalDeleteQuestion('@demand.Id','/Demand/DeleteDemand')"><i class="fa fa-trash"></i></button>
+                                            </li>
                                         }
                                     </ul>
                                 }   
@@ -101,3 +108,19 @@
     </div>
 </div>
 <script src="~/page-js/Category/index.js"></script>
+<script>
+    UpdateDemandType = (id,name) => {
+        $("#DemandTypeCreate_Id").val(id);
+        $("#DemandTypeCreate_Name").val(name);
+    
+        var isOpen = $("#collapse-one")[0].classList.contains('in');
+        if (!isOpen)
+            $("#collapse-demandtype-panel").click();
+    }
+    RefreshForm = () => {
+        $("#DemandTypeCreate_Id").val(0);
+        $("#DemandTypeCreate_Name").val('');
+    
+        Swal.fire("Form Sıfırlandı !", "", "success");
+    }
+</script>

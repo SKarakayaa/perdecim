@@ -77,9 +77,18 @@
                                     </div>
                                     <br />
                                 }
-                            
                             }
-                            
+                            @if(Model.CanNotable)
+                            {
+                                <div class="row">
+                                        <div class="col-md-12">Sipariş Notunuz :</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <textarea class="form-control" rows="5" placeholder="Sipariş Notunuz" id="note"></textarea>
+                                        </div>
+                                    </div>
+                            }
                             <div class="color-quality">
                                 <h6>Adet :</h6>
                                 <div class="quantity">
