@@ -39,7 +39,7 @@ namespace Business.Concrete
             product.ColorId = productDto.ColorId;
             product.CreatedAt = DateTime.Now;
             product.Description = productDto.Description;
-            product.DiscountRate = productDto.DiscountRate;
+            product.DiscountRate = productDto.DiscountRate.HasValue ? productDto.DiscountRate.Value : 0;
             product.InStock = productDto.IsStock;
             product.IsNew = productDto.IsNew;
             product.IsPopular = productDto.IsPopular;

@@ -44,9 +44,18 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public async Task<IResult> CreateDemandTypeAsync(DemandTypeCreateDto demandTypeDto)
+        public async Task<IResult> CreateOrUpdateDemandTypeAsync(DemandTypeCreateDto demandTypeDto)
         {
-            _uow.DemandTypes.Add(new DemandType { Name = demandTypeDto.Name });
+            if (demandTypeDto.Id != 0)
+            {
+                var demandType = await _uow.DemandTypes.GetAsync(x => x.Id == demandTypeDto.Id);
+                demandType.Name = demandTypeDto.Name;
+                _uow.DemandTypes.Update(demandType);
+            }
+            else
+            {
+                _uow.DemandTypes.Add(new DemandType { Name = demandTypeDto.Name });
+            }
             int result = await _uow.Complete();
             if (result > 0)
                 return new SuccessResult();
@@ -59,6 +68,29 @@ namespace Business.Concrete
             if (demandTypes.Count == 0)
                 return new ErrorDataResult<List<DemandType>>(demandTypes, "Kayıt Bulunamadı !");
             return new SuccessDataResult<List<DemandType>>(demandTypes);
+        }
+
+        public async Task<IResult> DeleteDemandAsync(int id)
+        {
+            var demand = await _uow.Demands.GetAsync(x => x.Id == id);
+            _uow.Demands.Remove(demand);
+            await _uow.Complete();
+            return new SuccessResult();
+        }
+
+        public async Task<IResult> DeleteDemandTypeAsync(int id)
+        {
+            var demandType = await _uow.DemandTypes.GetAsync(x => x.Id == id, new[] { "Demands" });
+            if (demandType.Demands.Count != 0)
+            {
+                foreach (var demand in demandType.Demands)
+                {
+                    _uow.Demands.Remove(demand);
+                }
+            }
+            _uow.DemandTypes.Remove(demandType);
+            await _uow.Complete();
+            return new SuccessResult();
         }
     }
 }

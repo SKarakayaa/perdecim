@@ -9,8 +9,10 @@ namespace Business.Abstract
     public interface IDemandService
     {
         Task<IDataResult<List<DemandType>>> GetListAsync();
-        Task<IResult> CreateDemandTypeAsync(DemandTypeCreateDto demandTypeDto);
+        Task<IResult> CreateOrUpdateDemandTypeAsync(DemandTypeCreateDto demandTypeDto);
         Task<IResult> CreateDemandAsync(DemandCreateDto demandCreateDto);
+        Task<IResult> DeleteDemandTypeAsync(int id);
+        Task<IResult> DeleteDemandAsync(int id);
         
     }
 }

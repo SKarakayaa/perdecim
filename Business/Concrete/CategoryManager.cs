@@ -30,7 +30,7 @@ namespace Business.Concrete
 
         public async Task<IDataResult<List<Category>>> GetListAsync()
         {
-            var categories = await _uow.Categories.GetListAsync();
+            var categories = await _uow.Categories.GetListAsync(null, new[] { "ChildCategories" });
             return new SuccessDataResult<List<Category>>(categories);
         }
 
