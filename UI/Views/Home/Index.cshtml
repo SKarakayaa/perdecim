@@ -49,17 +49,17 @@
 						<div class="col-md-6 ban-bottom">
 							<div class="ban-top">
 								<img src="images/p1.jpg" class="img-responsive" alt=""/>
-								<div class="ban-text">
+								<a href="/Home/Products?categoryId=@Model.Categories[0].Id" class="ban-text">
 									<h4>@Model.Categories[0].Name</h4>
-								</div>
+								</a>
 							</div>
 						</div>
 						<div class="col-md-6 ban-bottom3">
 							<div class="ban-top">
 								<img src="images/p2.jpg" class="img-responsive" alt=""/>
-								<div class="ban-text1">
+								<a href="/Home/Products?categoryId=@Model.Categories[1].Id" class="ban-text1">
 									<h4>@Model.Categories[1].Name</h4>
-								</div>
+								</a>
 							</div>
 							<div class="ban-img">
                                 @for (int i = 2; i < Model.Categories.Count; i++)
@@ -67,9 +67,9 @@
                                     <div class=@banBottoms[i-2]>
 									<div class="ban-top">
 										<img src="images/p3.jpg" class="img-responsive" alt=""/>
-										<div class="ban-text1">
+										<a href="/Home/Products?categoryId=@Model.Categories[i].Id" class="ban-text1">
 											<h4>@Model.Categories[i].Name</h4>
-										</div>
+										</a>
 									</div>
 								</div>
                                 }

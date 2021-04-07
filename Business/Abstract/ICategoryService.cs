@@ -10,6 +10,7 @@ namespace Business.Abstract
         Task<IDataResult<List<Category>>> GetListAsync();
 
         Task<IResult> CreateOrEditCategoryAsync(Category category);
+        Task<IDataResult<List<Category>>> GetListForBannerAsync();
 
         Task<IResult> DeleteAsync(int id);
     }

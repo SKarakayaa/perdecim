@@ -1,4 +1,5 @@
 var url = window.location.origin;
+var originalProductDatas = [];
 var products = [];
 
 $(document).ready(function () {
@@ -27,6 +28,7 @@ $(document).ready(function () {
       response.forEach((product) => {
         products.push(product);
       });
+      originalProductDatas = products;
       loadProducts();
     }
   );

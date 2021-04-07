@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
 using Business.UnitOfWork;
@@ -31,6 +32,12 @@ namespace Business.Concrete
         public async Task<IDataResult<List<Category>>> GetListAsync()
         {
             var categories = await _uow.Categories.GetListAsync(null, new[] { "ChildCategories" });
+            return new SuccessDataResult<List<Category>>(categories);
+        }
+
+        public async Task<IDataResult<List<Category>>> GetListForBannerAsync()
+        {
+            var categories = (await _uow.Categories.GetListAsync(x=>x.ParentId != null, new[] { "ChildCategories" })).Take(4).ToList();
             return new SuccessDataResult<List<Category>>(categories);
         }
 

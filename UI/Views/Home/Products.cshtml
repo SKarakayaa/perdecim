@@ -29,6 +29,25 @@
                                         }
 									</ul>
 								</div>
+								<div class="brand-w3l">
+									<h3>Renk</h3>
+									<ul>
+										@foreach (var color in Model.Colors)
+										{
+											<li><input type="checkbox" id="color-check-@color.Id" onclick="FilterByColor('@color.Id')"/> @color.Name</li>											
+										}
+									</ul>
+								</div>
+								<div class="brand-w3l">
+									<h3>Marka</h3>
+									<ul>
+										@foreach (var brand in Model.Brands)
+										{
+										<li><input type="checkbox" id="brand-check-@brand.Id" onclick="FilterByBrand('@brand.Id')"/> @brand.Name</li>
+										}
+									</ul>
+								</div>
+								
 								<div class="price">
 									<h3>Price Range</h3>
 									<ul class="dropdown-menu6">
@@ -37,9 +56,8 @@
 											<input type="text" id="amount" style="border: 0; color: #ffffff; font-weight: normal;" />
 										</li>			
 									</ul>
-									
-									
 								</div>
+								
 							</div> 
 							<div class="col-md-9 product-agileinfon-grid1 w3l">
 								<div class="product-agileinfon-top">
@@ -76,4 +94,58 @@
 			</div>
 @section scripts{
   <script src="~/page-js/Home/products.js"></script>
+  <script>
+	  let choosedColorIds = [];
+	  let choosedBrandIds = [];
+	  FilterByColor = (colorId) => {
+		  const isChecked = $(`#color-check-${colorId}`).is(':checked');
+		  if(isChecked){
+		  	choosedColorIds.push(Number(colorId));
+		  }else{
+			  choosedColorIds = choosedColorIds.filter(x=>x !== Number(colorId));
+		  }
+		  FilterProduct();
+	  }
+	  FilterProduct = () => {
+		  if(choosedColorIds.length === 0 && choosedBrandIds.length === 0)
+		  {
+			  products = originalProductDatas;
+			  loadProducts();
+		  	  return;
+		  }
+		  var products2 = [];
+		  choosedColorIds.forEach(colorId => {
+			  var filteredProduct = originalProductDatas.filter(x=>x.colorId === colorId);
+			  if(filteredProduct.length !== 0)
+			  	products2 =products2.concat(filteredProduct);
+		  })
+		  choosedBrandIds.forEach(brandId => {
+			  var filteredProduct = products2.length === 0 
+			  	? originalProductDatas.filter(x=>x.brandId === brandId)
+				: products2.filter(x=x.brandId === brandId);
+			 debugger;
+			 if(filteredProduct.length !== 0){
+					  if(products2.length === 0){
+						  products2 = products2.concat(filteredProduct)
+					  }else if(products2.some(x=>x.brandId === brandId)){
+				  	  filteredProduct.forEach(product => {
+			  				products2.push(product);
+				  		})
+					  }
+			  }
+			  
+		  })
+		  products = products2;
+		  loadProducts();
+	  }
+	  FilterByBrand = (brandId) => {
+		  const isChecked = $(`#brand-check-${brandId}`).is(':checked');
+		  if(isChecked){
+			  choosedBrandIds.push(Number(brandId));
+		  }else{
+			  choosedBrandIds = choosedBrandIds.filter(x=>x!==Number(brandId));
+		  }
+		  FilterProduct();
+	  }
+  </script>
 }

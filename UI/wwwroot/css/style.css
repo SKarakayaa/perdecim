@@ -1424,7 +1424,7 @@ ul.dropdown-menu6 li a {
 .top-rates {
     padding-top: 3.5em;
 }
-.brand-w3l ul li a {
+.brand-w3l ul li input{
     font-size: 1.1em;
     color: #777;
     text-decoration: none;
