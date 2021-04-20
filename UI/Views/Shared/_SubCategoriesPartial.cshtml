@@ -10,12 +10,12 @@
     else
     {
         <li>
-    <input type="checkbox" checked="checked" id="item-@subCategory.Id" /><label
-        for="item-@subCategory.Id">@subCategory.Name</label>
-    <ul>
-        <partial name="_SubCategoriesPartial" model="subCategory.ChildCategories" />
-    </ul>
-</li>
+            <input type="checkbox" checked="checked" id="item-@subCategory.Id" /><label
+                for="item-@subCategory.Id">@subCategory.Name</label>
+            <ul>
+                <partial name="_SubCategoriesPartial" model="subCategory.ChildCategories" />
+            </ul>
+        </li>
     }
 
 }

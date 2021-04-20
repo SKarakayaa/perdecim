@@ -13,8 +13,13 @@ $(".value-minus1").on("click", function () {
 });
 
 demandChange = (e) => {
+  debugger;
   if (!choosedDemands.some((x) => x.Id === e.id))
-    choosedDemands.push({ Id: e.id, Value: e.value });
+    choosedDemands.push({
+      Id: e.id,
+      Value: e.value,
+      ChoosedDemand: e.selectedOptions[0].text,
+    });
 };
 
 $(".item_add2").click(() => {
@@ -29,7 +34,7 @@ $(".item_add2").click(() => {
       ProductId: productId,
       DemandTypes: choosedDemands,
       Quantity: quantity,
-      Note: note
+      Note: note,
     };
     $.post("/Cart/AddToCart", { model: model }, (response) => {
       $("#not-empty-cart").removeClass("hidden");

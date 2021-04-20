@@ -1,0 +1,30 @@
+@{
+    ViewData["Title"] = "Profil";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <div class="row" style="margin-top: 10%; margin-bottom: 20%;">
+
+
+        <div class="col-md-4">
+            <partial name="_ProfileSidebar" />
+        </div>
+        <div class="col-md-8">
+            <div class="panel panel-info">
+                <div class="panel-heading text-center"><b>Sepet - 3 Ürün</b></div>
+                <div class="panel-body">
+                    @await Component.InvokeAsync("BasketView")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function (c) {
+        $('.close1').on('click', function (c) {
+            $('.cart-header').fadeOut('slow', function (c) {
+                $('.cart-header').remove();
+            });
+        });
+    });
+</script>

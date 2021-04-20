@@ -43,7 +43,7 @@ loadProducts = () => {
       if (product.discountRate !== 0) {
         var discountedPrice =
           product.price - product.price * (product.discountRate / 100);
-        row += `<p><del>${product.price} ₺</del><em class="item_price">${discountedPrice} ₺</em></p>`;
+        row += `<p><del>${product.price} ₺</del><em class="item_price">${discountedPrice.toFixed(2)} ₺</em></p>`;
       } else {
         row += `<p><em class="item_price">${product.price} ₺</em></p>`;
       }

@@ -81,17 +81,17 @@
                     <ul>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            if(User.IsInRole("Admin"))
+                            if (User.IsInRole("Admin"))
                             {
-                                <li><a href="/Admin/Index">Dashboard</a></li>
+                                <li><a asp-controller="Admin" asp-action="Index">Dashboard</a></li>
                             }
-                            <li><a href="#">@User.FindFirst("Surname").Value</a></li>
+                            <li><a asp-controller="Profile" asp-action="Index">@User.FindFirst("Surname").Value</a></li>
                             <li><a href="#">Çıkış</a></li>
                         }
                         else
                         {
-                            <li><a href="/Auth/Login">Giriş</a></li>
-                            <li><a href="/Auth/Register"> Kayıt Ol </a></li>
+                            <li><a asp-controller="Auth" asp-action="Login">Giriş</a></li>
+                            <li><a asp-controller="Auth" asp-action="Register"> Kayıt Ol </a></li>
                         }
 
                     </ul>
@@ -172,7 +172,7 @@
                 <p>&copy; 2016 New Shop . All rights reserved | Design by <a href="http://w3layouts.com">W3layouts</a>
                 </p>
             </div>
-           
+
             <div class="clearfix"></div>
         </div>
     </div>

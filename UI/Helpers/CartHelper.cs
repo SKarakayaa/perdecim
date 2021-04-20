@@ -30,7 +30,8 @@ namespace UI.Helpers
                 ProductId = product.Id,
                 Product = product,
                 Quantity = model.Quantity,
-                TotalUnitPrice = unitPrice
+                TotalUnitPrice = unitPrice,
+                Note = model.Note
             };
             return cartModel;
         }
