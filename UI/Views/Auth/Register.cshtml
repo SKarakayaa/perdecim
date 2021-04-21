@@ -9,7 +9,7 @@
             <div class="form-w3agile form1">
                 <h3>Kayıt Ol</h3>
                 <form asp-action="Register" asp-controller="Auth" method="post">
-                    <div asp-asp-validation-summary="All"></div>
+                    <div asp-validation-summary="ModelOnly"></div>
                     <span style="color:red;" asp-validation-for="UserName"></span>
                     <div class="key">
                         <i class="fa fa-user" aria-hidden="true"></i>

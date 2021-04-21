@@ -1,6 +1,12 @@
+@model UI.Models.Profile.ProfileIndexViewModel
 @{
     ViewData["Title"] = "Profil";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string iconClass = "fa fa-check text-success";
+    if (!Model.IsEmailConfirm)
+    {
+        iconClass = "fa fa-close text-danger";
+    }
 }
 <div class="container">
     <div class="row" style="margin-top: 10%; margin-bottom: 20%;">
@@ -11,9 +17,33 @@
         </div>
         <div class="col-md-8">
             <div class="panel panel-info">
-                <div class="panel-heading text-center"><b>Sepet - 3 Ürün</b></div>
+                <div class="panel-heading text-center"><b>Kullanıcı Bilgileri</b></div>
                 <div class="panel-body">
-                    @await Component.InvokeAsync("BasketView")
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th><label asp-for="Email"></label></th>
+                                <td><label>@Model.Email</label></td>
+                            </tr>
+                            <tr>
+                                <th><label asp-for="IsEmailConfirm"></label></th>
+                                <td><label><i class="@iconClass"></i></label></td>
+                            </tr>
+                            <tr>
+                                <th><label asp-for="FullName"></label></th>
+                                <td><label>@Model.FullName</label></td>
+                            </tr>
+                            <tr>
+                                <th><label asp-for="Phone"></label></th>
+                                <td><label>@Model.Phone</label></td>
+                            </tr>
+                            <tr>
+                                <th><label asp-for="UserName"></label></th>
+                                <td><label>@Model.UserName</label></td>
+                            </tr>
+                        </thead>
+                    </table>
+                    @* @await Component.InvokeAsync("BasketView") *@
                 </div>
             </div>
         </div>

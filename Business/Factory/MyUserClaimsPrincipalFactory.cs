@@ -17,6 +17,7 @@ namespace Business.Factory
             identity.AddClaim(new Claim("Firstname", user.Name));
             identity.AddClaim(new Claim("Surname", user.Surname));
             identity.AddClaim(new Claim("Email", user.Email));
+            identity.AddClaim(new Claim("UserId", user.Id.ToString()));
             return identity;
         }
     }
