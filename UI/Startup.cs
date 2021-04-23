@@ -28,11 +28,11 @@ namespace UI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddApplicationInsightsTelemetry();
             services.AddHttpContextAccessor();
             services.AddControllersWithViews().AddFluentValidation();
             services.Configure<FileUploadSettings>(Configuration.GetSection("FileUploadSettings"));
             services.AddValidationInjection();
-
             services.AddDbContext<MatmazelContext>(option => option.UseNpgsql("Server=167.172.186.80; Database=perdecim; User Id=perdecimuser; Password=H}WuON<QXIIGfX; Port=5432;"));
             services.AddIdentity<AppUser, AppRole>(_ =>
              {
@@ -45,9 +45,7 @@ namespace UI
                  _.User.AllowedUserNameCharacters = "abcçdefghiıjklmnoöpqrsştuüvwxyzABCÇDEFGHIİJKLMNOÖPQRSŞTUÜVWXYZ0123456789-._@+";
              }).AddEntityFrameworkStores<MatmazelContext>()
              .AddDefaultTokenProviders();
-
             services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, MyUserClaimsPrincipalFactory>();
-
             services.ConfigureApplicationCookie(_ =>
             {
                 _.LoginPath = new PathString("/Auth/Login");
