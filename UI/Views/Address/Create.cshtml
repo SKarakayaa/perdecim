@@ -1,0 +1,93 @@
+@using Entities.Concrete;
+@model Entities.DTO.Address.UserAddressCreateUpdateDTO;
+@{
+    ViewData["Title"] = "Adres Ekle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<City> cities = (List<City>)ViewBag.Cities;
+}
+
+<div class="container">
+    <div class="row" style="margin-top: 10%; margin-bottom: 20%;">
+        <div class="col-md-4">
+            <partial name="_ProfileSidebar" />
+        </div>
+        <div class="col-md-8">
+            <div class="panel panel-info">
+                <div class="panel-heading text-center"><b>Adres Ekle</b></div>
+                <div class="panel-body">
+                    <form asp-controller="Address" asp-action="CreateOrUpdate" method="POST">
+                        <div class="form-group">
+                            <label asp-for="AddressType"></label>
+                            <select asp-for="AddressType" class="form-control">
+                                <option>SEÇİNİZ</option>
+                                <option value="1">EV</option>
+                                <option value="2">İŞ</option>
+                                <option value="3">DİĞER</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CityId"></label>
+                            <select asp-for="CityId" asp-items="@(new SelectList(cities,"Id","Name"))"
+                                class="form-control select2">
+                                <option>SEÇİNİZ</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="DistrictId"></label>
+                            <select asp-for="DistrictId" class="form-control select2">
+                                <option>SEÇİNİZ</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="NeighborhoodId"></label>
+                            <select asp-for="NeighborhoodId" class="form-control select2">
+                                <option>SEÇİNİZ</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="OpenAddress"></label>
+                            <textarea asp-for="OpenAddress" rows="5" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Kaydet</buton>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready( () => {
+        $(".select2").select2();
+    })
+    $("#CityId").on('change', () => {
+        var cityId = $("#CityId").val();
+        if (cityId) {
+            $.post("/Address/GetDistrictsByCityId", { cityId: cityId }, (response) => {
+                if (response) {
+                    var districtHTML = '<option>SEÇİNİZ</option>';
+                    response.forEach(district => districtHTML += `<option value="${district.id}">${district.name}</option>`);
+                    $("#DistrictId").html('').append(districtHTML);
+                    $("#DistrictId").val('');
+                    $("#NeighborhoodId").val('');
+                    $("#NeighborhoodId").html('').append('<option>SEÇİNİZ</option>');
+                }
+            })
+        }
+    })
+
+    $("#DistrictId").on('change', () => {
+        var districtId = $("#DistrictId").val();
+        if (districtId) {
+            $.post("/Address/GetNeighborhoodsByDistrictId", { districtId: districtId }, (response) => {
+                if (response) {
+                    var neighborhoodHTML = '<option>SEÇİNİZ</option>';
+                    response.forEach(neighborhood => neighborhoodHTML += `<option value="${neighborhood.id}">${neighborhood.name}</option>`);
+                    $("#NeighborhoodId").val('');
+                    $("#NeighborhoodId").html('').append(neighborhoodHTML);
+                }
+            })
+        }
+    })
+</script>

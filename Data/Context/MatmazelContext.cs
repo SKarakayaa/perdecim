@@ -17,6 +17,10 @@ namespace Data.Context
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductDemand> ProductDemands { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<UserAddress> UserAddresses { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<District> Districts { get; set; }
+        public DbSet<Neighborhood> Neighborhoods { get; set; }
 
     }
 }

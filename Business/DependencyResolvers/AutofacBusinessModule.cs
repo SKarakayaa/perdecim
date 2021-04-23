@@ -12,29 +12,36 @@ namespace Business.DependencyResolvers
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<CategoryManager>().As<ICategoryService>();
-            builder.RegisterType<CategoryDAL>().As<ICategoryDAL>();
+            builder.RegisterType<DistrictDAL>().As<IDistrictDAL>().InstancePerLifetimeScope();
+            builder.RegisterType<NeighborhoodDAL>().As<INeighborhoodsDAL>().InstancePerLifetimeScope();
+            builder.RegisterType<CityDAL>().As<ICityDAL>().InstancePerLifetimeScope();
 
-            builder.RegisterType<AuthManager>().As<IAuthService>();
+            builder.RegisterType<UserAddressDAL>().As<IUserAddressDAL>().InstancePerLifetimeScope();
+            builder.RegisterType<UserAddressManager>().As<IUserAddressService>().InstancePerLifetimeScope();
 
-            builder.RegisterType<ProductManager>().As<IProductService>();
-            builder.RegisterType<ProductDAL>().As<IProductDAL>();
+            builder.RegisterType<CategoryManager>().As<ICategoryService>().InstancePerLifetimeScope();
+            builder.RegisterType<CategoryDAL>().As<ICategoryDAL>().InstancePerLifetimeScope();
 
-            builder.RegisterType<DemandTypeDAL>().As<IDemandTypeDAL>();
-            builder.RegisterType<DemandDAL>().As<IDemandDAL>();
-            builder.RegisterType<DemandManager>().As<IDemandService>();
+            builder.RegisterType<AuthManager>().As<IAuthService>().InstancePerLifetimeScope();
 
-            builder.RegisterType<ColorDAL>().As<IColorDAL>();
-            builder.RegisterType<ColorManager>().As<IColorService>();
+            builder.RegisterType<ProductManager>().As<IProductService>().InstancePerLifetimeScope();
+            builder.RegisterType<ProductDAL>().As<IProductDAL>().InstancePerLifetimeScope();
 
-            builder.RegisterType<BrandDAL>().As<IBrandDAL>();
-            builder.RegisterType<BrandManager>().As<IBrandService>();
+            builder.RegisterType<DemandTypeDAL>().As<IDemandTypeDAL>().InstancePerLifetimeScope();
+            builder.RegisterType<DemandDAL>().As<IDemandDAL>().InstancePerLifetimeScope();
+            builder.RegisterType<DemandManager>().As<IDemandService>().InstancePerLifetimeScope();
 
-            builder.RegisterType<ProductDemandDAL>().As<IProductDemandDAL>();
+            builder.RegisterType<ColorDAL>().As<IColorDAL>().InstancePerLifetimeScope();
+            builder.RegisterType<ColorManager>().As<IColorService>().InstancePerLifetimeScope();
 
-            builder.RegisterType<ProductImageDAL>().As<IProductImageDAL>();
+            builder.RegisterType<BrandDAL>().As<IBrandDAL>().InstancePerLifetimeScope();
+            builder.RegisterType<BrandManager>().As<IBrandService>().InstancePerLifetimeScope();
 
-            builder.RegisterType<UnitOfWork.UnitOfWork>().As<UnitOfWork.IUnitOfWork>();
+            builder.RegisterType<ProductDemandDAL>().As<IProductDemandDAL>().InstancePerLifetimeScope();
+
+            builder.RegisterType<ProductImageDAL>().As<IProductImageDAL>().InstancePerLifetimeScope();
+
+            builder.RegisterType<UnitOfWork.UnitOfWork>().As<UnitOfWork.IUnitOfWork>().InstancePerLifetimeScope();
 
 
             // var assembly = System.Reflection.Assembly.GetExecutingAssembly();

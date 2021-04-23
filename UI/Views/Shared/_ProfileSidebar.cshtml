@@ -1,3 +1,7 @@
+@{
+    int userId = Convert.ToInt32(User.FindFirst("UserId").Value);
+}
+
 <div class="panel panel-success">
     <div class="panel-heading text-center"><b>Profil</b></div>
     <div class="panel-body">
@@ -6,7 +10,7 @@
         </div>
         <ul class="list-group">
             <li class="list-group-item text-cemter"><b>@User.FindFirst("Firstname").Value @User.FindFirst("Surname").Value</b></li>
-            <li class="list-group-item">Adreslerim</li>
+            <li class="list-group-item"><a asp-controller="Address" asp-action="Addresses">Adreslerim</a></li>
             <li class="list-group-item">Şifre Değiştir</li>
             <li class="list-group-item">Siparişlerim</li>
         </ul>
