@@ -28,6 +28,7 @@ namespace UI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
             services.AddControllersWithViews().AddFluentValidation();
             services.Configure<FileUploadSettings>(Configuration.GetSection("FileUploadSettings"));
             services.AddValidationInjection();

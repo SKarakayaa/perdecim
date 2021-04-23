@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.DTO.Address;
 using Microsoft.AspNetCore.Mvc;
@@ -26,19 +27,41 @@ namespace UI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> CreateOrUpdate(int? id = null)
         {
+            UserAddressCreateUpdateDTO userAddress = new UserAddressCreateUpdateDTO();
+            if (id != null)
+                userAddress = await _userAddressService.GetUserAddressCreateUpdateDtoModel(id.Value);
+
             ViewBag.Cities = await _userAddressService.GetCityList();
-            return View();
+            return View(userAddress);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateOrUpdate(UserAddressCreateUpdateDTO createUpdateDTO)
         {
-            return View();
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Cities = await _userAddressService.GetCityList();
+                return View(nameof(CreateOrUpdate), createUpdateDTO);
+            }
+            IResult result = await _userAddressService.CreateOrUpdateAsync(createUpdateDTO);
+
+            if (!result.IsSuccess)
+            {
+                ViewBag.Cities = await _userAddressService.GetCityList();
+                ModelState.AddModelError("CreateError", result.Message);
+                return View(nameof(CreateOrUpdate), createUpdateDTO);
+            }
+            return RedirectToAction(nameof(Addresses), "Address");
         }
 
+        public async Task<JsonResult> Delete(int id)
+        {
+            IResult result = await _userAddressService.DeleteAsync(id);
+            return Json(result);
+        }
         [HttpPost]
         public async Task<JsonResult> GetDistrictsByCityId(int cityId)
         {

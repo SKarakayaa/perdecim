@@ -180,5 +180,76 @@
     </div>
     @RenderSection("Scripts", required: false)
 </body>
+<script>
+    SwalDeleteModal = (id, object, url) => {
+        Swal.fire({
+            title: "Emin Misiniz ?",
+            text: 'Silme İşlemini Onaylıyor musunuz ?',
+            icon: "warning",
+            type: 'info',
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "Onayla",
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "Vazgeç",
+            animation: "slide-from-bottom",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var data = null;
+                if (id === null) {
+                    data = { deleteModel: object };
+                } else {
+                    data = { id: id };
+                }
+
+                $.post(url, data, (response) => {
+                    debugger;
+                    if (response.isSuccess) {
+                        SwalSuccessModal(true);
+                        
+                    } else {
+                        SwalErrorModal(response.message);
+                    }
+                })
+            }
+        });
+    }
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+
+
+
+    SwalErrorModal = (message) => {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: message,
+        })
+    }
+
+    SwalSuccessModal = (isReload) => {
+        Toast.fire({
+            icon: 'success',
+            title: 'İşlem Başarılı',
+            timer:2000
+        }).then(result=>{
+            if(isReload){
+                location.reload(true);
+            }
+        })
+    }
+
+</script>
 
 </html>
