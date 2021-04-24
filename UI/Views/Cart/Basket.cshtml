@@ -1,0 +1,82 @@
+@model Entities.DTO.Cart.CreateOrderDto;
+@{
+    ViewData["Title"] = "Sepet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .well-div {
+        border: 1px solid black;
+        height: 150px;
+    }
+
+    .well-parent {
+        margin-top: 15px;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            @await Component.InvokeAsync("BasketView")
+        </div>
+    </div>
+    <form asp-controller="Cart" asp-action="Basket" method="POST">
+        <input asp-for="AddressId" hidden />
+        <input asp-for="PaymentType" hidden />
+        <div style="margin-top: 50px;">
+            <div class="col-md-12">
+                <h2>Sipariş Adresi Seçiniz :</h2>
+            </div>
+            @foreach (var userAddress in Model.UserAddresses)
+            {
+                <div class="col-md-6 well-parent">
+                    <div class="well-lg well-div address" id="address-@userAddress.AddressId">
+                        <h3><input type="radio" name="address" onclick="SetAddressId('@userAddress.AddressId')" /> <i
+                            class="@userAddress.AddressType.IconClassName"></i> @userAddress.AddressType.Name
+                        </h3><br>
+                        <p>@userAddress.FullAddress</p><br>
+                    </div>
+                </div>
+                <span asp-validation-for="AddressId"></span>
+            }
+        </div>
+        <br>
+        <br>
+        <hr>
+        <div style="margin-top: 50px;">
+            <div class="col-md-12">
+                <h2>Ödeme Yöntemi Seçiniz :</h2>
+            </div>
+            @foreach (var paymentType in Model.PaymentTypes)
+            {
+                <div class="col-md-6 well-parent">
+                    <div class="well-lg well-div payment-type" id="payment-type-@paymentType.Id">
+                        <h3><input type="radio" name="payment-type" onclick="SetPaymentTypeId('@paymentType.Id')" /> <i
+                            class="@paymentType.ClassName"></i> @paymentType.Name
+                        </h3><br>
+                        <p>@paymentType.Description</p><br>
+                    </div>
+                </div>
+                <span asp-validation-for="PaymentType"></span>
+            }
+        </div>
+        <br>
+        <br>
+        <div class="form-group" style="margin-bottom: 500px;">
+            <div class="col-md-12">
+                <button class="btn btn-success btn-block"><i class="fa fa-try"></i> Sipariş Ver</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    SetAddressId = (addressId) => {
+        $("#AddressId").val(addressId);
+        $(".address").css('background-color', '');
+        $(`#address-${addressId}`).css('background-color', '#c6ffb3;');
+    }
+    SetPaymentTypeId = (paymentTypeId) => {
+        $("#PaymentType").val(paymentTypeId);
+        $(".payment-type").css('background-color', '');
+        $(`#payment-type-${paymentTypeId}`).css('background-color', '#c6ffb3;');
+    }
+</script>

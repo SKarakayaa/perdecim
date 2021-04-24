@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Entities.DTO.Cart;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UI.Helpers;
@@ -14,10 +15,35 @@ namespace UI.Controllers
     public class CartController : Controller
     {
         private readonly IProductService _productService;
-        public CartController(IProductService productService)
+        private readonly IUserAddressService _userAddressService;
+        public CartController(IProductService productService, IUserAddressService userAddressService)
         {
             _productService = productService;
+            _userAddressService = userAddressService;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Basket()
+        {
+            var cartString = Request.Cookies["basket"]?.ToString();
+            if (String.IsNullOrEmpty(cartString))
+            {
+                TempData["ToastMessage"] = "Sepetinizde Ürün Bulunmuyor !";
+                return RedirectToAction(nameof(Index), "Home");
+            }
+            int userId = Convert.ToInt32(User.FindFirst("UserId").Value);
+            CreateOrderDto createOrderDto = new CreateOrderDto();
+            createOrderDto.UserAddresses = await _userAddressService.GetListAsync(userId);
+            return View(createOrderDto);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Basket(CreateOrderDto createOrderDto)
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<JsonResult> AddToCart(AddToCartModel model)
         {
@@ -44,6 +70,8 @@ namespace UI.Controllers
             else
             {
                 var product = (await _productService.GetByIdAsync(model.ProductId)).Data;
+                product.ProductImages = null;
+                product.ProductDemands = null;
                 CartModel cartModel = CartHelper.NewCartItem(product, model);
                 cart.Add(cartModel);
             }

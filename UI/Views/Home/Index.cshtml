@@ -184,3 +184,14 @@
 				@await Component.InvokeAsync("HomeProducts",new {productType=ProductType.POPULAR_PRODUCT})
 			<!--popüler ürünler-->
 		</div>
+@if (TempData["ToastMessage"] != null)
+{
+    <text>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                html: '<b>@TempData["ToastMessage"].ToString()</b>',
+            })
+        </script>
+    </text>
+}

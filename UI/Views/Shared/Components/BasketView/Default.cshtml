@@ -8,18 +8,18 @@ else
 {
     foreach (var cartItem in Model)
     {
-        <div class="cart-header">
+        <div class="cart-header" style="margin-top:50px;">
             <div class="close1"> </div>
             <div class="cart-sec simpleCart_shelfItem">
                 <div class="cart-item cyc">
-                    <img src="images/p15.jpg" class="img-responsive" alt="">
+                    <img src="~/images/p15.jpg" class="img-responsive" alt="">
                 </div>
                 <div class="cart-item-info">
                     <h3><a asp-controller="Product" asp-action="Index" asp-route-id="@cartItem.ProductId"> @cartItem.Product.Name </a></h3>
                     @if (cartItem.DemandTypes.Count != 0)
                     {
                         <br>
-                        <p><u>Seçilenler</u></p>
+                        <p class="text-danger"><u>Seçilenler</u></p>
                         <ul class="qty">
                             @foreach (var demandType in cartItem.DemandTypes)
                             {
@@ -30,7 +30,7 @@ else
                     @if(!string.IsNullOrEmpty(cartItem.Note))
                     {
                         <br>
-                        <p><u>İstek Notu :</u></p>
+                        <p class="text-danger"><u>İstek Notu :</u></p>
                         <p>@cartItem.Note</p>
                     }
                     <div class="delivery">
@@ -46,5 +46,5 @@ else
         </div>
     }
     <hr>
-    <a class="btn btn-danger btn-sm btn-block"><i class="fa fa-shopping-cart"></i> Toplam Ücret : @(Model.Sum(x=>x.Quantity * x.TotalUnitPrice)) ₺</a>
+    <a class="btn btn-danger btn-sm btn-block"><i class="fa fa-shopping-cart"></i> <b>Toplam Ücret : @(Model.Sum(x=>x.Quantity * x.TotalUnitPrice)) ₺ </b></a>
 }
