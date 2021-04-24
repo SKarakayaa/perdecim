@@ -12,14 +12,23 @@ $(".value-minus1").on("click", function () {
   if (newVal >= 1) divUpd.text(newVal);
 });
 
-demandChange = (e) => {
-  debugger;
-  if (!choosedDemands.some((x) => x.Id === e.id))
-    choosedDemands.push({
-      Id: e.id,
-      Value: e.value,
-      ChoosedDemand: e.selectedOptions[0].text,
-    });
+demandChange = (demandTypeId, demandId, demandPrice, demandName) => {
+  var oldChoosedDemand = choosedDemands.find(x=>x.DemandTypeId == demandTypeId);
+  if(oldChoosedDemand){
+    $(`#demand-${oldChoosedDemand.DemandId}`).removeClass("btn-success");
+  }
+
+  choosedDemands = choosedDemands.filter(
+    (x) => x.DemandTypeId !== demandTypeId
+  );
+
+  choosedDemands.push({
+    DemandTypeId: demandTypeId,
+    DemandId: demandId,
+    ChoosedDemandPrice: Number(demandPrice),
+    ChoosedDemand: demandName,
+  });
+  $(`#demand-${demandId}`).addClass("btn-success");
 };
 
 $(".item_add2").click(() => {

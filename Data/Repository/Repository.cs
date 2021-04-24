@@ -23,25 +23,33 @@ namespace Data.Repository
             return model;
         }
 
-        public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter, string[] children = null)
+        public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] includes)
         {
-            IQueryable<TEntity> query = _context.Set<TEntity>().Where(filter);
-            if (children != null)
-                foreach (var child in children)
-                    query = query.Include(child);
-
+            IQueryable<TEntity> query = _context.Set<TEntity>().AsNoTracking().Where(filter);
+            if (includes != null)
+                query = includes.Aggregate(query, (current, include) => current.Include(include));
             return await query.SingleOrDefaultAsync();
         }
 
-        public async Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> filter = null, string[] children = null)
+        public async Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> filter = null, params Expression<Func<TEntity, object>>[] includes)
+        {
+            IQueryable<TEntity> query = filter == null
+                ? _context.Set<TEntity>().AsNoTracking()
+                : _context.Set<TEntity>().AsNoTracking().Where(filter);
+
+            if (includes != null)
+                query = includes.Aggregate(query, (current, include) => current.Include(include));
+
+            return await query.ToListAsync();
+        }
+        public async Task<List<TEntity>> GetListAsyncTracked(Expression<Func<TEntity, bool>> filter = null, params Expression<Func<TEntity, object>>[] includes)
         {
             IQueryable<TEntity> query = filter == null
                 ? _context.Set<TEntity>()
                 : _context.Set<TEntity>().Where(filter);
 
-            if (children != null)
-                foreach (var item in children)
-                    query = query.Include(item);
+            if (includes != null)
+                query = includes.Aggregate(query, (current, include) => current.Include(include));
             return await query.ToListAsync();
         }
 

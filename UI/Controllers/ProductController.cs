@@ -8,6 +8,7 @@ using Entities.Config;
 using Entities.DTO.Product;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace UI.Controllers
@@ -24,9 +25,10 @@ namespace UI.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(int id)
         {
-            string[] navigation = { "Category", "ProductDemands", "ProductImages", "ProductDemands.DemandType", "ProductDemands.DemandType.Demands" };
+            //string[] navigation = { "Category", "ProductDemands", "ProductImages", "ProductDemands.DemandType", "ProductDemands.DemandType.Demands" };
+            //x => x.ProductDemands.AsQueryable().Include(x => x.DemandType), x => x.ProductDemands.AsQueryable().Include(x => x.DemandType).Include(x => x.DemandType.Demands)
             ViewBag.BaseUrl = "https://" + HttpContext.Request.Host.ToString();
-            IDataResult<Product> product = await _productService.GetByIdAsync(id, navigation);
+            IDataResult<Product> product = await _productService.GetProductWithDemandAsync(id);
             return View(product.Data);
         }
 
@@ -34,8 +36,7 @@ namespace UI.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Products()
         {
-            string[] navigation = { "Category", "Color", "Brand" };
-            IDataResult<List<Product>> products = _productService.GetListAsync(null, navigation).Result;
+            IDataResult<List<Product>> products = _productService.GetListAsync(null, x => x.Category, x => x.Color, x => x.Brand).Result;
             ViewBag.Products = products.Data;
             ViewBag.CreateProductElements = _productService.GetCreateProductElements().Result.Data;
             return View();
@@ -48,7 +49,7 @@ namespace UI.Controllers
             ViewBag.CreateProductElements = _productService.GetCreateProductElements().Result.Data;
             if (id.HasValue)
             {
-                Product product = (await _productService.GetByIdAsync(id.Value, new[] { "ProductDemands", "ProductImages" })).Data;
+                Product product = (await _productService.GetByIdAsync(id.Value)).Data;
                 CreateProductDto createProductDto = new CreateProductDto
                 {
                     ProductId = product.Id,

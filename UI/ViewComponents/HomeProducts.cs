@@ -19,19 +19,18 @@ namespace UI.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(int productType)
         {
             List<Product> products = new List<Product>();
-            string[] navigation = { "Category","Brand" };
             switch (productType)
             {
                 case (int)ProductType.NEW_PRODUCT:
-                    products = (await _productService.GetListAsync(x => x.IsNew, navigation)).Data;
+                    products = (await _productService.GetListAsync(x => x.IsNew, x => x.Category, x => x.Brand)).Data;
                     ViewBag.Title = "Yeni Ürünler";
                     break;
                 case (int)ProductType.DISCOUNTED_PRODUCT:
-                    products = (await _productService.GetListAsync(x => x.DiscountRate != 0, navigation)).Data;
+                    products = (await _productService.GetListAsync(x => x.DiscountRate != 0, x => x.Category, x => x.Brand)).Data;
                     ViewBag.Title = "İndirimli Ürünler";
                     break;
                 case (int)ProductType.POPULAR_PRODUCT:
-                    products = (await _productService.GetListAsync(x => x.IsPopular, navigation)).Data;
+                    products = (await _productService.GetListAsync(x => x.IsPopular, x => x.Category, x => x.Brand)).Data;
                     ViewBag.Title = "Popüler Ürünler";
                     break;
                 default:

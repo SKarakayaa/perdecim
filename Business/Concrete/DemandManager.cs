@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Business.Helpers;
 using Business.UnitOfWork;
+using Core.Utilities.Messages;
 using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.Config;
@@ -34,7 +36,7 @@ namespace Business.Concrete
             });
             int result = await _uow.Complete();
             if (result == 0)
-                return new ErrorResult("Kayıt Esnasında Bir Hata Meydana Geldi !");
+                return new ErrorResult(CRUDMessages.CreateMessage);
 
             var fileLocate = $"{_fileUploadSettings.MainPath}{_fileUploadSettings.DemandImagePath}{imageName}";
             using (var stream = new FileStream(fileLocate, FileMode.Create))
@@ -57,30 +59,26 @@ namespace Business.Concrete
                 _uow.DemandTypes.Add(new DemandType { Name = demandTypeDto.Name });
             }
             int result = await _uow.Complete();
-            if (result > 0)
-                return new SuccessResult();
-            return new ErrorResult("Kayıt Esnasında Bir Hata Meydana Geldi !");
+            return ResultHelper<int>.ResultReturn(result);
         }
 
         public async Task<IDataResult<List<DemandType>>> GetListAsync()
         {
-            var demandTypes = await _uow.DemandTypes.GetListAsync(null, new[] { "Demands" });
-            if (demandTypes.Count == 0)
-                return new ErrorDataResult<List<DemandType>>(demandTypes, "Kayıt Bulunamadı !");
-            return new SuccessDataResult<List<DemandType>>(demandTypes);
+            var demandTypes = await _uow.DemandTypes.GetListAsync(null, x => x.Demands);
+            return ResultHelper<List<DemandType>>.DataResultReturn(demandTypes);
         }
 
         public async Task<IResult> DeleteDemandAsync(int id)
         {
             var demand = await _uow.Demands.GetAsync(x => x.Id == id);
             _uow.Demands.Remove(demand);
-            await _uow.Complete();
-            return new SuccessResult();
+            int result = await _uow.Complete();
+            return ResultHelper<int>.ResultReturn(result);
         }
 
         public async Task<IResult> DeleteDemandTypeAsync(int id)
         {
-            var demandType = await _uow.DemandTypes.GetAsync(x => x.Id == id, new[] { "Demands" });
+            var demandType = await _uow.DemandTypes.GetAsync(x => x.Id == id, x => x.Demands);
             if (demandType.Demands.Count != 0)
             {
                 foreach (var demand in demandType.Demands)
@@ -89,8 +87,8 @@ namespace Business.Concrete
                 }
             }
             _uow.DemandTypes.Remove(demandType);
-            await _uow.Complete();
-            return new SuccessResult();
+            int result = await _uow.Complete();
+            return ResultHelper<int>.ResultReturn(result);
         }
     }
 }

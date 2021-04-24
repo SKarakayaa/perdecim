@@ -14,10 +14,10 @@ namespace Business.UnitOfWork
         IBrandDAL Brands { get; }
         IProductDemandDAL ProductDemands { get; }
         IProductImageDAL ProductImages { get; }
-        IUserAddressDAL UserAddressDAL { get; }
-        IDistrictDAL DistrictDAL { get; }
-        INeighborhoodsDAL NeighborhoodsDAL { get; }
-        ICityDAL CityDAL { get; }
+        IUserAddressDAL UserAddresses { get; }
+        IDistrictDAL Districts { get; }
+        INeighborhoodsDAL Neighborhoods { get; }
+        ICityDAL Cities { get; }
         Task<int> Complete();
     }
 }

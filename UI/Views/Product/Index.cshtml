@@ -5,7 +5,7 @@
 }
 
 <input hidden id="demandCount" value="@Model.ProductDemands.Count" />
-<input hidden id="productId" value="@Model.Id"/>
+<input hidden id="productId" value="@Model.Id" />
 
 <div class="content">
     <!--single-->
@@ -21,9 +21,9 @@
                                     @foreach (var image in Model.ProductImages)
                                     {
                                         <li data-thumb="@baseUrl/images/@image.ImageName">
-                                            <div class="thumb-image"> <img src="@baseUrl/images/@image.ImageName" data-imagezoom="true"
-                                                class="img-responsive"> </div>
-                                        </li>    
+                                            <div class="thumb-image"> <img src="@baseUrl/images/@image.ImageName"
+                                                data-imagezoom="true" class="img-responsive"> </div>
+                                        </li>
                                     }
                                 </ul>
 
@@ -35,10 +35,11 @@
                                 <div class="starbox small ghosting"> </div>
                             </div>
                             <p class="price item_price">
-                                @if(Model.DiscountRate != 0)
+                                @if (Model.DiscountRate != 0)
                                 {
                                     <del>@Model.Price ₺</del>
-                                    @(Model.Price - (Model.Price * (Convert.ToDecimal(Model.DiscountRate)/100))) <span>₺</span>
+                                    @(Model.Price - (Model.Price * (Convert.ToDecimal(Model.DiscountRate)/100)))
+                                    <span>₺</span>
                                 }
                                 else
                                 {
@@ -51,43 +52,65 @@
                             <div class="description">
                                 <p style="color:red" id="demandError" hidden>Lütfen Gerekli Alanları Seçiniz !</p>
                             </div>
-                            @if(Model.ProductDemands.Count != 0)
+                            @if (Model.ProductDemands.Count != 0)
                             {
                                 foreach (var productDemands in Model.ProductDemands)
                                 {
                                     <div class="row">
-                                        <div class="col-md-12">@productDemands.DemandType.Name<span style="color:red">*</span></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <select class="form-control" onchange="demandChange(this)" id="@productDemands.DemandType.Id">
-                                                <option value="">Seçiniz...</option>
-                                                @foreach (var demand in productDemands.DemandType.Demands)
-                                                {
-                                                    <option value="@demand.Id">
-                                                        @demand.Name
-                                                        @if(demand.Price != 0)
-                                                        {
-                                                            <span>(+@demand.Price ₺)</span>
-                                                        }
-                                                    </option>
-                                                }
-                                            </select>
+                                        <div class="col-md-12">@productDemands.DemandType.Name<span style="color:red">*</span>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        @foreach (var demand in productDemands.DemandType.Demands)
+                                        {
+                                            <div class="col-xs-6 col-sm-4">
+                                                <button class="btn" onclick="demandChange('@productDemands.DemandTypeId','@demand.Id','@demand.Price','@demand.Name')" id="demand-@demand.Id">
+                                                    <i class="fa fa-check hidden"></i>
+                                                    @demand.Name
+                                                    @if (demand.Price != 0)
+                                                    {
+                                                        <span>+(@demand.Price) ₺</span>
+                                                    }
+                                                </button>
+                                                <br>
+                                                <a style="margin-top: 5px; margin-left: 25px;"><i class="fa fa-camera"></i> Fotoğraf</a>
+                                            </div>
+                                        }
+                                    </div>
+                                    @* <div class="row">
+                                        <div class="col-md-12"> *@
+                                    @* <select class="form-control" onchange="demandChange(this)"
+                                        id="@productDemands.DemandType.Id">
+                                        <option value="">Seçiniz...</option>
+                                        @foreach (var demand in productDemands.DemandType.Demands)
+                                        {
+                                        <option value="@demand.Id">
+                                        @demand.Name
+                                        @if(demand.Price != 0)
+                                        {
+                                        <text>
+                                        +(<span id="demandPrice">@demand.Price</span>) ₺
+                                        </text>
+                                        }
+                                        </option>
+                                        }
+                                        </select> *@
+                                    @* </div>
+                                        </div> *@
                                     <br />
                                 }
                             }
-                            @if(Model.CanNotable)
+                            @if (Model.CanNotable)
                             {
                                 <div class="row">
-                                        <div class="col-md-12">Sipariş Notunuz :</div>
+                                    <div class="col-md-12">Sipariş Notunuz :</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <textarea class="form-control" rows="5" placeholder="Sipariş Notunuz"
+                                        id="note"></textarea>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <textarea class="form-control" rows="5" placeholder="Sipariş Notunuz" id="note"></textarea>
-                                        </div>
-                                    </div>
+                                </div>
                             }
                             <div class="color-quality">
                                 <h6>Adet :</h6>
@@ -118,6 +141,6 @@
     </div>
 </div>
 @section scripts{
-    <script src="~/page-js/Product/index.js"></script>
-    <script src="~/page-js/Cart/add-to-cart.js"></script>
+<script src="~/page-js/Product/index.js"></script>
+<script src="~/page-js/Cart/add-to-cart.js"></script>
 }

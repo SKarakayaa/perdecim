@@ -43,7 +43,7 @@ namespace UI.Controllers
             }
             else
             {
-                var product = (await _productService.GetByIdAsync(model.ProductId, new[] { "ProductDemands", "ProductDemands.DemandType", "ProductDemands.DemandType.Demands" })).Data;
+                var product = (await _productService.GetByIdAsync(model.ProductId)).Data;
                 CartModel cartModel = CartHelper.NewCartItem(product, model);
                 cart.Add(cartModel);
             }

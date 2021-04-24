@@ -23,7 +23,7 @@ namespace Business.Concrete
         }
         public async Task<List<AddressViewDTO>> GetListAsync(int userId)
         {
-            List<UserAddress> userAddresses = await _uow.UserAddressDAL.GetListAsync(x => x.UserId == userId, new string[] { "City", "District", "Neighborhood" });
+            List<UserAddress> userAddresses = await _uow.UserAddresses.GetListAsync(x => x.UserId == userId, x => x.City, x => x.District, x => x.Neighborhood);
             if (userAddresses.Count == 0)
                 return new List<AddressViewDTO>();
 
@@ -39,7 +39,7 @@ namespace Business.Concrete
 
         public async Task<UserAddressCreateUpdateDTO> GetUserAddressCreateUpdateDtoModel(int addressId)
         {
-            UserAddress userAddress = await _uow.UserAddressDAL.GetAsync(x => x.Id == addressId);
+            UserAddress userAddress = await _uow.UserAddresses.GetAsync(x => x.Id == addressId);
             UserAddressCreateUpdateDTO createUpdateDTO = new UserAddressCreateUpdateDTO
             {
                 Id = userAddress.Id,
@@ -57,13 +57,13 @@ namespace Business.Concrete
             UserAddress userAddress;
             if (createUpdateDTO.Id != 0)
             {
-                userAddress = await _uow.UserAddressDAL.GetAsync(x => x.Id == createUpdateDTO.Id);
+                userAddress = await _uow.UserAddresses.GetAsync(x => x.Id == createUpdateDTO.Id);
                 userAddress.AddressType = createUpdateDTO.AddressType;
                 userAddress.CityId = createUpdateDTO.CityId;
                 userAddress.DistrictId = createUpdateDTO.DistrictId;
                 userAddress.NeighborhoodId = createUpdateDTO.NeighborhoodId;
                 userAddress.OpenAddress = createUpdateDTO.OpenAddress;
-                _uow.UserAddressDAL.Update(userAddress);
+                _uow.UserAddresses.Update(userAddress);
             }
             else
             {
@@ -76,7 +76,7 @@ namespace Business.Concrete
                     OpenAddress = createUpdateDTO.OpenAddress,
                     UserId = Convert.ToInt32(_httpContextAccessor.HttpContext.User.FindFirst("UserId").Value)
                 };
-                _uow.UserAddressDAL.Add(userAddress);
+                _uow.UserAddresses.Add(userAddress);
             }
             int result = await _uow.Complete();
             return ResultHelper<int>.ResultReturn(result);
@@ -84,23 +84,23 @@ namespace Business.Concrete
 
         public async Task<IResult> DeleteAsync(int addressId)
         {
-            UserAddress userAddress = await _uow.UserAddressDAL.GetAsync(x => x.Id == addressId);
-            _uow.UserAddressDAL.Remove(userAddress);
+            UserAddress userAddress = await _uow.UserAddresses.GetAsync(x => x.Id == addressId);
+            _uow.UserAddresses.Remove(userAddress);
             int result = await _uow.Complete();
             return ResultHelper<int>.ResultReturn(result);
         }
 
         public async Task<List<City>> GetCityList()
         {
-            return await _uow.CityDAL.GetListAsync();
+            return await _uow.Cities.GetListAsync();
         }
         public async Task<List<District>> GetDistrictListByCityIdAsync(int cityId)
         {
-            return await _uow.DistrictDAL.GetListAsync(x => x.CityId == cityId);
+            return await _uow.Districts.GetListAsync(x => x.CityId == cityId);
         }
         public async Task<List<Neighborhood>> GetNeighborhoodListByDistrictIdAsync(int districtId)
         {
-            return await _uow.NeighborhoodsDAL.GetListAsync(x => x.DistrictId == districtId);
+            return await _uow.Neighborhoods.GetListAsync(x => x.DistrictId == districtId);
         }
     }
 }

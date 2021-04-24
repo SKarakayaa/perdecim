@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Business.Helpers;
 using Business.UnitOfWork;
 using Core.Utilities.Results;
 using Entities.Concrete;
@@ -103,25 +104,30 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public async Task<IDataResult<Product>> GetByIdAsync(int id, string[] children)
+        public async Task<IDataResult<Product>> GetByIdAsync(int id)
         {
-            Product product = await _uow.Products.GetAsync(x => x.Id == id, children);
+            Product product = await _uow.Products.GetAsync(x => x.Id == id, x => x.ProductImages, x => x.ProductDemands);
             return new SuccessDataResult<Product>(product);
+        }
+        public async Task<IDataResult<Product>> GetProductWithDemandAsync(int productId)
+        {
+            Product product = await _uow.Products.GetProductWithDemands(productId);
+            return ResultHelper<Product>.DataResultReturn(product);
         }
 
         public async Task<IDataResult<CreateProductElementsDto>> GetCreateProductElements()
         {
             CreateProductElementsDto createProductElements = new CreateProductElementsDto();
             createProductElements.Brands = await _uow.Brands.GetListAsync();
-            createProductElements.Categories = (await _uow.Categories.GetListAsync(null, new string[] { "ChildCategories" })).Where(x => x.ChildCategories.Count == 0).ToList();
+            createProductElements.Categories = (await _uow.Categories.GetListAsync(null, x => x.ChildCategories)).Where(x => x.ChildCategories.Count == 0).ToList();
             createProductElements.Colors = await _uow.Colors.GetListAsync();
             createProductElements.DemandTypes = await _uow.DemandTypes.GetListAsync();
             return new SuccessDataResult<CreateProductElementsDto>(createProductElements);
         }
 
-        public async Task<IDataResult<List<Product>>> GetListAsync(Expression<Func<Product, bool>> filter = null, string[] children = null)
+        public async Task<IDataResult<List<Product>>> GetListAsync(Expression<Func<Product, bool>> filter = null, params Expression<Func<Product, object>>[] includes)
         {
-            var products = await _uow.Products.GetListAsync(filter, children);
+            var products = await _uow.Products.GetListAsync(filter, includes);
             return new SuccessDataResult<List<Product>>(products);
         }
     }

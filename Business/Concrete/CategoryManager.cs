@@ -31,19 +31,19 @@ namespace Business.Concrete
 
         public async Task<IDataResult<List<Category>>> GetListAsync()
         {
-            var categories = await _uow.Categories.GetListAsync(null, new[] { "ChildCategories" });
+            var categories = await _uow.Categories.GetListAsyncTracked(null, x => x.ChildCategories);
             return new SuccessDataResult<List<Category>>(categories);
         }
 
         public async Task<IDataResult<List<Category>>> GetListForBannerAsync()
         {
-            var categories = (await _uow.Categories.GetListAsync(x=>x.ParentId != null, new[] { "ChildCategories" })).Take(4).ToList();
+            var categories = (await _uow.Categories.GetListAsync(x => x.ParentId != null, x => x.ChildCategories)).Take(4).ToList();
             return new SuccessDataResult<List<Category>>(categories);
         }
 
         public async Task<IResult> DeleteAsync(int id)
         {
-            var category = await _uow.Categories.GetAsync(x => x.Id == id, new[] { "ChildCategories" });
+            var category = await _uow.Categories.GetAsync(x => x.Id == id, x => x.ChildCategories);
             if (category.ChildCategories.Count > 0)
                 return new ErrorResult(CRUDMessages.CantDeleteCauseOfChilds);
             _uow.Categories.Remove(category);

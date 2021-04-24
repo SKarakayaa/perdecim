@@ -15,11 +15,7 @@ namespace UI.Helpers
             {
                 var productDemands = product.ProductDemands;
                 foreach (var demandType in model.DemandTypes)
-                {
-                    var demands = productDemands.FirstOrDefault(x => x.DemandTypeId == demandType.Id).DemandType.Demands;
-                    var demandPrice = demands.FirstOrDefault(x => x.Id == demandType.Value).Price;
-                    additionalPrices += demandPrice;
-                }
+                    additionalPrices += demandType.ChoosedDemandPrice;
             }
             unitPrice += additionalPrices;
 

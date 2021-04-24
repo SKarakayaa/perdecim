@@ -2,41 +2,46 @@ using System;
 using System.Threading.Tasks;
 using Data.Abstract;
 using Data.Context;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Business.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly MatmazelContext _context;
-        public IProductDAL Products { get; }
-        public ICategoryDAL Categories { get; }
-        public IDemandDAL Demands { get; }
-        public IDemandTypeDAL DemandTypes { get; }
-        public IBrandDAL Brands { get; }
-        public IColorDAL Colors { get; }
-        public IProductDemandDAL ProductDemands { get; }
-        public IProductImageDAL ProductImages { get; }
-        public IUserAddressDAL UserAddressDAL { get; }
-        public IDistrictDAL DistrictDAL { get; }
-        public INeighborhoodsDAL NeighborhoodsDAL { get; }
-        public ICityDAL CityDAL { get; }
+        private readonly IServiceProvider _serviceProvider;
+        private IProductDAL productDal;
+        private ICategoryDAL categoryDal;
+        private IDemandDAL demandDal;
+        private IDemandTypeDAL demandTypeDal;
+        private IBrandDAL brandDal;
+        private IColorDAL colorDal;
+        private IProductDemandDAL productDemandDal;
+        private IProductImageDAL productImageDal;
+        private IUserAddressDAL userAddressDal;
+        private IDistrictDAL districtDal;
+        private INeighborhoodsDAL neighborhoodsDal;
+        private ICityDAL cityDal;//CityDAL;
 
-        public UnitOfWork(MatmazelContext context, IProductDAL productDAL, ICategoryDAL categoryDAL, IDemandDAL demandDAL, IDemandTypeDAL demandTypeDAL, IColorDAL colorDAL, IBrandDAL brandDAL, IProductDemandDAL productDemandDAL, IProductImageDAL productImageDAL, IUserAddressDAL userAddressDAL, IDistrictDAL districtDAL, INeighborhoodsDAL neighborhoodsDAL, ICityDAL cityDAL)
+        public UnitOfWork(MatmazelContext context, IServiceProvider serviceProvider)
         {
             _context = context;
-            Products = productDAL;
-            Categories = categoryDAL;
-            Demands = demandDAL;
-            DemandTypes = demandTypeDAL;
-            Brands = brandDAL;
-            Colors = colorDAL;
-            ProductDemands = productDemandDAL;
-            ProductImages = productImageDAL;
-            NeighborhoodsDAL = neighborhoodsDAL;
-            DistrictDAL = districtDAL;
-            CityDAL = cityDAL;
-            UserAddressDAL = userAddressDAL;
+            _serviceProvider = serviceProvider;
         }
+
+        public IProductDAL Products => productDal ?? _serviceProvider.GetRequiredService<IProductDAL>();
+        public ICategoryDAL Categories => categoryDal ?? _serviceProvider.GetRequiredService<ICategoryDAL>();
+        public IDemandDAL Demands => demandDal ?? _serviceProvider.GetRequiredService<IDemandDAL>();
+        public IDemandTypeDAL DemandTypes => demandTypeDal ?? _serviceProvider.GetRequiredService<IDemandTypeDAL>();
+        public IBrandDAL Brands => brandDal ?? _serviceProvider.GetRequiredService<IBrandDAL>();
+        public IColorDAL Colors => colorDal ?? _serviceProvider.GetRequiredService<IColorDAL>();
+        public IProductDemandDAL ProductDemands => productDemandDal ?? _serviceProvider.GetRequiredService<IProductDemandDAL>();
+        public IProductImageDAL ProductImages => productImageDal ?? _serviceProvider.GetRequiredService<IProductImageDAL>();
+        public INeighborhoodsDAL Neighborhoods => neighborhoodsDal ?? _serviceProvider.GetRequiredService<INeighborhoodsDAL>();
+        public IDistrictDAL Districts => districtDal ?? _serviceProvider.GetRequiredService<IDistrictDAL>();
+        public ICityDAL Cities => cityDal ?? _serviceProvider.GetRequiredService<ICityDAL>();
+        public IUserAddressDAL UserAddresses => userAddressDal ?? _serviceProvider.GetRequiredService<IUserAddressDAL>();
+
 
         public async Task<int> Complete()
         {
