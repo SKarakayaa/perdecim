@@ -9,6 +9,7 @@ namespace Core.Utilities.Messages
         public static string FieldCantContainDigit = "Bu alan sayısal ifade içeremez !";
         public static string MinimumPhoneLength = "Telefon numarası 10 sayısal karakterden oluşmalı !";
         public static string NotEmailFormat = "Email formatında değil !";
-        
+        public static string ErrorConfirmPassword = "Hatalı Giriş Yaptınız";
+
     }
 }

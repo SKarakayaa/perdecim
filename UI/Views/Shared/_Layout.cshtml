@@ -204,9 +204,8 @@
                 }
 
                 $.post(url, data, (response) => {
-                    debugger;
                     if (response.isSuccess) {
-                        SwalSuccessModal(true);
+                        SwalSuccessModal(true,'İşlem Başarılı');
                         
                     } else {
                         SwalErrorModal(response.message);
@@ -228,8 +227,6 @@
         }
     })
 
-
-
     SwalErrorModal = (message) => {
         Swal.fire({
             icon: 'error',
@@ -238,10 +235,10 @@
         })
     }
 
-    SwalSuccessModal = (isReload) => {
+    SwalSuccessModal = (isReload,message) => {
         Toast.fire({
             icon: 'success',
-            title: 'İşlem Başarılı',
+            title: message,
             timer:2000
         }).then(result=>{
             if(isReload){

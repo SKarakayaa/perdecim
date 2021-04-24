@@ -1,10 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Business.Helpers;
+using Core.Utilities.Messages;
 using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.DTO.Auth;
+using Entities.DTO.Profile;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 namespace Business.Concrete
@@ -56,7 +61,7 @@ namespace Business.Concrete
                 PhoneNumber = register.PhoneNumber
             };
             IdentityResult result = await _userManager.CreateAsync(user, register.Password);
-            await _userManager.AddToRoleAsync(user,"User");
+            await _userManager.AddToRoleAsync(user, "User");
             return result;
         }
 
@@ -66,6 +71,7 @@ namespace Business.Concrete
             return user;
         }
 
-        public async Task<List<string>> GetUserRolesAsync(AppUser user) =>  await _userManager.GetRolesAsync(user) as List<string>;
+        public async Task<List<string>> GetUserRolesAsync(AppUser user) => await _userManager.GetRolesAsync(user) as List<string>;
+
     }
 }
