@@ -1,13 +1,15 @@
 using System.Collections.Generic;
-using Entities.DTO.Cart;
 
-namespace UI.Models.Cart
+namespace Entities.DTO.Cart
 {
-    public class AddToCartModel
+    public class CartDTO
     {
         public int ProductId { get; set; }
+        public decimal TotalUnitPrice { get; set; }
         public int Quantity { get; set; }
         public string Note { get; set; }
         public List<DemandTypeDTO> DemandTypes { get; set; }
+
+        public Entities.Concrete.Product Product { get; set; }
     }
 }

@@ -21,7 +21,10 @@ namespace Business.UnitOfWork
         private IUserAddressDAL userAddressDal;
         private IDistrictDAL districtDal;
         private INeighborhoodsDAL neighborhoodsDal;
-        private ICityDAL cityDal;//CityDAL;
+        private ICityDAL cityDAL;
+        private IOrderDAL orderDAL;
+        private IOrderDetailDAL orderDetailDAL;
+        private IOrderDemandDAL orderDemandDAL;
 
         public UnitOfWork(MatmazelContext context, IServiceProvider serviceProvider)
         {
@@ -39,9 +42,11 @@ namespace Business.UnitOfWork
         public IProductImageDAL ProductImages => productImageDal ?? _serviceProvider.GetRequiredService<IProductImageDAL>();
         public INeighborhoodsDAL Neighborhoods => neighborhoodsDal ?? _serviceProvider.GetRequiredService<INeighborhoodsDAL>();
         public IDistrictDAL Districts => districtDal ?? _serviceProvider.GetRequiredService<IDistrictDAL>();
-        public ICityDAL Cities => cityDal ?? _serviceProvider.GetRequiredService<ICityDAL>();
+        public ICityDAL Cities => cityDAL ?? _serviceProvider.GetRequiredService<ICityDAL>();
         public IUserAddressDAL UserAddresses => userAddressDal ?? _serviceProvider.GetRequiredService<IUserAddressDAL>();
-
+        public IOrderDAL Orders => orderDAL ?? _serviceProvider.GetRequiredService<IOrderDAL>();
+        public IOrderDetailDAL OrderDetails => orderDetailDAL ?? _serviceProvider.GetRequiredService<IOrderDetailDAL>();
+        public IOrderDemandDAL OrderDemands => orderDemandDAL ?? _serviceProvider.GetRequiredService<IOrderDemandDAL>();
 
         public async Task<int> Complete()
         {

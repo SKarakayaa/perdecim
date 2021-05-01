@@ -18,6 +18,9 @@ namespace Business.UnitOfWork
         IDistrictDAL Districts { get; }
         INeighborhoodsDAL Neighborhoods { get; }
         ICityDAL Cities { get; }
+        IOrderDAL Orders { get; }
+        IOrderDetailDAL OrderDetails { get; }
+        IOrderDemandDAL OrderDemands { get; }
         Task<int> Complete();
     }
 }

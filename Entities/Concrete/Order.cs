@@ -16,9 +16,14 @@ namespace Entities.Concrete
         public DateTime OrderDate { get; set; }
         public decimal TotalPrice { get; set; }
         public int OrderStatus { get; set; }
+        public int AddressId { get; set; }
+        public int PaymentTypeId { get; set; }
 
         [ForeignKey(nameof(UserId))]
         public virtual AppUser User { get; private set; }
+
+        [ForeignKey(nameof(AddressId))]
+        public virtual UserAddress Address { get; set; }
 
         public List<OrderDetail> OrderDetails { get; set; }
     }

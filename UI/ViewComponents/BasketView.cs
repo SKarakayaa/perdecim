@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
+using Entities.DTO.Cart;
 using Microsoft.AspNetCore.Mvc;
-using UI.Models.Cart;
 
 namespace UI.ViewComponents
 {
@@ -11,10 +11,10 @@ namespace UI.ViewComponents
         public IViewComponentResult Invoke()
         {
             string cartString = Request.Cookies["basket"]?.ToString();
-            List<CartModel> cartModel = new List<CartModel>();
+            List<CartDTO> cartModel = new List<CartDTO>();
 
             if (!String.IsNullOrEmpty(cartString))
-                cartModel = JsonSerializer.Deserialize<List<CartModel>>(cartString);
+                cartModel = JsonSerializer.Deserialize<List<CartDTO>>(cartString);
 
             return View(cartModel);
         }

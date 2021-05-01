@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Core.Utilities.Results;
+using Entities.Concrete;
 using Entities.DTO.Cart;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,10 +19,12 @@ namespace UI.Controllers
     {
         private readonly IProductService _productService;
         private readonly IUserAddressService _userAddressService;
-        public CartController(IProductService productService, IUserAddressService userAddressService)
+        private readonly IOrderService _orderService;
+        public CartController(IProductService productService, IUserAddressService userAddressService, IOrderService orderService)
         {
             _productService = productService;
             _userAddressService = userAddressService;
+            _orderService = orderService;
         }
 
         [HttpGet]
@@ -29,7 +33,7 @@ namespace UI.Controllers
             var cartString = Request.Cookies["basket"]?.ToString();
             if (String.IsNullOrEmpty(cartString))
             {
-                TempData["ToastMessage"] = ToastModel.Fail("Sepetinizde Ürün Bulunmuyor !");
+                TempData["ToastMessage"] = ToastModel<bool>.Fail("Sepetinizde Ürün Bulunmuyor !");
                 return RedirectToAction(nameof(Index), "Home");
             }
             int userId = Convert.ToInt32(User.FindFirst("UserId").Value);
@@ -42,31 +46,46 @@ namespace UI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Basket(CreateOrderDto createOrderDto)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 int userId = Convert.ToInt32(User.FindFirst("UserId").Value);
                 createOrderDto.UserAddresses = await _userAddressService.GetListAsync(userId);
                 return View(createOrderDto);
             }
-            
-            return View(createOrderDto);
+            var cartString = Request.Cookies["basket"]?.ToString();
+            List<CartDTO> cart = JsonSerializer.Deserialize<List<CartDTO>>(cartString);
+            Order result = await _orderService.CreateOrder(cart, createOrderDto);
+
+            if (result.Id != 0)
+                TempData["ToastModel"] = result.Id.ToString();
+            else
+                TempData["ToastModel"] = "Bir Hata ile karşılaşıldı !";
+            return RedirectToAction(nameof(PaymentResult), "Cart");
+        }
+
+        [HttpGet]
+        public IActionResult PaymentResult()
+        {
+            // if (TempData["ToastModel"] == null)
+            //     return RedirectToAction("MyOrders", "Profil");
+            return View();
         }
 
         [HttpPost]
         public async Task<JsonResult> AddToCart(AddToCartModel model)
         {
-            List<CartModel> cart = await SetCookie(model);
+            List<CartDTO> cart = await SetCookie(model);
             return Json(new { totalPrice = cart.Sum(x => x.Quantity * x.TotalUnitPrice), CartCount = cart.Sum(x => x.Quantity) });
         }
 
-        private async Task<List<CartModel>> SetCookie(AddToCartModel model)
+        private async Task<List<CartDTO>> SetCookie(AddToCartModel model)
         {
             var cartString = Request.Cookies["basket"]?.ToString();
-            List<CartModel> cart;
+            List<CartDTO> cart;
             if (!string.IsNullOrEmpty(cartString))
-                cart = JsonSerializer.Deserialize<List<CartModel>>(cartString);
+                cart = JsonSerializer.Deserialize<List<CartDTO>>(cartString);
             else
-                cart = new List<CartModel>();
+                cart = new List<CartDTO>();
 
             var existCartItem = cart.FirstOrDefault(x => x.ProductId == model.ProductId && x.DemandTypes.SequenceEqual(model.DemandTypes));
             if (existCartItem != null)
@@ -80,7 +99,7 @@ namespace UI.Controllers
                 var product = (await _productService.GetByIdAsync(model.ProductId)).Data;
                 product.ProductImages = null;
                 product.ProductDemands = null;
-                CartModel cartModel = CartHelper.NewCartItem(product, model);
+                CartDTO cartModel = CartHelper.NewCartItem(product, model);
                 cart.Add(cartModel);
             }
 

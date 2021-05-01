@@ -1,0 +1,29 @@
+@{
+    ViewData["Title"] = "Sipariş Sonucu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string result = "5"; //TempData["ToastModel"]?.ToString();
+    int orderId = 0;
+}
+
+<div class="content">
+    <div class="jumbotron text-center">
+        <i class="fa fa-check-circle text-success" style="font-size:550px;"></i>
+        <h1 class="display-3">Başarılı</h1>
+        <p class="lead"><strong>Siparişiniz Başarıyla Oluşturuldu ! Onaylanana Kadar İptal Edebilirsiniz.</strong></p>
+        <hr>
+        <a class="btn btn-success" asp-controller="Profile" asp-action="MyOrders">Siparişlerim <i
+                class="fa fa-arrow-right"></i></a>
+    </div>
+</div>
+
+@if (int.TryParse(result, out orderId))
+{
+    <text>
+    <script>
+        var connection = new signalR.HubConnectionBuilder().withUrl("/OrderCreateHub").build();
+        connection.start().then(function () {
+            connection.invoke("SendOrderMessage", '@orderId');
+        }).catch(function (err) { console.log(err.toString()) });
+    </script>
+</text>
+}

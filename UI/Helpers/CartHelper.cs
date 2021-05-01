@@ -1,13 +1,13 @@
 using System;
-using System.Linq;
 using Entities.Concrete;
+using Entities.DTO.Cart;
 using UI.Models.Cart;
 
 namespace UI.Helpers
 {
     public static class CartHelper
     {
-        public static CartModel NewCartItem(Product product, AddToCartModel model)
+        public static CartDTO NewCartItem(Product product, AddToCartModel model)
         {
             var unitPrice = product.DiscountRate == 0 ? product.Price : (product.Price - (product.Price * (Convert.ToDecimal(product.DiscountRate) / 100)));
             decimal additionalPrices = 0;
@@ -20,7 +20,7 @@ namespace UI.Helpers
             unitPrice += additionalPrices;
 
             product.ProductDemands = null;
-            CartModel cartModel = new CartModel
+            CartDTO cartModel = new CartDTO
             {
                 DemandTypes = model.DemandTypes,
                 ProductId = product.Id,

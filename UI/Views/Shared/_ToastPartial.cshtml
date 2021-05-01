@@ -1,8 +1,8 @@
 @using UI.Models;
 @{
-    ToastModel toast = null;
+    ToastModel<bool> toast = null;
     if(TempData["ToastMessage"] != null)
-        toast = (ToastModel)TempData["ToastMessage"];
+        toast = (ToastModel<bool>)TempData["ToastMessage"];
 }
 @if (toast != null)
 {

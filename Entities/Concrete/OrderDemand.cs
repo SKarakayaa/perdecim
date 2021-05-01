@@ -6,7 +6,6 @@ namespace Entities.Concrete
     public class OrderDemand : IEntity
     {
         public int Id { get; set; }
-        public int ProductId { get; set; }
         public int OrderDetailId { get; set; }
         public int DemandTypeId { get; set; }
         public int DemandId { get; set; }

@@ -97,3 +97,11 @@
         </div>
     </div>
 </div>
+
+<script>
+    var connection = new signalR.HubConnectionBuilder().withUrl("/OrderCreateHub").build();
+    connection.start();
+    connection.on("ReceiveOrderMessage", function (orderId) {
+        console.log('order ID', orderId);
+    })
+</script>

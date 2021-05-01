@@ -41,6 +41,13 @@ namespace Business.DependencyResolvers
 
             builder.RegisterType<ProductImageDAL>().As<IProductImageDAL>().InstancePerLifetimeScope();
 
+            builder.RegisterType<OrderDAL>().As<IOrderDAL>().InstancePerLifetimeScope();
+
+            builder.RegisterType<OrderDemandDAL>().As<IOrderDemandDAL>().InstancePerLifetimeScope();
+
+            builder.RegisterType<OrderDetailDAL>().As<IOrderDetailDAL>().InstancePerLifetimeScope();
+            builder.RegisterType<OrderManager>().As<IOrderService>().InstancePerLifetimeScope();
+
             builder.RegisterType<UnitOfWork.UnitOfWork>().As<UnitOfWork.IUnitOfWork>().InstancePerLifetimeScope();
 
 
