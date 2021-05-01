@@ -19,10 +19,12 @@
             @await Component.InvokeAsync("BasketView")
         </div>
     </div>
+    <br>
+    <br>
     <form asp-controller="Cart" asp-action="Basket" method="POST">
         <input asp-for="AddressId" hidden />
         <input asp-for="PaymentType" hidden />
-        <div style="margin-top: 50px;">
+        <div class="row">
             <div class="col-md-12">
                 <h2>Sipariş Adresi Seçiniz :</h2>
             </div>
@@ -36,13 +38,13 @@
                         <p>@userAddress.FullAddress</p><br>
                     </div>
                 </div>
-                <span asp-validation-for="AddressId"></span>
+                <span asp-validation-for="AddressId" class="text-danger"></span>
             }
         </div>
         <br>
         <br>
         <hr>
-        <div style="margin-top: 50px;">
+        <div class="row">
             <div class="col-md-12">
                 <h2>Ödeme Yöntemi Seçiniz :</h2>
             </div>
@@ -56,16 +58,18 @@
                         <p>@paymentType.Description</p><br>
                     </div>
                 </div>
-                <span asp-validation-for="PaymentType"></span>
+                <span asp-validation-for="PaymentType" class="text-danger"></span>
             }
         </div>
         <br>
         <br>
-        <div class="form-group" style="margin-bottom: 500px;">
+        <div class="row">
             <div class="col-md-12">
                 <button class="btn btn-success btn-block"><i class="fa fa-try"></i> Sipariş Ver</button>
             </div>
         </div>
+        <br>
+        <br>
     </form>
 </div>
 <script>

@@ -43,68 +43,9 @@
     </script>
 </div>
 	<div class="content">
-			<!--banner-bottom-->
-				<div class="ban-bottom-w3l">
-					<div class="container">
-						<div class="col-md-6 ban-bottom">
-							<div class="ban-top">
-								<img src="images/p1.jpg" class="img-responsive" alt=""/>
-								<a href="/Home/Products?categoryId=@Model.Categories[0].Id" class="ban-text">
-									<h4>@Model.Categories[0].Name</h4>
-								</a>
-							</div>
-						</div>
-						<div class="col-md-6 ban-bottom3">
-							<div class="ban-top">
-								<img src="images/p2.jpg" class="img-responsive" alt=""/>
-								<a href="/Home/Products?categoryId=@Model.Categories[1].Id" class="ban-text1">
-									<h4>@Model.Categories[1].Name</h4>
-								</a>
-							</div>
-							<div class="ban-img">
-                                @for (int i = 2; i < Model.Categories.Count; i++)
-                                {
-                                    <div class=@banBottoms[i-2]>
-									<div class="ban-top">
-										<img src="images/p3.jpg" class="img-responsive" alt=""/>
-										<a href="/Home/Products?categoryId=@Model.Categories[i].Id" class="ban-text1">
-											<h4>@Model.Categories[i].Name</h4>
-										</a>
-									</div>
-								</div>
-                                }
-								<div class="clearfix"></div>
-							</div>
-						</div>
-						<div class="clearfix"></div>
-					</div>
-				</div>
-			<!--banner-bottom-->
-
-			<!--yeni ürünler-->
-				@await Component.InvokeAsync("HomeProducts",new {productType=ProductType.NEW_PRODUCT})
-			<!--yeni ürünler-->
-
-				<!--accessories-->
-			<div class="accessories-w3l">
+		<div class="latest-w3">
 				<div class="container">
-					@* <h3 class="tittle">20% Discount on</h3> *@
-					<span>EN TREND PERDELER</span>
-					<div class="button">
-						<a href="#" class="button1"> Şimdi Satın Al</a>
-						<a href="/Home/Products?categoryId=1" class="button1"> Ürünleri Gör</a>
-					</div>
-				</div>
-			</div>
-			<!--accessories-->
-
-			<!--indirimli ürünler-->
-				@await Component.InvokeAsync("HomeProducts",new {productType=ProductType.DISCOUNTED_PRODUCT})
-			<!--indirimli ürünler-->
-
-			<div class="latest-w3">
-				<div class="container">
-					<h3 class="tittle1">Perdecinin Tavsiyeleri</h3>
+					<h3 class="tittle1">Kampanyalar</h3>
 					<div class="latest-grids">
 						<div class="col-md-4 latest-grid">
 							<div class="latest-top">
@@ -179,6 +120,66 @@
 					</div>
 				</div>
 			</div>
+			<!--banner-bottom-->
+				@* <div class="ban-bottom-w3l">
+					<div class="container">
+						<div class="col-md-6 ban-bottom">
+							<div class="ban-top">
+								<img src="images/p1.jpg" class="img-responsive" alt=""/>
+								<a href="/Home/Products?categoryId=@Model.Categories[0].Id" class="ban-text">
+									<h4>@Model.Categories[0].Name</h4>
+								</a>
+							</div>
+						</div>
+						<div class="col-md-6 ban-bottom3">
+							<div class="ban-top">
+								<img src="images/p2.jpg" class="img-responsive" alt=""/>
+								<a href="/Home/Products?categoryId=@Model.Categories[1].Id" class="ban-text1">
+									<h4>@Model.Categories[1].Name</h4>
+								</a>
+							</div>
+							<div class="ban-img">
+                                @for (int i = 2; i < Model.Categories.Count; i++)
+                                {
+                                    <div class=@banBottoms[i-2]>
+									<div class="ban-top">
+										<img src="images/p3.jpg" class="img-responsive" alt=""/>
+										<a href="/Home/Products?categoryId=@Model.Categories[i].Id" class="ban-text1">
+											<h4>@Model.Categories[i].Name</h4>
+										</a>
+									</div>
+								</div>
+                                }
+								<div class="clearfix"></div>
+							</div>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+				</div> *@
+			<!--banner-bottom-->
+
+			<!--yeni ürünler-->
+				@await Component.InvokeAsync("HomeProducts",new {productType=ProductType.NEW_PRODUCT})
+			<!--yeni ürünler-->
+
+				<!--accessories-->
+			<div class="accessories-w3l">
+				<div class="container">
+					@* <h3 class="tittle">20% Discount on</h3> *@
+					<span>EN TREND PERDELER</span>
+					<div class="button">
+						<a href="#" class="button1"> Şimdi Satın Al</a>
+						<a href="/Home/Products?categoryId=1" class="button1"> Ürünleri Gör</a>
+					</div>
+				</div>
+			</div>
+			<!--accessories-->
+
+			<!--indirimli ürünler-->
+				@await Component.InvokeAsync("HomeProducts",new {productType=ProductType.DISCOUNTED_PRODUCT})
+			<!--indirimli ürünler-->
+
+			
 
 			<!--popüler ürünler-->
 				@await Component.InvokeAsync("HomeProducts",new {productType=ProductType.POPULAR_PRODUCT})

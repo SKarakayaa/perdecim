@@ -1,0 +1,18 @@
+@using UI.Models;
+@{
+    ToastModel toast = null;
+    if(TempData["ToastMessage"] != null)
+        toast = (ToastModel)TempData["ToastMessage"];
+}
+@if (toast != null)
+{
+    <text>
+        <script>
+            Swal.fire({
+                icon: '@toast.Icon',
+                title:'@toast.Title',
+                html: '<b>@toast.Message</b>',
+            });
+        </script>
+    </text>
+}

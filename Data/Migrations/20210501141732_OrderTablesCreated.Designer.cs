@@ -3,15 +3,17 @@ using System;
 using Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Data.Migrations
 {
     [DbContext(typeof(MatmazelContext))]
-    partial class MatmazelContextModelSnapshot : ModelSnapshot
+    [Migration("20210501141732_OrderTablesCreated")]
+    partial class OrderTablesCreated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -314,10 +316,6 @@ namespace Data.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DemandId");
-
-                    b.HasIndex("DemandTypeId");
 
                     b.HasIndex("OrderDetailId");
 
@@ -632,18 +630,6 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Entities.Concrete.OrderDemand", b =>
                 {
-                    b.HasOne("Entities.Concrete.Demand", "Demand")
-                        .WithMany()
-                        .HasForeignKey("DemandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entities.Concrete.DemandType", "DemandType")
-                        .WithMany()
-                        .HasForeignKey("DemandTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Entities.Concrete.OrderDetail", "OrderDetail")
                         .WithMany("OrderDemands")
                         .HasForeignKey("OrderDetailId")

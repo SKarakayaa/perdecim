@@ -8,6 +8,7 @@ using Entities.DTO.Cart;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UI.Helpers;
+using UI.Models;
 using UI.Models.Cart;
 
 namespace UI.Controllers
@@ -28,7 +29,7 @@ namespace UI.Controllers
             var cartString = Request.Cookies["basket"]?.ToString();
             if (String.IsNullOrEmpty(cartString))
             {
-                TempData["ToastMessage"] = "Sepetinizde Ürün Bulunmuyor !";
+                TempData["ToastMessage"] = ToastModel.Fail("Sepetinizde Ürün Bulunmuyor !");
                 return RedirectToAction(nameof(Index), "Home");
             }
             int userId = Convert.ToInt32(User.FindFirst("UserId").Value);
@@ -41,7 +42,14 @@ namespace UI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Basket(CreateOrderDto createOrderDto)
         {
-            return View();
+            if(!ModelState.IsValid)
+            {
+                int userId = Convert.ToInt32(User.FindFirst("UserId").Value);
+                createOrderDto.UserAddresses = await _userAddressService.GetListAsync(userId);
+                return View(createOrderDto);
+            }
+            
+            return View(createOrderDto);
         }
 
         [HttpPost]

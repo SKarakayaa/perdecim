@@ -1,9 +1,11 @@
 using Business.Validations.Address;
 using Business.Validations.Auth;
+using Business.Validations.Cart;
 using Business.Validations.Demands;
 using Business.Validations.Profile;
 using Entities.DTO.Address;
 using Entities.DTO.Auth;
+using Entities.DTO.Cart;
 using Entities.DTO.Demand;
 using Entities.DTO.Profile;
 using FluentValidation;
@@ -23,6 +25,8 @@ namespace Business.Extensions
 
             services.AddTransient<IValidator<UserAddressCreateUpdateDTO>, UserAddressCreateUpdateDtoValidation>();
             services.AddTransient<IValidator<ChangePasswordDTO>, ChangePasswordDtoValidation>();
+
+            services.AddTransient<IValidator<CreateOrderDto>, CreateOrderDtoValidation>();
         }
     }
 }
