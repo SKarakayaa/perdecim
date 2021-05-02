@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Business.Helpers;
 using Business.UnitOfWork;
+using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.DTO.Cart;
 using Microsoft.AspNetCore.Http;
@@ -60,6 +62,21 @@ namespace Business.Concrete
             }
             int result = await _uow.Complete();
             return order;
+        }
+
+        public async Task<IDataResult<List<Order>>> GetListAsync()
+        {
+            DateTime oneMonthAgo = DateTime.Now.AddMonths(-1);
+            List<Order> orders = await _uow.Orders.GetListAsync(x => x.OrderDate >= oneMonthAgo, x => x.User);
+            return ResultHelper<List<Order>>.DataResultReturn(orders);
+        }
+
+        public async Task<Order> GetOrderAsync(int orderId) => await _uow.Orders.GetAsync(x => x.Id == orderId, x => x.User);
+
+        public async Task UpdateAsync(Order order)
+        {
+            _uow.Orders.Update(order);
+            await _uow.Complete();
         }
     }
 }

@@ -1,5 +1,19 @@
+@using Entities.Concrete;
+@using Entities.Enums;
+@using Core.Utilities.Results;
+@model IDataResult<List<Order>>;
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    List<Order> orders = Model.Data.Where(x => x.OrderStatus == (int)OrderStatusEnum.ORDERED).OrderBy(x =>
+    x.OrderDate).ToList();
+    List<Order> confirmedOrders = Model.Data.Where(x => x.OrderStatus == (int)OrderStatusEnum.CONFIRMED).OrderBy(x =>
+    x.OrderDate).ToList();
+    List<Order> sendedOrders = Model.Data.Where(x => x.OrderStatus == (int)OrderStatusEnum.SENDED).OrderBy(x =>
+    x.OrderDate).ToList();
+    List<Order> completedOrder = Model.Data.Where(x => x.OrderStatus == (int)OrderStatusEnum.COMPLETED).OrderBy(x =>
+    x.OrderDate).ToList();
+    List<Order> canceledOrders = Model.Data.Where(x => x.OrderStatus == (int)OrderStatusEnum.CANCELED).OrderBy(x =>
+    x.OrderDate).ToList();
 }
 <div class="row">
     <div class="col-md-4">
@@ -47,56 +61,12 @@
             </div>
         </div>
     </div>
-
 </div>
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-success">
-            <div class="panel-heading">Siparişlerim</div>
-            <div class="panel-body">
-                Bekleyen Sipariş Sayısı : 3
-            </div>
-
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Sipariş Numarası</th>
-                        <th>Sipariş Veren</th>
-                        <th>Telefon Numarası</th>
-                        <th>Toplam Tutar</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Sefa Karakaya</td>
-                        <td>544 448 3306</td>
-                        <td>500 ₺</td>
-                        <td><button class="btn btn-primary btn-sm">Detay</button><button
-                                class="btn btn-success btn-sm">Sipariş Onayla</button></td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Sefa Karakaya</td>
-                        <td>544 448 3306</td>
-                        <td>500 ₺</td>
-                        <td><button class="btn btn-primary btn-sm">Detay</button><button
-                                class="btn btn-success btn-sm">Sipariş Onayla</button></td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Sefa Karakaya</td>
-                        <td>544 448 3306</td>
-                        <td>500 ₺</td>
-                        <td><button class="btn btn-primary btn-sm">Detay</button><button
-                                class="btn btn-success btn-sm">Sipariş Onayla</button></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+@await Component.InvokeAsync("OrderList",new {orderList = orders, orderStatus = OrderStatusEnum.ORDERED })
+@await Component.InvokeAsync("OrderList",new {orderList = confirmedOrders, orderStatus = OrderStatusEnum.CONFIRMED })
+@await Component.InvokeAsync("OrderList",new {orderList = sendedOrders, orderStatus = OrderStatusEnum.SENDED })
+@await Component.InvokeAsync("OrderList",new {orderList = completedOrder, orderStatus = OrderStatusEnum.COMPLETED })
+@await Component.InvokeAsync("OrderList",new {orderList = canceledOrders, orderStatus = OrderStatusEnum.CANCELED })
 
 <script>
     var connection = new signalR.HubConnectionBuilder().withUrl("/OrderCreateHub").build();
@@ -104,4 +74,19 @@
     connection.on("ReceiveOrderMessage", function (orderId) {
         console.log('order ID', orderId);
     })
+
+    ChangeOrderStatus = (elem) => {
+        var orderId = elem.parentNode.parentNode.id;
+        $(`#${orderId}`).remove();
+        $.post('/Cart/ChangeOrderStatus', { orderId: orderId }, (responseOrder) => {
+            var newRow = '<tr>';
+            newRow += `<td>#${responseOrder.id}</td>`;
+            newRow += `<td>${responseOrder.user.name} ${responseOrder.user.surname}</td>`;
+            newRow += `<td>${responseOrder.user.phoneNumber}</td>`;
+            newRow += `<td>${responseOrder.totalPrice}</td>`;
+            newRow += `<td class='text-center'><button class='btn btn-primary btn-sm'>Detay</button></td>`;
+            newRow += '</tr>';
+            $(`#table-${responseOrder.orderStatus}`).append(newRow);
+        })
+    }
 </script>

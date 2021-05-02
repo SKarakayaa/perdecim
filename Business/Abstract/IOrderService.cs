@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.DTO.Cart;
 
@@ -8,5 +9,8 @@ namespace Business.Abstract
     public interface IOrderService
     {
         Task<Order> CreateOrder(List<CartDTO> basket, CreateOrderDto createOrder);
+        Task<IDataResult<List<Order>>> GetListAsync();
+        Task UpdateAsync(Order order);
+        Task<Order> GetOrderAsync(int orderId);
     }
 }

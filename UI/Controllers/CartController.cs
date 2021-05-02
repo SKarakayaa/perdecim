@@ -113,5 +113,13 @@ namespace UI.Controllers
             Response.Cookies.Append("basket", JsonSerializer.Serialize(cart), cookie);
             return cart;
         }
+
+        public async Task<JsonResult> ChangeOrderStatus(int orderId)
+        {
+            Order order = await _orderService.GetOrderAsync(orderId);
+            order.OrderStatus++;
+            await _orderService.UpdateAsync(order);
+            return Json(order);
+        }
     }
 }

@@ -1,0 +1,90 @@
+@using Entities.Enums;
+@model UI.Models.OrderListViewComponent.OrderListViewModel;
+@{
+    string htmlButton = "";
+    string panelClass = "";
+    string tableId = "";
+    string panelTitle = "";
+    if (Model.OrderStatus == OrderStatusEnum.ORDERED)
+    {
+        panelClass = "panel panel-success";
+        tableId = $"table-{(int)OrderStatusEnum.ORDERED}";
+        panelTitle = "Siparişler";
+        htmlButton = "<button class='btn btn-success btn-sm' onclick='ChangeOrderStatus(this)'>Sipariş Onayla</button>";
+    }
+    else if(Model.OrderStatus == OrderStatusEnum.CONFIRMED)
+    {
+        tableId = $"table-{(int)OrderStatusEnum.CONFIRMED}";
+        panelTitle = "Onaylanan Siparişler";
+        panelClass = "panel panel-warning";
+        htmlButton = "<button class='btn btn-warning btn-sm' onclick='ChangeOrderStatus(this)'>Kargoya Gönder</button>";
+    }
+    else if(Model.OrderStatus == OrderStatusEnum.SENDED)
+    {
+        tableId = $"table-{(int)OrderStatusEnum.SENDED}";
+        panelTitle = "Yolda Olan Siparişler";
+        panelClass = "panel panel-info";
+        htmlButton = "<button class='btn btn-info btn-sm' onclick='ChangeOrderStatus(this)'>Tamamlandı</button>";
+    }
+    else if(Model.OrderStatus == OrderStatusEnum.COMPLETED)
+    {
+        tableId = $"table-{(int)OrderStatusEnum.COMPLETED}";
+        panelTitle = "Tamamlanan Siparişler";
+        panelClass = "panel panel-primary";
+        htmlButton = "<i class='fa fa-check text-success'></i> Sipariş Tamamlandı";
+    }
+    else if(Model.OrderStatus == OrderStatusEnum.CANCELED)
+    {
+        tableId = $"table-{(int)OrderStatusEnum.CANCELED}";
+        panelTitle = "İptal Edilen Siparişler";
+        panelClass = "panel panel-danger";
+        htmlButton = "<i class='fa fa-close text-danger'></i> Sipariş İptal Edildi";
+    }
+    
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="@panelClass">
+            <div class="panel-heading">@panelTitle</div>
+            <div class="panel-body">
+                Sipariş Sayısı : @Model.ListCount
+            </div>
+
+            <table class="table table-stripped table-bordered">
+                <thead>
+                    <tr>
+                        <th width="10%">Sipariş Numarası</th>
+                        <th width="20%">Sipariş Veren</th>
+                        <th width="20%">Telefon Numarası</th>
+                        <th width="10%">Toplam Tutar</th>
+                        <th width="40%"></th>
+                    </tr>
+                </thead>
+                <tbody id="@tableId">
+                    @if (Model.Orders.Any())
+                    {
+                        foreach (var orderItem in Model.Orders)
+                        {
+                            <tr id="@orderItem.Id">
+                                <td>#@orderItem.Id</td>
+                                <td>@orderItem.User.Name @orderItem.User.Surname</td>
+                                <td>@orderItem.User.PhoneNumber</td>
+                                <td>@orderItem.TotalPrice ₺</td>
+                                <td class="text-center">
+                                    <button class="btn btn-primary btn-sm">Detay</button>
+                                    @Html.Raw(htmlButton)
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr class="text-center">
+                            <td colspan="5"><b>Kayıt Bulunamadı</b></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
