@@ -1,0 +1,71 @@
+@using Core.Utilities.Results
+@using Entities.Enums
+@using Entities.Concrete
+@model IDataResult<List<Order>>
+@{
+    ViewData["Title"] = "Siparişlerim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string choosedOrderId = "";
+}
+<div class="container">
+    <div class="row" style="margin-top: 10%; margin-bottom: 20%;">
+        <div class="col-md-4">
+            <partial name="_ProfileSidebar" />
+        </div>
+        <div class="col-md-8">
+            @if (Model.IsSuccess)
+            {
+                <div class="panel panel-info">
+                    <div class="panel-heading text-center"><b>Siparişlerim</b></div>
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Sipariş No</th>
+                                    <th>Sipariş Tarihi</th>
+                                    <th>Sipariş Durumu</th>
+                                    <th>Sipariş Adres</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Data)
+                                {
+                                    <tr>
+                                        <td>#@item.Id</td>
+                                        <td>@item.OrderDate.ToString("dd/MM/yyyy hh:mm")</td>
+                                        <td>@item.OrderStatus</td>
+                                        <td>@item.Address.AddressType</td>
+                                        <td>
+                                            <button type="button" class="btn btn-success btn-sm"
+                                        onclick="ChooseOrder('@item.Id')">Sipariş Detayı</button>
+                                            @if (item.OrderStatus == (int)OrderStatusEnum.ORDERED)
+                                            {
+                                                <button type="button" class="btn btn-danger btn-sm">İptal Et</button>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <label class="alert alert-danger">Sipariş Bulunamadı !</label>
+            }
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+
+    </div>
+</div>
+<script>
+    ChooseOrder = (orderId) => {
+        $(".modal-dialog").load(`/Profile/OrderDetail?orderId=${orderId}`);
+        $("#myModal").modal('show');
+    }
+</script>

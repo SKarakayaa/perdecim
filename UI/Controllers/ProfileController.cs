@@ -1,5 +1,8 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Business.Abstract;
 using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.DTO.Profile;
@@ -16,11 +19,13 @@ namespace UI.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly IOrderService _orderService;
 
-        public ProfileController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public ProfileController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IOrderService orderService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _orderService = orderService;
         }
 
         [HttpGet]
@@ -73,6 +78,20 @@ namespace UI.Controllers
             }
             ModelState.AddModelError("ConfirmPassword", "Hatalı Giriş Yaptınız !");
             return View(nameof(ChangePassword), changePassword);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> MyOrders()
+        {
+            int userId = Convert.ToInt32(User.FindFirst("UserId")!.Value);
+            IDataResult<List<Order>> orderResult = await _orderService.GetListByUserId(userId);
+            return View(orderResult);
+        }
+
+        public async Task<IActionResult> OrderDetail(int orderId)
+        {
+            TempData["OrderId"] = orderId;
+            return PartialView("_OrderDetail");
         }
     }
 }

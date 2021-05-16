@@ -80,13 +80,14 @@
         $(`#${orderId}`).remove();
         $.post('/Cart/ChangeOrderStatus', { orderId: orderId }, (responseOrder) => {
             var newRow = '<tr>';
-            newRow += `<td>#${responseOrder.id}</td>`;
-            newRow += `<td>${responseOrder.user.name} ${responseOrder.user.surname}</td>`;
-            newRow += `<td>${responseOrder.user.phoneNumber}</td>`;
-            newRow += `<td>${responseOrder.totalPrice}</td>`;
-            newRow += `<td class='text-center'><button class='btn btn-primary btn-sm'>Detay</button></td>`;
+            newRow += `<td>#${responseOrder.order.id}</td>`;
+            newRow += `<td>${responseOrder.order.user.name} ${responseOrder.order.user.surname}</td>`;
+            newRow += `<td>${responseOrder.order.user.phoneNumber}</td>`;
+            newRow += `<td>${responseOrder.order.totalPrice}</td>`;
+            newRow += `<td class='text-center'><button class='btn btn-primary btn-sm'>Detay</button>`;
+            newRow +=  responseOrder.orderListPanelInformation.htmlButton + "</td>";
             newRow += '</tr>';
-            $(`#table-${responseOrder.orderStatus}`).append(newRow);
+            $(`#table-${responseOrder.order.orderStatus}`).append(newRow);
         })
     }
 </script>

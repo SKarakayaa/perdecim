@@ -7,11 +7,13 @@ using Business.Abstract;
 using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.DTO.Cart;
+using Entities.Enums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UI.Helpers;
 using UI.Models;
 using UI.Models.Cart;
+using UI.Models.OrderListViewComponent;
 
 namespace UI.Controllers
 {
@@ -119,7 +121,12 @@ namespace UI.Controllers
             Order order = await _orderService.GetOrderAsync(orderId);
             order.OrderStatus++;
             await _orderService.UpdateAsync(order);
-            return Json(order);
+            ChangeOrderStatusResponseModel responseModel = new ChangeOrderStatusResponseModel
+            {
+                Order = order,
+                OrderListPanelInformation = OrderListHelper.GetOrderListPanelInformation((OrderStatusEnum)order.OrderStatus)
+            };
+            return Json(responseModel);
         }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Entities.Concrete;
 using Entities.Enums;
 using Microsoft.AspNetCore.Mvc;
+using UI.Helpers;
 using UI.Models.OrderListViewComponent;
 
 namespace UI.ViewComponents
@@ -14,7 +15,8 @@ namespace UI.ViewComponents
             {
                 ListCount = orderList.Count,
                 Orders = orderList,
-                OrderStatus = orderStatus
+                OrderStatus = orderStatus,
+                OrderListPanelInformation = OrderListHelper.GetOrderListPanelInformation(orderStatus)
             };
             return View(orderListViewModel);
         }

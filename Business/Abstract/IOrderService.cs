@@ -12,5 +12,6 @@ namespace Business.Abstract
         Task<IDataResult<List<Order>>> GetListAsync();
         Task UpdateAsync(Order order);
         Task<Order> GetOrderAsync(int orderId);
+        Task<IDataResult<List<Order>>> GetListByUserId(int userId);
     }
 }

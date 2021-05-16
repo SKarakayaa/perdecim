@@ -78,5 +78,11 @@ namespace Business.Concrete
             _uow.Orders.Update(order);
             await _uow.Complete();
         }
+        public async Task<IDataResult<List<Order>>> GetListByUserId(int userId)
+        {
+            List<Order> orders = await _uow.Orders.GetListAsync(x => x.UserId == userId, x => x.Address);
+            orders = orders.OrderByDescending(o=>o.OrderDate).ToList();
+            return ResultHelper<List<Order>>.DataResultReturn(orders);
+        }
     }
 }
