@@ -1,13 +1,59 @@
-<div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        Order Detail : @TempData["OrderId"]
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+@using Core.Utilities.Results
+@using Entities.Concrete
+@model IDataResult<List<OrderDetail>>
+
+@if (Model.IsSuccess)
+{
+  <div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title text-center" id="myModalLabel">Sipariş Detayı</h4>
+  </div>
+  <div class="modal-body">
+    @foreach (var item in Model.Data)
+      {
+        <div class="cart-header" style="margin-top:50px;">
+          <div class="cart-sec simpleCart_shelfItem">
+            <div class="cart-item cyc">
+              <img src="~/images/p15.jpg" class="img-responsive" alt="">
+            </div>
+            <div class="cart-item-info">
+              <h3><a asp-controller="Product" asp-action="Index" asp-route-id="@item.ProductId"> @item.Product.Name </a>
+              </h3>
+              @if (item.OrderDemands.Count != 0)
+              {
+                <br>
+                <p class="text-danger"><u>Seçilenler</u></p>
+                <ul class="qty">
+                  @foreach (var orderDemand in item.OrderDemands)
+                  {
+                    <li>
+                      <p>@orderDemand.Demand.Name</p>
+                    </li>
+                  }
+                </ul>
+              }
+              @if (!string.IsNullOrEmpty(item.Note))
+              {
+                <br>
+                <p class="text-danger"><u>İstek Notu :</u></p>
+                <p>@item.Note</p>
+              }
+              <div class="delivery">
+                <p>Fiyat : @item.UnitPrice ₺</p><br>
+                <p>Miktar : @item.Quantity Adet</p><br>
+                <p>Toplam Ürün Fiyatı : @(item.Quantity * item.UnitPrice) ₺</p>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      }
     </div>
+  </div>
+}
+else
+{
+  <div class="alert alert-info"><b>Ürün Buluanamadı</b></div>
+}

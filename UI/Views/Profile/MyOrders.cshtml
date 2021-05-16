@@ -5,7 +5,6 @@
 @{
     ViewData["Title"] = "Siparişlerim";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    string choosedOrderId = "";
 }
 <div class="container">
     <div class="row" style="margin-top: 10%; margin-bottom: 20%;">
@@ -29,13 +28,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in Model.Data)
+                                @foreach (var item in Model.Data.OrderBy(o=>o.OrderStatus).ToList())
                                 {
                                     <tr>
                                         <td>#@item.Id</td>
                                         <td>@item.OrderDate.ToString("dd/MM/yyyy hh:mm")</td>
-                                        <td>@item.OrderStatus</td>
-                                        <td>@item.Address.AddressType</td>
+                                        <td>@(((OrderStatusEnum)item.OrderStatus).GetDisplayName())</td>
+                                        <td>@(((AddressTypeEnum)item.Address.AddressType).GetDisplayName())</td>
                                         <td>
                                             <button type="button" class="btn btn-success btn-sm"
                                         onclick="ChooseOrder('@item.Id')">Sipariş Detayı</button>

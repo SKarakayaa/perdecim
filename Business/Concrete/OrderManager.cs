@@ -6,6 +6,7 @@ using Business.Abstract;
 using Business.Helpers;
 using Business.UnitOfWork;
 using Core.Utilities.Results;
+using Data.Abstract;
 using Entities.Concrete;
 using Entities.DTO.Cart;
 using Microsoft.AspNetCore.Http;
@@ -15,11 +16,15 @@ namespace Business.Concrete
     public class OrderManager : IOrderService
     {
         private readonly IUnitOfWork _uow;
+        private readonly IOrderDAL _orderDAL;
+        private readonly IOrderDetailDAL _orderDetailDAL;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public OrderManager(IUnitOfWork uow, IHttpContextAccessor httpContextAccessor)
+        public OrderManager(IUnitOfWork uow, IHttpContextAccessor httpContextAccessor, IOrderDAL orderDAL, IOrderDetailDAL orderDetailDAL)
         {
             _uow = uow;
+            _orderDAL = orderDAL;
+            _orderDetailDAL = orderDetailDAL;
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -34,7 +39,7 @@ namespace Business.Concrete
             order.AddressId = createOrder.AddressId;
             order.PaymentTypeId = createOrder.PaymentType;
             order.OrderStatus = 1;
-            _uow.Orders.Add(order);
+            _orderDAL.Add(order);
 
             foreach (var basketItem in basket)
             {
@@ -45,6 +50,7 @@ namespace Business.Concrete
                 orderDetail.Quantity = basketItem.Quantity;
                 orderDetail.UnitPrice = basketItem.TotalUnitPrice;
                 orderDetail.OrderId = order.Id;
+                orderDetail.Note = basketItem.Note;
 
                 // _uow.OrderDetails.Add(orderDetail);
                 foreach (var demand in basketItem.DemandTypes)
@@ -67,22 +73,29 @@ namespace Business.Concrete
         public async Task<IDataResult<List<Order>>> GetListAsync()
         {
             DateTime oneMonthAgo = DateTime.Now.AddMonths(-1);
-            List<Order> orders = await _uow.Orders.GetListAsync(x => x.OrderDate >= oneMonthAgo, x => x.User);
+            List<Order> orders = await _orderDAL.GetListAsync(x => x.OrderDate >= oneMonthAgo, x => x.User);
             return ResultHelper<List<Order>>.DataResultReturn(orders);
         }
 
-        public async Task<Order> GetOrderAsync(int orderId) => await _uow.Orders.GetAsync(x => x.Id == orderId, x => x.User);
+        public async Task<Order> GetOrderAsync(int orderId) => await _orderDAL.GetAsync(x => x.Id == orderId, x => x.User);
 
         public async Task UpdateAsync(Order order)
         {
-            _uow.Orders.Update(order);
+            _orderDAL.Update(order);
             await _uow.Complete();
         }
+
         public async Task<IDataResult<List<Order>>> GetListByUserId(int userId)
         {
-            List<Order> orders = await _uow.Orders.GetListAsync(x => x.UserId == userId, x => x.Address);
-            orders = orders.OrderByDescending(o=>o.OrderDate).ToList();
+            List<Order> orders = await _orderDAL.GetListAsync(x => x.UserId == userId, x => x.Address);
+            orders = orders.OrderBy(o => o.OrderStatus).OrderByDescending(o => o.OrderDate).ToList();
             return ResultHelper<List<Order>>.DataResultReturn(orders);
+        }
+
+        public async Task<IDataResult<List<OrderDetail>>> GetOrderDetail(int orderId)
+        {
+            List<OrderDetail> orderDetails = await _orderDetailDAL.GetOrderDetailWithDemands(orderId);
+            return ResultHelper<List<OrderDetail>>.DataResultReturn(orderDetails);
         }
     }
 }

@@ -84,12 +84,12 @@
 
 .core-slider_arrow__right {
   right: 20px;
-  background: url(../images/arrow_right.png) no-repeat 14px 12px #1565C0;
+  background: url(../images/arrow_right.png) no-repeat 14px 12px #f581eb;
 }
 
 .core-slider_arrow__left {
   left: 20px;
-      background: url(../images/arrow_left.png) no-repeat 11px 12px #1565C0;
+      background: url(../images/arrow_left.png) no-repeat 11px 12px #f581eb;
 }
 
 .core-slider__fullwidth .core-slider_viewport::after {

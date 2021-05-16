@@ -90,8 +90,8 @@ namespace UI.Controllers
 
         public async Task<IActionResult> OrderDetail(int orderId)
         {
-            TempData["OrderId"] = orderId;
-            return PartialView("_OrderDetail");
+            IDataResult<List<OrderDetail>> orderDetailResult = await _orderService.GetOrderDetail(orderId);
+            return PartialView("_OrderDetail",orderDetailResult);
         }
     }
 }

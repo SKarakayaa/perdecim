@@ -7,6 +7,7 @@ using Business.Helpers;
 using Business.UnitOfWork;
 using Core.Utilities.Messages;
 using Core.Utilities.Results;
+using Data.Abstract;
 using Entities.Concrete;
 using Entities.Config;
 using Entities.DTO.Demand;
@@ -17,17 +18,21 @@ namespace Business.Concrete
     public class DemandManager : IDemandService
     {
         private readonly IUnitOfWork _uow;
+        private readonly IDemandDAL _demandDAL;
+        private readonly IDemandTypeDAL _demandTypeDAL;
         private readonly FileUploadSettings _fileUploadSettings;
-        public DemandManager(IUnitOfWork uow, IOptions<FileUploadSettings> fileUploadSettings)
+        public DemandManager(IUnitOfWork uow,IDemandDAL demandDAL, IDemandTypeDAL demandTypeDAL, IOptions<FileUploadSettings> fileUploadSettings)
         {
             _uow = uow;
             _fileUploadSettings = fileUploadSettings.Value;
+            _demandDAL = demandDAL;
+            _demandTypeDAL = demandTypeDAL;
         }
 
         public async Task<IResult> CreateDemandAsync(DemandCreateDto demandCreateDto)
         {
             string imageName = Guid.NewGuid().ToString() + "." + demandCreateDto.Image.FileName.Split('.')[1];
-            _uow.Demands.Add(new Demand
+            _demandDAL.Add(new Demand
             {
                 DemandTypeId = demandCreateDto.DemandTypeId,
                 ImageName = $"{_fileUploadSettings.DemandImagePath}{imageName}",
@@ -50,13 +55,13 @@ namespace Business.Concrete
         {
             if (demandTypeDto.Id != 0)
             {
-                var demandType = await _uow.DemandTypes.GetAsync(x => x.Id == demandTypeDto.Id);
+                var demandType = await _demandTypeDAL.GetAsync(x => x.Id == demandTypeDto.Id);
                 demandType.Name = demandTypeDto.Name;
-                _uow.DemandTypes.Update(demandType);
+                _demandTypeDAL.Update(demandType);
             }
             else
             {
-                _uow.DemandTypes.Add(new DemandType { Name = demandTypeDto.Name });
+                _demandTypeDAL.Add(new DemandType { Name = demandTypeDto.Name });
             }
             int result = await _uow.Complete();
             return ResultHelper<int>.ResultReturn(result);
@@ -64,29 +69,29 @@ namespace Business.Concrete
 
         public async Task<IDataResult<List<DemandType>>> GetListAsync()
         {
-            var demandTypes = await _uow.DemandTypes.GetListAsync(null, x => x.Demands);
+            var demandTypes = await _demandTypeDAL.GetListAsync(null, x => x.Demands);
             return ResultHelper<List<DemandType>>.DataResultReturn(demandTypes);
         }
 
         public async Task<IResult> DeleteDemandAsync(int id)
         {
-            var demand = await _uow.Demands.GetAsync(x => x.Id == id);
-            _uow.Demands.Remove(demand);
+            var demand = await _demandDAL.GetAsync(x => x.Id == id);
+            _demandDAL.Remove(demand);
             int result = await _uow.Complete();
             return ResultHelper<int>.ResultReturn(result);
         }
 
         public async Task<IResult> DeleteDemandTypeAsync(int id)
         {
-            var demandType = await _uow.DemandTypes.GetAsync(x => x.Id == id, x => x.Demands);
+            var demandType = await _demandTypeDAL.GetAsync(x => x.Id == id, x => x.Demands);
             if (demandType.Demands.Count != 0)
             {
                 foreach (var demand in demandType.Demands)
                 {
-                    _uow.Demands.Remove(demand);
+                    _demandDAL.Remove(demand);
                 }
             }
-            _uow.DemandTypes.Remove(demandType);
+            _demandTypeDAL.Remove(demandType);
             int result = await _uow.Complete();
             return ResultHelper<int>.ResultReturn(result);
         }

@@ -5,6 +5,7 @@ using Business.Abstract;
 using Business.UnitOfWork;
 using Core.Utilities.Messages;
 using Core.Utilities.Results;
+using Data.Abstract;
 using Entities.Concrete;
 
 namespace Business.Concrete
@@ -12,17 +13,19 @@ namespace Business.Concrete
     public class CategoryManager : ICategoryService
     {
         private readonly IUnitOfWork _uow;
-        public CategoryManager(IUnitOfWork uow)
+        private readonly ICategoryDAL _categoryDAL;
+        public CategoryManager(IUnitOfWork uow,ICategoryDAL categoryDAL)
         {
             _uow = uow;
+            _categoryDAL = categoryDAL;
         }
 
         public async Task<IResult> CreateOrEditCategoryAsync(Category category)
         {
             if (category.Id == 0)
-                _uow.Categories.Add(category);
+                _categoryDAL.Add(category);
             else
-                _uow.Categories.Update(category);
+                _categoryDAL.Update(category);
 
             int result = await _uow.Complete();
             if (result == 1) return new SuccessResult();
@@ -31,22 +34,22 @@ namespace Business.Concrete
 
         public async Task<IDataResult<List<Category>>> GetListAsync()
         {
-            var categories = await _uow.Categories.GetListAsyncTracked(null, x => x.ChildCategories);
+            var categories = await _categoryDAL.GetListAsyncTracked(null, x => x.ChildCategories);
             return new SuccessDataResult<List<Category>>(categories);
         }
 
         public async Task<IDataResult<List<Category>>> GetListForBannerAsync()
         {
-            var categories = (await _uow.Categories.GetListAsync(x => x.ParentId != null, x => x.ChildCategories)).Take(4).ToList();
+            var categories = (await _categoryDAL.GetListAsync(x => x.ParentId != null, x => x.ChildCategories)).Take(4).ToList();
             return new SuccessDataResult<List<Category>>(categories);
         }
 
         public async Task<IResult> DeleteAsync(int id)
         {
-            var category = await _uow.Categories.GetAsync(x => x.Id == id, x => x.ChildCategories);
+            var category = await _categoryDAL.GetAsync(x => x.Id == id, x => x.ChildCategories);
             if (category.ChildCategories.Count > 0)
                 return new ErrorResult(CRUDMessages.CantDeleteCauseOfChilds);
-            _uow.Categories.Remove(category);
+            _categoryDAL.Remove(category);
             await _uow.Complete();
             return new SuccessResult();
         }

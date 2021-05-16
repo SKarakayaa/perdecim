@@ -15,6 +15,7 @@ namespace Entities.Concrete
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
         public int OrderId { get; set; }
+        public string Note { get; set; }
 
         [ForeignKey(nameof(OrderId))]
         public virtual Order Order { get; private set; }

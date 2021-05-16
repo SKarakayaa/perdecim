@@ -4,6 +4,7 @@ using Business.Abstract;
 using Business.UnitOfWork;
 using Core.Utilities.Messages;
 using Core.Utilities.Results;
+using Data.Abstract;
 using Entities.Concrete;
 
 namespace Business.Concrete
@@ -11,16 +12,18 @@ namespace Business.Concrete
     public class BrandManager : IBrandService
     {
         private readonly IUnitOfWork _uow;
-        public BrandManager(IUnitOfWork uow)
+        private readonly IBrandDAL _brandDAL;
+        public BrandManager(IUnitOfWork uow, IBrandDAL brandDAL)
         {
             _uow = uow;
+            _brandDAL = brandDAL;
         }
         public async Task<IResult> AddOrEditAsync(Brand brand)
         {
             if (brand.Id != 0)
-                _uow.Brands.Update(brand);
+                _brandDAL.Update(brand);
             else
-                _uow.Brands.Add(brand);
+                _brandDAL.Add(brand);
 
             int result = await _uow.Complete();
 
@@ -31,12 +34,12 @@ namespace Business.Concrete
         }
         public async Task<List<Brand>> GetListAsync()
         {
-            return await _uow.Brands.GetListAsync();
+            return await _brandDAL.GetListAsync();
         }
         public async Task<IResult> DeleteAsync(int id)
         {
-            Brand brand = await _uow.Brands.GetAsync(x => x.Id == id);
-            _uow.Brands.Remove(brand);
+            Brand brand = await _brandDAL.GetAsync(x => x.Id == id);
+            _brandDAL.Remove(brand);
             await _uow.Complete();
             return new SuccessResult();
         }
