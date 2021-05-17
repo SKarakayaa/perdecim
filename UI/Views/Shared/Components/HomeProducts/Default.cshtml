@@ -1,3 +1,4 @@
+@using Entities.Concrete;
 @model IEnumerable<Entities.Concrete.Product>
 
 <div class="new-arrivals-w3agile">
@@ -11,12 +12,21 @@
                         <div class="grid-arrival">
                             <figure>
                                 <a href="#" class="new-gri" data-toggle="modal" data-target="#myModal1">
-                                    <div class="grid-img">
-                                        <img src="images/p6.jpg" class="img-responsive" alt="">
+                                    @if(product.ProductImages.Count >= 2)
+                                    {
+                                        foreach (var image in product.ProductImages.Take(2))
+                                        {
+                                            <div class="grid-img">
+                                                <img src='@(ViewBag.ImageBaseUrl+image.ImageName)' class="img-responsive" alt="">
+                                            </div>
+                                        }
+                                    }
+                                    @* <div class="grid-img">
+                                        <img src="https://sefakarakaya.xyz/images/p6.jpg" class="img-responsive" alt="">
                                     </div>
                                     <div class="grid-img">
-                                        <img src="images/p5.jpg" class="img-responsive" alt="">
-                                    </div>
+                                        <img src="https://sefakarakaya.xyz/images/p5.jpg" class="img-responsive" alt="">
+                                    </div> *@
                                 </a>
                             </figure>
                         </div>
