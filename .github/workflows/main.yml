@@ -17,4 +17,5 @@ jobs:
           port: ${{secrets.PORT}}
           key: ${{secrets.KEY}}
           passphrase: ${{secrets.PASSPHRASE}}
+          key_path: .ssh/
           script: whoami
