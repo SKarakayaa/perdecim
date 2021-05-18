@@ -38,5 +38,6 @@ jobs:
           username: ${{ secrets.USERNAME }}
           port: ${{ secrets.PORT }}
           privateKey : ${{secrets.KEY}}
+          password: ${{secrets.PASSWORD}}
           passphrase : ${{secrets.PASSPHRASE}}
       
