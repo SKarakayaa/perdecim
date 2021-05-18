@@ -43,7 +43,7 @@ namespace Business.Concrete
             if (result == 0)
                 return new ErrorResult(CRUDMessages.CreateMessage);
 
-            var fileLocate = $"{_fileUploadSettings.MainPath}{_fileUploadSettings.DemandImagePath}{imageName}";
+            var fileLocate = $"{_fileUploadSettings.PhotoPath}{_fileUploadSettings.DemandImagePath}{imageName}";
             using (var stream = new FileStream(fileLocate, FileMode.Create))
             {
                 demandCreateDto.Image.CopyTo(stream);

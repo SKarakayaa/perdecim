@@ -21,9 +21,13 @@ namespace Business.Concrete
         private readonly IDistrictDAL _districtDAL;
         private readonly INeighborhoodsDAL _neighborhoodsDAL;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public UserAddressManager(IUnitOfWork uow, IHttpContextAccessor httpContextAccessor)
+        public UserAddressManager(IUnitOfWork uow, IHttpContextAccessor httpContextAccessor, ICityDAL cityDAL, IDistrictDAL districtDAL, INeighborhoodsDAL neighborhoodsDAL, IUserAddressDAL userAddressDAL)
         {
             _uow = uow;
+            _cityDAL = cityDAL;
+            _districtDAL = districtDAL;
+            _neighborhoodsDAL = neighborhoodsDAL;
+            _userAddressDAL = userAddressDAL;
             _httpContextAccessor = httpContextAccessor;
         }
         public async Task<List<AddressViewDTO>> GetListAsync(int userId)

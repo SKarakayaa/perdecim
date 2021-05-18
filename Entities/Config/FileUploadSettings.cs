@@ -5,5 +5,6 @@ namespace Entities.Config
         public string MainPath { get; set; }
         public string DemandImagePath { get; set; }
         public string ProductImagePath { get; set; }
+        public string PhotoPath { get; set; }
     }
 }
