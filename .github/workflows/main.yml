@@ -1,22 +1,41 @@
-name: CI .NET
+name: CI
 
 on:
- push:
-  branches: [main]
+  workflow_dispatch:
+    inputs:
+      name:
+        description: "Sefa Karakaya"
+        required: true
+        default: "main"
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      
-      - name: Dotnet Publish
-        uses: appleboy/ssh-action@master
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
         with:
-          host: ${{secrets.HOST}}
-          username: ${{secrets.USERNAME}}
-          #password: ${{ secrets.PASSWORD }}
-          port: ${{secrets.PORT}}
-          key: ${{secrets.KEY}}
-          passphrase: ${{secrets.PASSPHRASE}}
-          script: whoami
+          dotnet-version: 3.1
+      - name: Dotnet Publish
+        run: dotnet publish
+      - name: Copy folder content recursively to remote
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: /home/runner/work/perdecim/perdecim/UI/bin/Debug/netcoreapp3.1/publish
+          remote: /home/skarakaya/publish
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          privateKey : ${{secrets.KEY}}
+          passphrase : ${{secrets.PASSPHRASE}}
+      - name: Run SSH command
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: sudo systemctl restart perdecim.service
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          privateKey: ${{ secrets.KEY }}
+          passphrase: ${{secrets.PASSPHRASE }}
+      
