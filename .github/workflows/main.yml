@@ -1,6 +1,8 @@
 name: CI .NET
 
-on: [push]
+on:
+ push:
+  branches: [main]
 
 jobs:
   build:
@@ -17,5 +19,4 @@ jobs:
           port: ${{secrets.PORT}}
           key: ${{secrets.KEY}}
           passphrase: ${{secrets.PASSPHRASE}}
-          key_path: .ssh/
           script: whoami
