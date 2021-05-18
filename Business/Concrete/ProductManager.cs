@@ -107,7 +107,7 @@ namespace Business.Concrete
                 foreach (var image in productDto.Images)
                 {
                     string imageName = Guid.NewGuid() + "." + image.FileName.Split('.')[1];
-                    var fileLocate = $"wwwroot/{_fileUploadSettings.ProductImagePath}{imageName}";
+                    var fileLocate = Path.Combine(Directory.GetCurrentDirectory(),$"wwwroot/{_fileUploadSettings.ProductImagePath}",imageName);
                     product.ProductImages.Add(new ProductImage { ImageName = imageName, ProductId = product.Id });
                     using (var stream = new FileStream(fileLocate, FileMode.Create))
                     {
