@@ -1,8 +1,6 @@
 name: CI .NET
 
-on:
-  push:
-    branches: [main]
+on: [push]
 
 jobs:
   build:
@@ -19,14 +17,4 @@ jobs:
           port: ${{ secrets.PORT }}
           key: ${{secrets.KEY}}
           passphrase: ${{secrets.PASSPHRASE}}
-          script: |
-            cd /git_pull
-            git reset --hard origin/main
-            git pull origin main
-            cd /git_pull/UI
-            dotnet restore
-            dotnet test --no-build --verbosity normal
-            dotnet publish -r linux-x64
-            rm -rf /publish/*
-            mv /git_pull/UI/bin/Debug/netcoreapp3.1/linux-x64/publish/* /publish/
-            systemctl restart perdecim.service
+          script: whoami
