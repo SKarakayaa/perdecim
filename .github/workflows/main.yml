@@ -1,12 +1,8 @@
-name: CI
+name: CI .NET
 
 on:
-  workflow_dispatch:
-    inputs:
-      name:
-        description: "Sefa Karakaya"
-        required: true
-        default: "main"
+  push:
+    branches: [main]
 
 jobs:
   build:
@@ -18,16 +14,24 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 3.1
+      
       - name: Dotnet Publish
-        run: dotnet publish
-      - name: Copy folder content recursively to remote
-        uses: garygrossgarten/github-action-scp@release
+        uses: appleboy/ssh-action@master
         with:
-          local: /home/runner/work/perdecim/perdecim/UI/bin/Debug/netcoreapp3.1/publish
-          remote: /home/skarakaya/publish
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.IP_PASSWORD }}
           port: ${{ secrets.PORT }}
-          privateKey : ${{secrets.KEY}}
-          passphrase : ${{secrets.PASSPHRASE}}
-      
+          key: ${{secrets.KEY}}
+          passphrase: ${{secrets.PASSPHRASE}}
+          script: |
+            cd /git_pull
+            git reset --hard origin/main
+            git pull origin main
+            cd /git_pull/UI
+            dotnet restore
+            dotnet test --no-build --verbosity normal
+            dotnet publish -r linux-x64
+            rm -rf /publish/*
+            mv /git_pull/UI/bin/Debug/netcoreapp3.1/linux-x64/publish/* /publish/
+            systemctl restart perdecim.service
