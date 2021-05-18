@@ -66,7 +66,7 @@ namespace UI.Controllers
                     Name = product.Name,
                     Price = product.Price
                 };
-                ViewBag.ImagePaths = product.ProductImages.Select(s => $"https://{HttpContext.Request.Host.ToString()}{_fileUploadSettings.ProductImagePath}{s.ImageName}").ToList();
+                ViewBag.ImagePaths = product.ProductImages.Select(s => $"https://{HttpContext.Request.Host.ToString()}/images/{s.ImageName}").ToList();
                 return View(createProductDto);
             }
             return View();

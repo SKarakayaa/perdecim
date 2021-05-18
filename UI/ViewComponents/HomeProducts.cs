@@ -41,7 +41,7 @@ namespace UI.ViewComponents
                     products = (await _productService.GetListAsync()).Data;
                     break;
             }
-            ViewBag.ImageBaseUrl = $"{_fileUploadSettings.MainPath}{_fileUploadSettings.ProductImagePath}";
+            ViewBag.ImageBaseUrl = $"{_fileUploadSettings.PhotoPath}";
 
             return View(products);
         }
