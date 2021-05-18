@@ -36,6 +36,7 @@ jobs:
           command: sudo systemctl restart perdecim.service
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          privateKey: ${{ secrets.KEY }}
-          passphrase: ${{secrets.PASSPHRASE }}
+          port: ${{ secrets.PORT }}
+          privateKey : ${{secrets.KEY}}
+          passphrase : ${{secrets.PASSPHRASE}}
       
