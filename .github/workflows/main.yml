@@ -11,10 +11,10 @@ jobs:
       - name: Dotnet Publish
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
+          host: ${{secrets.HOST}}
+          username: ${{secrets.USERNAME}}
           #password: ${{ secrets.PASSWORD }}
-          port: ${{ secrets.PORT }}
-          key: ${{ secrets.KEY }}
-          passphrase: ${{ secrets.PASSPHRASE }}
+          port: ${{secrets.PORT}}
+          key: ${{secrets.KEY}}
+          passphrase: ${{secrets.PASSPHRASE}}
           script: whoami
