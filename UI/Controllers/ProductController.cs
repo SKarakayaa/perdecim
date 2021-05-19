@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
@@ -7,6 +8,7 @@ using Entities.Concrete;
 using Entities.Config;
 using Entities.DTO.Product;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -17,10 +19,12 @@ namespace UI.Controllers
     {
         private readonly IProductService _productService;
         private readonly FileUploadSettings _fileUploadSettings;
-        public ProductController(IProductService productService, IOptions<FileUploadSettings> fileUploadSettings)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public ProductController(IProductService productService, IOptions<FileUploadSettings> fileUploadSettings, IWebHostEnvironment webHostEnvironment)
         {
             _productService = productService;
             _fileUploadSettings = fileUploadSettings.Value;
+            _webHostEnvironment = webHostEnvironment;
         }
         [HttpGet]
         public async Task<IActionResult> Index(int id)
@@ -83,6 +87,7 @@ namespace UI.Controllers
                 return View(productDto);
             }
 
+            productDto.FilePath = Path.Combine(_webHostEnvironment.WebRootPath, _fileUploadSettings.PhotoPath);
             await _productService.CreateOrEditProductAsync(productDto);
 
             return RedirectToAction("Products", "Product");

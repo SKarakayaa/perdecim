@@ -98,7 +98,7 @@ namespace Business.Concrete
                     if (currentImages.Count > 0)
                         currentImages.ForEach(image =>
                         {
-                            var fileLocate = $"{_fileUploadSettings.PhotoPath}{image.ImageName}";
+                            var fileLocate = $"{productDto.FilePath}/{image.ImageName}";
                             File.Delete(fileLocate);
                             _productImageDAL.Remove(image);
                         });
@@ -107,7 +107,7 @@ namespace Business.Concrete
                 foreach (var image in productDto.Images)
                 {
                     string imageName = Guid.NewGuid() + "." + image.FileName.Split('.')[1];
-                    var fileLocate = $"{_fileUploadSettings.PhotoPath}{imageName}";
+                    var fileLocate = $"{productDto.FilePath}/{imageName}";
                     product.ProductImages.Add(new ProductImage { ImageName = imageName, ProductId = product.Id });
                     using (var stream = new FileStream(fileLocate, FileMode.Create))
                     {

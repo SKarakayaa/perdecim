@@ -18,5 +18,6 @@ namespace Entities.DTO.Product
         public bool CanNotable { get; set; }
         public IFormFile[] Images { get; set; }
         public int[] DemandTypeIds { get; set; }
+        public string FilePath { get; set; }
     }
 }
