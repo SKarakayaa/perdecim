@@ -33,7 +33,7 @@ jobs:
       - name: Run SSH command
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: echo ${{secrets.PASSWORD}} | sudo -S cp -rf /home/skarakaya/publish/* /var/www/perdecim/ && sudo -S systemctl restart perdecim.service
+          command: echo ${{secrets.PASSWORD}} | sudo -S cp -rf /home/skarakaya/publish/* /var/www/perdecim/ && echo ${{secrets.PASSWORD}} | sudo -S systemctl restart perdecim.service
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           port: ${{ secrets.PORT }}
