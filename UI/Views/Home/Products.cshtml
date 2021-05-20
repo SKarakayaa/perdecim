@@ -15,7 +15,7 @@
 								<div class="categories">
 									<h3>Kategoriler</h3>
 									<ul class="tree-list-pad">
-                                        @foreach (var category in Model.Categories.Where(x=>x.ParentId == 1))
+                                        @foreach (var category in Model.Categories.Where(x=>x.ParentId == null))
                                         {
                                             <li>
                                                 <input type="checkbox" checked="checked" id="item-@category.Id"/><label for="item-@category.Id">@category.Name</label>
@@ -25,6 +25,12 @@
                                                         <partial name="_SubCategoriesPartial" model="category.ChildCategories"/> 
                                                     </ul>
                                                 }
+												else
+												{
+													<ul>
+														<li><input type="checkbox" id="item-@category.ParentId-@category.Id" /><a href="/home/products?categoryId=@category.Id">@category.Name</a></li>
+													</ul>
+												}
                                             </li>
                                         }
 									</ul>

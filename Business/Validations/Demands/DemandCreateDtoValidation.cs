@@ -21,7 +21,7 @@ namespace Business.Validations.Demands
 
         private bool CheckContentType(IFormFile arg)
         {
-            if (arg.ContentType == "image/jpg" || arg.ContentType == "image/jpeg" || arg.ContentType == "image/png")
+            if (arg == null || arg.ContentType == "image/jpg" || arg.ContentType == "image/jpeg" || arg.ContentType == "image/png")
                 return true;
             return false;
         }

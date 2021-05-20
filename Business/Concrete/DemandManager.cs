@@ -21,7 +21,7 @@ namespace Business.Concrete
         private readonly IDemandDAL _demandDAL;
         private readonly IDemandTypeDAL _demandTypeDAL;
         private readonly FileUploadSettings _fileUploadSettings;
-        public DemandManager(IUnitOfWork uow,IDemandDAL demandDAL, IDemandTypeDAL demandTypeDAL, IOptions<FileUploadSettings> fileUploadSettings)
+        public DemandManager(IUnitOfWork uow, IDemandDAL demandDAL, IDemandTypeDAL demandTypeDAL, IOptions<FileUploadSettings> fileUploadSettings)
         {
             _uow = uow;
             _fileUploadSettings = fileUploadSettings.Value;
@@ -31,7 +31,7 @@ namespace Business.Concrete
 
         public async Task<IResult> CreateDemandAsync(DemandCreateDto demandCreateDto)
         {
-            string imageName = Guid.NewGuid().ToString() + "." + demandCreateDto.Image.FileName.Split('.')[1];
+            string imageName = demandCreateDto.Image != null ? Guid.NewGuid().ToString() + "." + demandCreateDto.Image.FileName.Split('.')[1] : "";
             _demandDAL.Add(new Demand
             {
                 DemandTypeId = demandCreateDto.DemandTypeId,
@@ -43,11 +43,15 @@ namespace Business.Concrete
             if (result == 0)
                 return new ErrorResult(CRUDMessages.CreateMessage);
 
-            var fileLocate = $"{_fileUploadSettings.PhotoPath}{imageName}";
-            using (var stream = new FileStream(fileLocate, FileMode.Create))
+            if (demandCreateDto.Image != null)
             {
-                demandCreateDto.Image.CopyTo(stream);
+                var fileLocate = $"{demandCreateDto.FilePath}/{imageName}";
+                using (var stream = new FileStream(fileLocate, FileMode.Create))
+                {
+                    demandCreateDto.Image.CopyTo(stream);
+                }
             }
+
             return new SuccessResult();
         }
 

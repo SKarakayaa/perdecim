@@ -46,7 +46,7 @@
                         }
                         else
                         {
-                            foreach (var category in Categories.Where(x => x.ParentId == 1))
+                            foreach (var category in Categories.Where(x => x.ParentId == null))
                             {
                                 @await Component.InvokeAsync("CategoriesHierarchy",new {category = category})
                                 ;

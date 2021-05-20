@@ -3,19 +3,27 @@ using System.IO;
 using System.Threading.Tasks;
 using Business.Abstract;
 using Core.Utilities.Results;
+using Entities.Config;
 using Entities.DTO.Demand;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace UI.Controllers
 {
     public class DemandController : Controller
     {
         private readonly IDemandService _demandService;
-        public DemandController(IDemandService demandService)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly FileUploadSettings _fileUploadSettings;
+
+        public DemandController(IDemandService demandService, IWebHostEnvironment webHostEnvironment, IOptions<FileUploadSettings> fileUploadSettings)
         {
             _demandService = demandService;
+            _webHostEnvironment = webHostEnvironment;
+            _fileUploadSettings = fileUploadSettings.Value;
         }
         [Authorize(Roles = "Admin")]
         [HttpGet]
@@ -55,6 +63,7 @@ namespace UI.Controllers
                 return View("Index", new CreateDto { DemandCreate = demandCreate });
             }
 
+            demandCreate.FilePath = Path.Combine(_webHostEnvironment.WebRootPath, _fileUploadSettings.PhotoPath);
             IResult result = await _demandService.CreateDemandAsync(demandCreate);
 
             if (!result.IsSuccess)

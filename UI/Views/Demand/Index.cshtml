@@ -17,12 +17,13 @@
             <div id="collapse-one" class="collapse" aria-labelledby="head-one" data-parent="demand-accordion">
                 <div class="panel-body">
                     <form asp-action="DemandTypeCreateOrUpdate" asp-controller="Demand">
-                        <input asp-for="DemandTypeCreate.Id" hidden/>
+                        <input asp-for="DemandTypeCreate.Id" value="0" hidden/>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
                             <label for="DemandTypeCreate.Name">Talep Türü Adı</label>
                             <input class="form-control" type="text" asp-for="DemandTypeCreate.Name" placeholder="Talep Türü Adı Giriniz"
                                 name="DemandTypeCreate.Name" />
-                            <span asp-validation-for="DemandTypeCreate.Name" style="color: red;"></span>
+                            <span asp-validation-for="DemandTypeCreate.Name" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Kaydet</button>
@@ -40,29 +41,30 @@
             <div id="collapse-two" class="collapse" aria-labelledby="head-two" data-parent="demand-accordion">
                 <div class="panel-body">
                     <form asp-action="DemandCreate" asp-controller="Demand" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
                             <label>Talep Türü</label>
                             <select class="form-control" asp-for="DemandCreate.DemandTypeId"
                                 asp-items="@(new SelectList(DemandTypes.Data,"Id","Name"))">
                                 <option>Seçiniz</option>
                             </select>
-                            <span asp-validation-for="DemandCreate.DemandTypeId" style="color: red;"></span>
+                            <span asp-validation-for="DemandCreate.DemandTypeId" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label for="DemandCreate.Name">Seçenek Adı</label>
                             <input type="text" asp-for="DemandCreate.Name" class="form-control" autocomplete="off"
                                 placeholder="Seçenek Adı Giriniz" />
-                            <span asp-validation-for="DemandCreate.Name" style="color: red;"></span>
+                            <span asp-validation-for="DemandCreate.Name" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label for="DemandCreate.Price">Seçenek Fiyatı</label>
-                            <input type="number" asp-for="DemandCreate.Price" class="form-control" autocomplete="off"
-                                placeholder="Seçenek Fiyatı Giriniz (Boş bırakırsanız 0 ₺ olarak kaydedilir)" />
+                            <input asp-format="{0:C}" asp-for="DemandCreate.Price" class="form-control" autocomplete="off"
+                                placeholder="Seçenek Fiyatı Giriniz" value="0"/>
                         </div>
                         <div class="form-group">
                             <label for="DemandCreate.Image">Resim</label>
                             <input type="file" asp-for="DemandCreate.Image" class="form-control"/>
-                            <span asp-validation-for="DemandCreate.Image" style="color: red;"></span>
+                            <span asp-validation-for="DemandCreate.Image" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-success">Kaydet</button>
