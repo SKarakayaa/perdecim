@@ -23,8 +23,8 @@ jobs:
       - name: Copy folder content recursively to remote
         uses: garygrossgarten/github-action-scp@release
         with:
-          local: ${{secrets.LOCAL}}
-          remote: ${{secrets.REMOTE}}
+          local: /home/runner/work/perdecim/perdecim/UI/bin/Debug/netcoreapp3.1/publish
+          remote: /home/skarakaya/publish
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           port: ${{ secrets.PORT }}
@@ -33,7 +33,7 @@ jobs:
       - name: Run SSH command
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: echo ${{secrets.PASSWORD}} | ${{secrets.MOVE_FILES}} && echo ${{secrets.PASSWORD}} | ${{secrets.RESTART_SERVICE}}
+          command: echo ${{secrets.PASSWORD}} | sudo -S cp -rf /home/skarakaya/publish/* /var/www/perdecim/ && echo ${{secrets.PASSWORD}} | sudo -S systemctl restart perdecim.service
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           port: ${{ secrets.PORT }}
