@@ -28,7 +28,7 @@ namespace UI.Controllers
         public async Task<IActionResult> CreateBrand(Brand brand)
         {
             if (!ModelState.IsValid)
-                return View("Index", brand);
+                return RedirectToAction("Index", brand);
 
             IResult result = await _brandService.AddOrEditAsync(brand);
 

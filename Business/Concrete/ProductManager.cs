@@ -68,26 +68,30 @@ namespace Business.Concrete
                 product = _productDAL.Add(product);
 
             //! Producta bağlı DemandType'lar güncelleniyor
-            if (productDto.ProductId.HasValue)
+            if (productDto.DemandTypeIds != null && productDto.DemandTypeIds.Count() != 0)
             {
-                List<ProductDemand> productDemands = await _productDemandDAL.GetListAsync(x => x.ProductId == productDto.ProductId.Value);
-                List<ProductDemand> removedDemands = productDemands.Where(x => !productDto.DemandTypeIds.Contains(x.DemandTypeId)).ToList();
-                foreach (var demandTypeId in productDto.DemandTypeIds)
+                if (productDto.ProductId.HasValue)
                 {
-                    bool isExist = productDemands.Any(x => x.DemandTypeId == demandTypeId);
-                    if (!isExist)
-                        _productDemandDAL.Add(new ProductDemand { DemandTypeId = demandTypeId, ProductId = product.Id });
+                    List<ProductDemand> productDemands = await _productDemandDAL.GetListAsync(x => x.ProductId == productDto.ProductId.Value);
+                    List<ProductDemand> removedDemands = productDemands.Where(x => !productDto.DemandTypeIds.Contains(x.DemandTypeId)).ToList();
+                    foreach (var demandTypeId in productDto.DemandTypeIds)
+                    {
+                        bool isExist = productDemands.Any(x => x.DemandTypeId == demandTypeId);
+                        if (!isExist)
+                            _productDemandDAL.Add(new ProductDemand { DemandTypeId = demandTypeId, ProductId = product.Id });
 
-                    ProductDemand isRemove = removedDemands.Count > 0 ? removedDemands.FirstOrDefault(x => x.DemandTypeId == demandTypeId) : null;
-                    if (isRemove != null)
-                        _productDemandDAL.Remove(isRemove);
+                        ProductDemand isRemove = removedDemands.Count > 0 ? removedDemands.FirstOrDefault(x => x.DemandTypeId == demandTypeId) : null;
+                        if (isRemove != null)
+                            _productDemandDAL.Remove(isRemove);
+                    }
+                }
+                else
+                {
+                    product.ProductDemands = new List<ProductDemand>();
+                    productDto.DemandTypeIds.ToList().ForEach(demandType => product.ProductDemands.Add(new ProductDemand { DemandTypeId = demandType, ProductId = product.Id }));
                 }
             }
-            else
-            {
-                product.ProductDemands = new List<ProductDemand>();
-                productDto.DemandTypeIds.ToList().ForEach(demandType => product.ProductDemands.Add(new ProductDemand { DemandTypeId = demandType, ProductId = product.Id }));
-            }
+
 
             //! Producta bağlı resimler hem fiziksel hemde db'ye kaydediliyor
             if (productDto.Images != null && productDto.Images.Count() > 0)
@@ -103,7 +107,7 @@ namespace Business.Concrete
                             _productImageDAL.Remove(image);
                         });
                 }
-                product.ProductImages = new List<ProductImage>();
+                product.ProductImages = new HashSet<ProductImage>();
                 foreach (var image in productDto.Images)
                 {
                     string imageName = Guid.NewGuid() + "." + image.FileName.Split('.')[1];

@@ -13,12 +13,12 @@
             <div id="collapse-two" class="collapse" aria-labelledby="head-two" data-parent="color-accordion">
                 <div class="panel-body">
                     <form asp-action="CreateColor" asp-controller="Color">
-                        <input hidden asp-for="Id" />
-                        <div asp-validation-summary="All"></div>
+                        <input hidden asp-for="Id" value="0" />
+                        <div asp-validation-summary="All" class="text-danger"></div>
                         <div class="form-group">
                             <label>Renk Adı</label>
                             <input asp-for="Name" class="form-control" autocomplete="off" placeholder="Renk Giriniz" />
-                            <span asp-validation-for="Name" style="color:red;"></span>
+                            <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Kaydet</button>
@@ -50,12 +50,12 @@
                                     <td>@item.Name</td>
                                     <td class="text-center">
                                         <button type='button' class="btn btn-danger btn-sm"
-                                            onclick="SwalDeleteQuestion('@item.Id','/Color/DeleteColor')"><i
-                                                class="fa fa-trash"></i></button>
+                                        onclick="SwalDeleteQuestion('@item.Id','/Color/DeleteColor')"><i
+                                            class="fa fa-trash"></i></button>
                                         &emsp;
                                         <button type='button' class="btn btn-info btn-sm"
-                                            onclick="UpdateColor('@item.Id','@item.Name')"><i
-                                                class="fa fa-edit"></i></button>
+                                        onclick="UpdateColor('@item.Id','@item.Name')"><i
+                                            class="fa fa-edit"></i></button>
                                     </td>
                                 </tr>
                             }

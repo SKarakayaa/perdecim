@@ -28,6 +28,9 @@
                                 </ul>
 
                             </div>
+                            <div class="description">
+                                <p><span>Açıklama : </span> @Model.Description</p>
+                            </div>
                         </div>
                         <div class="single-right simpleCart_shelfItem">
                             <h4>@Model.Name</h4>
@@ -37,7 +40,7 @@
                             <p class="price item_price">
                                 @if (Model.DiscountRate != 0)
                                 {
-                                    <del>@Model.Price ₺</del>
+                                    <del class="text-muted">@Model.Price ₺</del>
                                     @(Model.Price - (Model.Price * (Convert.ToDecimal(Model.DiscountRate)/100)))
                                     <span>₺</span>
                                 }
@@ -46,9 +49,7 @@
                                     @Model.Price <span>₺</span>
                                 }
                             </p>
-                            <div class="description">
-                                <p><span>Açıklama : </span> @Model.Description</p>
-                            </div>
+                            
                             <div class="description">
                                 <p style="color:red" id="demandError" hidden>Lütfen Gerekli Alanları Seçiniz !</p>
                             </div>
@@ -63,8 +64,8 @@
                                     <div class="row">
                                         @foreach (var demand in productDemands.DemandType.Demands)
                                         {
-                                            <div class="col-xs-6 col-sm-4">
-                                                <button class="btn" onclick="demandChange('@productDemands.DemandTypeId','@demand.Id','@demand.Price','@demand.Name')" id="demand-@demand.Id">
+                                            <div class="col-xs-6 col-sm-4" style="margin-right: 20px;">
+                                                <button class="btn" style="width: 160px;" onclick="demandChange('@productDemands.DemandTypeId','@demand.Id','@demand.Price','@demand.Name')" id="demand-@demand.Id">
                                                     <i class="fa fa-check hidden"></i>
                                                     @demand.Name
                                                     @if (demand.Price != 0)
@@ -73,7 +74,9 @@
                                                     }
                                                 </button>
                                                 <br>
-                                                <a style="margin-top: 5px; margin-left: 25px;"><i class="fa fa-camera"></i> Fotoğraf</a>
+                                                <div class="text-center">
+                                                    <a style="margin-top: 5px; margin-left: 25px;"><i class="fa fa-camera"></i> Fotoğraf</a>
+                                                </div>
                                             </div>
                                         }
                                     </div>

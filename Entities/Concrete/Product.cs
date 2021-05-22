@@ -10,7 +10,7 @@ namespace Entities.Concrete
         public Product()
         {
             this.ProductDemands = new List<ProductDemand>();
-            this.ProductImages = new List<ProductImage>();
+            // this.ProductImages = new HashSet<ProductImage>();
         }
         public int Id { get; set; }
         public int CategoryId { get; set; }
@@ -36,6 +36,6 @@ namespace Entities.Concrete
         public virtual Color Color { get; set; }
 
         public List<ProductDemand> ProductDemands { get; set; }
-        public List<ProductImage> ProductImages { get; set; }
+        public virtual ICollection<ProductImage> ProductImages { get; set; }
     }
 }

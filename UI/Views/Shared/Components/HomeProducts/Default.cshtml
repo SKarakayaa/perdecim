@@ -8,31 +8,22 @@
             @foreach (var product in Model)
             {
                 <div class="col-md-3 arrival-grid simpleCart_shelfItem">
-                    <div class="grid-arr">
+                    <div class="grid-arr" style="height: 430px;">
                         <div class="grid-arrival">
                             <figure>
                                 <a href="#" class="new-gri" data-toggle="modal" data-target="#myModal1">
-                                    @if(product.ProductImages.Count >= 2)
-                                    {
-                                        foreach (var image in product.ProductImages.Take(2))
+                                        @foreach (var image in product.ProductImages.Take(2))
                                         {
                                             <div class="grid-img">
                                                 <img src='@(ViewBag.ImageBaseUrl+image.ImageName)' class="img-responsive" alt="">
                                             </div>
                                         }
-                                    }
-                                    @* <div class="grid-img">
-                                        <img src="https://sefakarakaya.xyz/images/p6.jpg" class="img-responsive" alt="">
-                                    </div>
-                                    <div class="grid-img">
-                                        <img src="https://sefakarakaya.xyz/images/p5.jpg" class="img-responsive" alt="">
-                                    </div> *@
                                 </a>
                             </figure>
                         </div>
-                        <div class="ribben1">
+                        @* <div class="ribben1">
                             <p>@product.Category.Name.ToUpper()</p>
-                        </div>
+                        </div> *@
                         @if (product.IsNew)
                         {
                             <div class="ribben">
