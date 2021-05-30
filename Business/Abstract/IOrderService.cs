@@ -8,7 +8,7 @@ namespace Business.Abstract
 {
     public interface IOrderService
     {
-        Task<Order> CreateOrder(List<CartDTO> basket, CreateOrderDto createOrder);
+        Task<Order> CreateOrder(CartDTO cart, CreateOrderDto createOrder);
         Task<IDataResult<List<Order>>> GetListAsync();
         Task UpdateAsync(Order order);
         Task<Order> GetOrderAsync(int orderId);

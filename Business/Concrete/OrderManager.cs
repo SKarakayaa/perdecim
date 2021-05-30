@@ -9,6 +9,7 @@ using Core.Utilities.Results;
 using Data.Abstract;
 using Entities.Concrete;
 using Entities.DTO.Cart;
+using Entities.Enums;
 using Microsoft.AspNetCore.Http;
 
 namespace Business.Concrete
@@ -28,32 +29,31 @@ namespace Business.Concrete
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<Order> CreateOrder(List<CartDTO> basket, CreateOrderDto createOrder)
+        public async Task<Order> CreateOrder(CartDTO cart, CreateOrderDto createOrder)
         {
             Order order = new Order();
             order.OrderDetails = new List<OrderDetail>();
 
             order.OrderDate = DateTime.Now;
-            order.TotalPrice = basket.Sum(x => x.TotalUnitPrice * x.Quantity);
+            order.TotalPrice = cart.CartTotal;
             order.UserId = Convert.ToInt32(_httpContextAccessor.HttpContext.User.FindFirst("UserId").Value);
             order.AddressId = createOrder.AddressId;
             order.PaymentTypeId = createOrder.PaymentType;
-            order.OrderStatus = 1;
+            order.OrderStatus = (int)OrderStatusEnum.ORDERED;
             _orderDAL.Add(order);
 
-            foreach (var basketItem in basket)
+            foreach (var cartItem in cart.CartItems)
             {
                 OrderDetail orderDetail = new OrderDetail();
                 orderDetail.OrderDemands = new List<OrderDemand>();
 
-                orderDetail.ProductId = basketItem.ProductId;
-                orderDetail.Quantity = basketItem.Quantity;
-                orderDetail.UnitPrice = basketItem.TotalUnitPrice;
+                orderDetail.ProductId = cartItem.ProductId;
+                orderDetail.Quantity = cartItem.Quantity;
+                orderDetail.UnitPrice = cartItem.UnitPrice;
                 orderDetail.OrderId = order.Id;
-                orderDetail.Note = basketItem.Note;
+                orderDetail.Note = cartItem.Note;
 
-                // _uow.OrderDetails.Add(orderDetail);
-                foreach (var demand in basketItem.DemandTypes)
+                foreach (var demand in cartItem.DemandTypes)
                 {
                     OrderDemand orderDemand = new OrderDemand()
                     {
@@ -62,7 +62,6 @@ namespace Business.Concrete
                         OrderDetailId = orderDetail.Id
                     };
                     orderDetail.OrderDemands.Add(orderDemand);
-                    // _uow.OrderDemands.Add(orderDemand);
                 }
                 order.OrderDetails.Add(orderDetail);
             }
@@ -97,5 +96,6 @@ namespace Business.Concrete
             List<OrderDetail> orderDetails = await _orderDetailDAL.GetOrderDetailWithDemands(orderId);
             return ResultHelper<List<OrderDetail>>.DataResultReturn(orderDetails);
         }
+        
     }
 }

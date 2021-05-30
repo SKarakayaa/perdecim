@@ -1,4 +1,5 @@
 using System;
+using Business.Concrete;
 using Business.Extensions;
 using Business.Factory;
 using Data.Context;
@@ -13,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using UI.Hubs;
 
 namespace UI
@@ -62,6 +64,14 @@ namespace UI
                 _.ExpireTimeSpan = TimeSpan.FromHours(3);
             });
             services.AddSignalR();
+            services.Configure<RedisSettings>(Configuration.GetSection("RedisSettings"));
+            services.AddSingleton<RedisManager>(sp =>
+            {
+                RedisSettings redisSettings = sp.GetRequiredService<IOptions<RedisSettings>>().Value;
+                RedisManager redis = new RedisManager(redisSettings.Host, redisSettings.Port);
+                redis.Connect();
+                return redis;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

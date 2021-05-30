@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using Entities.DTO.Cart;
 
-namespace UI.Models.Cart
+namespace Entities.DTO.Cart
 {
-    public class AddToCartModel
+    public class AddToCartDTO
     {
         public int ProductId { get; set; }
         public int Quantity { get; set; }

@@ -1,22 +1,24 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Threading.Tasks;
+using Business.Abstract;
+using Core.Utilities.Results;
+using Entities.Config;
 using Entities.DTO.Cart;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace UI.ViewComponents
 {
     public class BasketView : ViewComponent
     {
-        public IViewComponentResult Invoke()
+        private readonly ICartService _cartService;
+        public BasketView(ICartService cartService) => _cartService = cartService;
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            string cartString = Request.Cookies["basket"]?.ToString();
-            List<CartDTO> cartModel = new List<CartDTO>();
-
-            if (!String.IsNullOrEmpty(cartString))
-                cartModel = JsonSerializer.Deserialize<List<CartDTO>>(cartString);
-
-            return View(cartModel);
+            IDataResult<CartDTO> cart = await _cartService.GetCart();
+            return View(cart);
         }
     }
 }

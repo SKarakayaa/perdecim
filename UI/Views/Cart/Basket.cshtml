@@ -25,21 +25,29 @@
         <input asp-for="AddressId" hidden />
         <input asp-for="PaymentType" hidden />
         <div class="row">
-            <div class="col-md-12">
-                <h2>Sipariş Adresi Seçiniz :</h2>
-            </div>
-            @foreach (var userAddress in Model.UserAddresses)
+            @if (Model.UserAddresses.Count == 0)
             {
-                <div class="col-md-6 well-parent">
-                    <div class="well-lg well-div address" id="address-@userAddress.AddressId">
-                        <h3><input type="radio" name="address" onclick="SetAddressId('@userAddress.AddressId')" /> <i
-                            class="@userAddress.AddressType.IconClassName"></i> @userAddress.AddressType.Name
-                        </h3><br>
-                        <p>@userAddress.FullAddress</p><br>
-                    </div>
-                </div>
-                <span asp-validation-for="AddressId" class="text-danger"></span>
+                <h2 class="text-center text-info">LÜTFEN ADRES GİRİNİZ</h2>
             }
+            else
+            {
+                <div class="col-md-12">
+                    <h2>Sipariş Adresi Seçiniz :</h2>
+                </div>
+                @foreach (var userAddress in Model.UserAddresses)
+                {
+                    <div class="col-md-6 well-parent">
+                        <div class="well-lg well-div address" id="address-@userAddress.AddressId">
+                            <h3><input type="radio" name="address" onclick="SetAddressId('@userAddress.AddressId')" /> <i
+                            class="@userAddress.AddressType.IconClassName"></i> @userAddress.AddressType.Name
+                            </h3><br>
+                            <p>@userAddress.FullAddress</p><br>
+                        </div>
+                    </div>
+                    <span asp-validation-for="AddressId" class="text-danger"></span>
+                }
+            }
+
         </div>
         <br>
         <br>

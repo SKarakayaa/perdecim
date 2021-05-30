@@ -1,16 +1,16 @@
-@model List<Entities.DTO.Cart.CartDTO>
+@model IDataResult<CartDTO>
 
-@Html.Hidden("CartCount",Model.Count)
+@Html.Hidden("HasCart",Model.IsSuccess)
 <div class="header-right2">
     <div class="cart box_1">
-        <div id="not-empty-cart" class='hidden'>
+        <div id="not-empty-cart" class="hidden">
             <a asp-controller="Cart" asp-action="Basket">
                 <h3>
                     <div class="total">
                         <span class="simpleCart_total2">
-                            @(Model.Sum(x=>x.Quantity * x.TotalUnitPrice)) ₺
+                            @(Model.IsSuccess ? Model.Data.CartTotal:0) ₺
                         </span> (<span id="simpleCart_quantity2"
-                            class="simpleCart_quantity2">@Model.Sum(x=>x.Quantity)</span> items)
+                            class="simpleCart_quantity2">@(Model.IsSuccess ? Model.Data.CartItemsCount : 0)</span> items)
                     </div>
                     <img src="~/images/bag.png" alt="" />
                 </h3>
@@ -24,8 +24,8 @@
 </div>
 <script>
     $(document).ready(() => {
-        var cartCount = $("#CartCount").val();
-        if (cartCount > 0) {
+        var cartCount = $("#HasCart").val();
+        if (cartCount === "True") {
             $('#not-empty-cart').removeClass('hidden');
             $('#empty-cart').addClass('hidden');
         }

@@ -1,18 +1,18 @@
-@model List<Entities.DTO.Cart.CartDTO>
+@model IDataResult<CartDTO>
 
-@if (Model.Count == 0)
+@if (!Model.IsSuccess)
 {
     <h4>Sepetinizde Ürün Bulunmamaktadır !</h4>
 }
 else
 {
-    foreach (var cartItem in Model)
+    foreach (var cartItem in Model.Data.CartItems)
     {
         <div class="cart-header" style="margin-top:50px;">
             <div class="close1"> </div>
             <div class="cart-sec simpleCart_shelfItem">
                 <div class="cart-item cyc">
-                    <img src="~/images/p15.jpg" class="img-responsive" alt="">
+                    <img src="/images/@cartItem.ImageName" class="img-responsive" alt="">
                 </div>
                 <div class="cart-item-info">
                     <h3><a asp-controller="Product" asp-action="Index" asp-route-id="@cartItem.ProductId"> @cartItem.Product.Name </a></h3>
@@ -34,9 +34,13 @@ else
                         <p>@cartItem.Note</p>
                     }
                     <div class="delivery">
-                        <p>Fiyat : @cartItem.TotalUnitPrice ₺</p><br>
+                        <p style="color:blue">Fiyat : @cartItem.UnitPrice ₺</p><br>
                         <p>Miktar : @cartItem.Quantity Adet</p><br>
-                        <p>Toplam Ürün Fiyatı : @(cartItem.Quantity * cartItem.TotalUnitPrice) ₺</p>
+                        @if(cartItem.DiscountRate.HasValue)
+                        {
+                            <p style="color:red">İndirim Oranı : % @cartItem.DiscountRate.Value</p><br>
+                        }
+                        <p style="color:blue">Toplam Ürün Fiyatı : @cartItem.TotalItemPrice ₺</p>
                         <span>En Geç 1 Haftaya Kargoda</span>
                         <div class="clearfix"></div>
                     </div>
@@ -46,5 +50,5 @@ else
         </div>
     }
     <hr>
-    <a class="btn btn-danger btn-sm btn-block"><i class="fa fa-shopping-cart"></i> <b>Toplam Ücret : @(Model.Sum(x=>x.Quantity * x.TotalUnitPrice)) ₺ </b></a>
+    <a class="btn btn-danger btn-sm btn-block"><i class="fa fa-shopping-cart"></i> <b>Toplam Ücret : @Model.Data.CartTotal ₺ </b></a>
 }

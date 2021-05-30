@@ -48,6 +48,8 @@ namespace Business.DependencyResolvers
             builder.RegisterType<OrderDetailDAL>().As<IOrderDetailDAL>().InstancePerLifetimeScope();
             builder.RegisterType<OrderManager>().As<IOrderService>().InstancePerLifetimeScope();
 
+            builder.RegisterType<CartManager>().As<ICartService>().InstancePerLifetimeScope();
+
             builder.RegisterType<UnitOfWork.UnitOfWork>().As<UnitOfWork.IUnitOfWork>().InstancePerLifetimeScope();
 
 

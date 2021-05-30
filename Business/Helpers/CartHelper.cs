@@ -1,15 +1,14 @@
 using System;
+using System.Linq;
 using Entities.Concrete;
 using Entities.DTO.Cart;
-using UI.Models.Cart;
 
-namespace UI.Helpers
+namespace Business.Helpers
 {
     public static class CartHelper
     {
-        public static CartDTO NewCartItem(Product product, AddToCartModel model)
+        public static CartItemDTO NewCartItem(Product product, AddToCartDTO model)
         {
-            var unitPrice = product.DiscountRate == 0 ? product.Price : (product.Price - (product.Price * (Convert.ToDecimal(product.DiscountRate) / 100)));
             decimal additionalPrices = 0;
             if (model.DemandTypes.Count != 0)
             {
@@ -17,18 +16,20 @@ namespace UI.Helpers
                 foreach (var demandType in model.DemandTypes)
                     additionalPrices += demandType.ChoosedDemandPrice;
             }
-            unitPrice += additionalPrices;
+            product.Price += additionalPrices;
 
             product.ProductDemands = null;
-            CartDTO cartModel = new CartDTO
+            CartItemDTO cartModel = new CartItemDTO
             {
                 DemandTypes = model.DemandTypes,
                 ProductId = product.Id,
                 Product = product,
                 Quantity = model.Quantity,
-                TotalUnitPrice = unitPrice,
-                Note = model.Note
+                UnitPrice = product.Price,
+                Note = model.Note,
+                ImageName = product.ProductImages.FirstOrDefault().ImageName
             };
+            cartModel.ApplyDiscount(product.DiscountRate!.Value);
             return cartModel;
         }
     }
