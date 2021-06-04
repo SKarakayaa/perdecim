@@ -24,6 +24,9 @@ namespace Data.Context
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<OrderDemand> OrderDemands { get; set; }
+        public DbSet<EventType> EventTypes { get; set; }
+        public DbSet<Event> Events { get; set; }
+        public DbSet<UserCoupon> UserCoupons { get; set; }
 
     }
 }

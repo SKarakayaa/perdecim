@@ -1,18 +1,18 @@
 @using UI.Models;
 @{
-    ToastModel<bool> toast = null;
-    if(TempData["ToastMessage"] != null)
-        toast = (ToastModel<bool>)TempData["ToastMessage"];
+    ToastModel toast = null;
+    if (TempData["ToastMessage"] != null)
+        toast = System.Text.Json.JsonSerializer.Deserialize<ToastModel>((string)TempData["ToastMessage"]);
 }
 @if (toast != null)
 {
     <text>
-        <script>
-            Swal.fire({
-                icon: '@toast.Icon',
-                title:'@toast.Title',
-                html: '<b>@toast.Message</b>',
-            });
-        </script>
-    </text>
+    <script>
+        Swal.fire({
+            icon: '@toast.Icon',
+            title: '@toast.Title',
+            html: '<b>@toast.Message</b>',
+        });
+    </script>
+</text>
 }

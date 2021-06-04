@@ -1,0 +1,46 @@
+@model List<Event>
+@{
+    ViewData["Title"] = "Etkinlik";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="thumbnail">
+                    <img src="images/@item.ImageName" alt="@item.EventType.Name" style="height: 144px;">
+                    <div class="caption">
+                        <h3>@item.EventType.Name</h3>
+                        <h5>
+                            @if (item.EndDate >= DateTime.Now)
+                            {
+                                <label class="label label-success">Aktif</label>
+                            }
+                            else
+                            {
+                                <label class="label label-danger">Aktif Değil</label>
+                            }
+                        </h5>
+                        <p>
+                            @(item.Description.Length > 250 ? item.Description.Substring(0,250)+" ...." : item.Description)
+                        </p>
+
+                        <p>
+                            <a class="btn btn-warning" asp-controller="Event" asp-action="Edit" asp-route-id="@item.Id">
+                                <i class="fa fa-edit"></i> Düzenle
+                            </a>
+                            <a class="btn btn-danger" asp-controller="Event" asp-action="EventDone" asp-route-id="@item.Id">
+                                <i class="fa fa-times"></i> Bitir
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+<partial name="_ToastPartial" />

@@ -50,6 +50,11 @@ namespace Business.DependencyResolvers
 
             builder.RegisterType<CartManager>().As<ICartService>().InstancePerLifetimeScope();
 
+            builder.RegisterType<EventTypeDAL>().As<IEventTypeDAL>().InstancePerLifetimeScope();
+
+            builder.RegisterType<EventDAL>().As<IEventDAL>().InstancePerLifetimeScope();
+            builder.RegisterType<EventManager>().As<IEventService>().InstancePerLifetimeScope();
+
             builder.RegisterType<UnitOfWork.UnitOfWork>().As<UnitOfWork.IUnitOfWork>().InstancePerLifetimeScope();
 
 

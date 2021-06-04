@@ -1,0 +1,22 @@
+@model Event
+@{
+    ViewData["Title"] = "Etkinlik Detayı";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="thumbnail">
+                <img src="~/images/@Model.ImageName" alt="@Model.EventType.Name">
+                <div class="caption">
+                    <h3>@Model.EventType.Name</h3>
+                    <p>@Model.Description</p>
+                    <p>
+                        <a class="btn btn-primary btn-block" role="button" asp-controller="Home" asp-action="Index">Alışverişe Başla</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -38,7 +38,7 @@ namespace UI.Controllers
             IDataResult<CartDTO> cart = await _cartService.GetCart();
             if (!cart.IsSuccess)
             {
-                TempData["ToastMessage"] = ToastModel<bool>.Fail("Sepetinizde Ürün Bulunmuyor !");
+                TempData["ToastMessage"] = JsonSerializer.Serialize<ToastModel>(ToastModel.Fail("Sepetinizde Ürün Bulunmuyor !"));
                 return RedirectToAction(nameof(Index), "Home");
             }
             int userId = Convert.ToInt32(User.FindFirst("UserId").Value);

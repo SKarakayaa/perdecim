@@ -1,162 +1,171 @@
 @using Entities.Enums
 @model UI.Models.Home.HomeViewModel
 @{
-    ViewData["Title"] = "Home Page";
-    string[] banBottoms = {"ban-bottom1","ban-bottom2"};
+	ViewData["Title"] = "Home Page";
+	string[] banBottoms = { "ban-bottom1", "ban-bottom2" };
 }
 
 <div class="banner-w3 container">
-    <div class="demo-1">
-        <div id="example1" class="core-slider core-slider__carousel example_1">
-            <div class="core-slider_viewport">
-                <div class="core-slider_list">
-                    <div class="core-slider_item">
-                        <img src="images/slider.jpeg" class="img-responsive" alt="">
-                    </div>
-                    <div class="core-slider_item">
-                        <img src="images/slider2.jpeg" class="img-responsive" alt="">
-                    </div>
-                    <div class="core-slider_item">
-                        <img src="images/slider3.jpeg" class="img-responsive" alt="">
-                    </div>
-                    <div class="core-slider_item">
-                        <img src="images/slider4.jpeg" class="img-responsive" alt="">
-                    </div>
-                </div>
-            </div>
-            <div class="core-slider_nav">
-                <div class="core-slider_arrow core-slider_arrow__right"></div>
-                <div class="core-slider_arrow core-slider_arrow__left"></div>
-            </div>
-            <div class="core-slider_control-nav"></div>
-        </div>
-    </div>
-    <link href="css/coreSlider.css" rel="stylesheet" type="text/css">
-    <script src="js/coreSlider.js"></script>
-    <script>
-        $('#example1').coreSlider({
-            pauseOnHover: false,
-            interval: 3000,
-            controlNavEnabled: true
-        });
-
-    </script>
-</div>
-	<div class="content">
-		<div class="latest-w3">
-				<div class="container">
-					<h3 class="tittle1">Kampanyalı Kategoriler</h3>
-					<div class="latest-grids">
-						<div class="col-md-4 latest-grid">
-							<div class="latest-top">
-								<img  src="images/category1.jpeg" class="img-responsive"  alt="">
-								<div class="latest-text">
-									<h4>Nevresim Takımı</h4>
-								</div>
-								<div class="latest-text2 hvr-sweep-to-top">
-									<h4>-50%</h4>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 latest-grid">
-							<div class="latest-top">
-								<img  src="images/category2.jpeg" class="img-responsive"  alt="">
-								<div class="latest-text">
-									<h4>Yatak Odası</h4>
-								</div>
-								<div class="latest-text2 hvr-sweep-to-top">
-									<h4>-20%</h4>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 latest-grid">
-							<div class="latest-top">
-								<img  src="images/category3.jpeg" class="img-responsive"  alt="">
-								<div class="latest-text">
-									<h4>Genç Modası</h4>
-								</div>
-								<div class="latest-text2 hvr-sweep-to-top">
-									<h4>-50%</h4>
-								</div>
-							</div>
-						</div>
-						<div class="clearfix"></div>
-					</div>
-				</div>
-			</div>
-			<!--banner-bottom-->
-				@* <div class="ban-bottom-w3l">
-					<div class="container">
-						<div class="col-md-6 ban-bottom">
-							<div class="ban-top">
-								<img src="images/p1.jpg" class="img-responsive" alt=""/>
-								<a href="/Home/Products?categoryId=@Model.Categories[0].Id" class="ban-text">
-									<h4>@Model.Categories[0].Name</h4>
+	<div class="demo-1">
+		<div id="example1" class="core-slider core-slider__carousel example_1">
+			<div class="core-slider_viewport">
+				<div class="core-slider_list">
+					@if (Model.Events.IsSuccess)
+					{
+						foreach (var slider in Model.Events.Data)
+						{
+							<div class="core-slider_item">
+								<a asp-controller="Event" asp-action="Detail" asp-route-id="@slider.Id">
+									<img src="images/@slider.ImageName" class="img-responsive" alt="@slider.ImageName">
 								</a>
 							</div>
+						}
+					}
+					else
+					{
+						<div class="core-slider_item">
+							<img src="images/slider.jpeg" class="img-responsive" alt="....">
 						</div>
-						<div class="col-md-6 ban-bottom3">
-							<div class="ban-top">
-								<img src="images/p2.jpg" class="img-responsive" alt=""/>
-								<a href="/Home/Products?categoryId=@Model.Categories[1].Id" class="ban-text1">
-									<h4>@Model.Categories[1].Name</h4>
-								</a>
-							</div>
-							<div class="ban-img">
-                                @for (int i = 2; i < Model.Categories.Count; i++)
-                                {
-                                    <div class=@banBottoms[i-2]>
-									<div class="ban-top">
-										<img src="images/p3.jpg" class="img-responsive" alt=""/>
-										<a href="/Home/Products?categoryId=@Model.Categories[i].Id" class="ban-text1">
-											<h4>@Model.Categories[i].Name</h4>
-										</a>
-									</div>
-								</div>
-                                }
-								<div class="clearfix"></div>
-							</div>
+						<div class="core-slider_item">
+							<img src="images/slider4.jpeg" class="img-responsive" alt="....">
 						</div>
-						<div class="clearfix"></div>
-					</div>
-				</div> *@
-			<!--banner-bottom-->
+					}
 
-			<!--yeni ürünler-->
-				@await Component.InvokeAsync("HomeProducts",new {productType=ProductType.NEW_PRODUCT})
-			<!--yeni ürünler-->
-
-				<!--accessories-->
-			<div class="accessories-w3l">
-				<div class="container">
-					@* <h3 class="tittle">20% Discount on</h3> *@
-					<span>EN TREND PERDELER</span>
-					<div class="button">
-						<a href="#" class="button1"> Şimdi Satın Al</a>
-						<a href="/Home/Products?categoryId=1" class="button1"> Ürünleri Gör</a>
-					</div>
 				</div>
 			</div>
-			<!--accessories-->
-
-			<!--indirimli ürünler-->
-				@await Component.InvokeAsync("HomeProducts",new {productType=ProductType.DISCOUNTED_PRODUCT})
-			<!--indirimli ürünler-->
-
-			
-
-			<!--popüler ürünler-->
-				@await Component.InvokeAsync("HomeProducts",new {productType=ProductType.POPULAR_PRODUCT})
-			<!--popüler ürünler-->
+			<div class="core-slider_nav">
+				<div class="core-slider_arrow core-slider_arrow__right"></div>
+				<div class="core-slider_arrow core-slider_arrow__left"></div>
+			</div>
+			<div class="core-slider_control-nav"></div>
 		</div>
+	</div>
+	<link href="css/coreSlider.css" rel="stylesheet" type="text/css">
+	<script src="js/coreSlider.js"></script>
+	<script>
+		$('#example1').coreSlider({
+			pauseOnHover: false,
+			interval: 3000,
+			controlNavEnabled: true
+		});
+
+	</script>
+</div>
+<div class="content">
+	<div class="latest-w3">
+		<div class="container">
+			<h3 class="tittle1">Kampanyalı Kategoriler</h3>
+			<div class="latest-grids">
+				<div class="col-md-4 latest-grid">
+					<div class="latest-top">
+						<img src="images/category1.jpeg" class="img-responsive" alt="">
+						<div class="latest-text">
+							<h4>Nevresim Takımı</h4>
+						</div>
+						<div class="latest-text2 hvr-sweep-to-top">
+							<h4>-50%</h4>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 latest-grid">
+					<div class="latest-top">
+						<img src="images/category2.jpeg" class="img-responsive" alt="">
+						<div class="latest-text">
+							<h4>Yatak Odası</h4>
+						</div>
+						<div class="latest-text2 hvr-sweep-to-top">
+							<h4>-20%</h4>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 latest-grid">
+					<div class="latest-top">
+						<img src="images/category3.jpeg" class="img-responsive" alt="">
+						<div class="latest-text">
+							<h4>Genç Modası</h4>
+						</div>
+						<div class="latest-text2 hvr-sweep-to-top">
+							<h4>-50%</h4>
+						</div>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	</div>
+	<!--banner-bottom-->
+	@* <div class="ban-bottom-w3l">
+		<div class="container">
+		<div class="col-md-6 ban-bottom">
+		<div class="ban-top">
+		<img src="images/p1.jpg" class="img-responsive" alt=""/>
+		<a href="/Home/Products?categoryId=@Model.Categories[0].Id" class="ban-text">
+		<h4>@Model.Categories[0].Name</h4>
+		</a>
+		</div>
+		</div>
+		<div class="col-md-6 ban-bottom3">
+		<div class="ban-top">
+		<img src="images/p2.jpg" class="img-responsive" alt=""/>
+		<a href="/Home/Products?categoryId=@Model.Categories[1].Id" class="ban-text1">
+		<h4>@Model.Categories[1].Name</h4>
+		</a>
+		</div>
+		<div class="ban-img">
+		@for (int i = 2; i < Model.Categories.Count; i++)
+		{
+		<div class=@banBottoms[i-2]>
+		<div class="ban-top">
+		<img src="images/p3.jpg" class="img-responsive" alt=""/>
+		<a href="/Home/Products?categoryId=@Model.Categories[i].Id" class="ban-text1">
+		<h4>@Model.Categories[i].Name</h4>
+		</a>
+		</div>
+		</div>
+		}
+		<div class="clearfix"></div>
+		</div>
+		</div>
+		<div class="clearfix"></div>
+		</div>
+		</div> *@
+	<!--banner-bottom-->
+
+	<!--yeni ürünler-->
+	@await Component.InvokeAsync("HomeProducts",new {productType=ProductType.NEW_PRODUCT})
+	<!--yeni ürünler-->
+
+	<!--accessories-->
+	<div class="accessories-w3l">
+		<div class="container">
+			@* <h3 class="tittle">20% Discount on</h3> *@
+			<span>EN TREND PERDELER</span>
+			<div class="button">
+				<a href="#" class="button1"> Şimdi Satın Al</a>
+				<a href="/Home/Products?categoryId=1" class="button1"> Ürünleri Gör</a>
+			</div>
+		</div>
+	</div>
+	<!--accessories-->
+
+	<!--indirimli ürünler-->
+	@await Component.InvokeAsync("HomeProducts",new {productType=ProductType.DISCOUNTED_PRODUCT})
+	<!--indirimli ürünler-->
+
+
+
+	<!--popüler ürünler-->
+	@await Component.InvokeAsync("HomeProducts",new {productType=ProductType.POPULAR_PRODUCT})
+	<!--popüler ürünler-->
+</div>
 @if (TempData["ToastMessage"] != null)
 {
-    <text>
-        <script>
-            Swal.fire({
-                icon: 'error',
-                html: '<b>@TempData["ToastMessage"].ToString()</b>',
-            })
-        </script>
-    </text>
+	<text>
+	<script>
+		Swal.fire({
+			icon: 'error',
+			html: '<b>@TempData["ToastMessage"].ToString()</b>',
+		})
+	</script>
+</text>
 }

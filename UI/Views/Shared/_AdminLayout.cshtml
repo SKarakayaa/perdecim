@@ -58,12 +58,13 @@
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/Admin/Index">Siparişler</a></li>
-                    <li><a href="/Product/Products">Ürünler</a></li>
-                    <li><a href="/Category/Index">Kategoriler</a></li>
-                    <li><a href="/Demand/Index">Ürün Seçenekleri</a></li>
-                    <li><a href="/Color/Index">Renkler</a></li>
-                    <li><a href="/Brand/Index">Markalar</a></li>
+                    <li><a asp-controller="Admin" asp-action="Index">Siparişler</a></li>
+                    <li><a asp-controller="Product" asp-action="Products">Ürünler</a></li>
+                    <li><a asp-controller="Category" asp-action="Index">Kategoriler</a></li>
+                    <li><a asp-controller="Demand" asp-action="Index">Ürün Seçenekleri</a></li>
+                    <li><a asp-controller="Event" asp-action="Index">Etkinlik</a></li>
+                    <li><a asp-controller="Color" asp-action="Index">Renkler</a></li>
+                    <li><a asp-controller="Brand" asp-action="Index">Markalar</a></li>
                     <li><a href="#">Oturumu Kapat</a></li>
                 </ul>
             </div>

@@ -14,20 +14,24 @@ namespace UI.Controllers
         private readonly IProductService _productService;
         private readonly IColorService _colorService;
         private readonly IBrandService _brandService;
-
-        public HomeController(ICategoryService categoryService, IProductService productService, IColorService colorService, IBrandService brandService)
+        private readonly IEventService _eventService;
+        public HomeController(ICategoryService categoryService, IEventService eventService, IProductService productService, IColorService colorService, IBrandService brandService)
         {
             _categoryService = categoryService;
             _productService = productService;
             _colorService = colorService;
             _brandService = brandService;
+            _eventService = eventService;
         }
 
         public async Task<IActionResult> Index()
         {
             HomeViewModel homeViewModel = new HomeViewModel();
+
             var categories = await _categoryService.GetListForBannerAsync();
+
             homeViewModel.Categories = categories.Data;
+            homeViewModel.Events = await _eventService.GetActiveEventsAsync();
             return View(homeViewModel);
         }
 
