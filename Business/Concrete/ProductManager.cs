@@ -27,11 +27,13 @@ namespace Business.Concrete
         private readonly ICategoryDAL _categoryDAL;
         private readonly IDemandTypeDAL _demandTypeDAL;
         private readonly FileUploadSettings _fileUploadSettings;
-        public ProductManager(IUnitOfWork uow, IProductDAL productDAL, IProductDemandDAL productDemandDAL, IProductImageDAL productImageDAL, IBrandDAL brandDAL, IColorDAL colorDAL, ICategoryDAL categoryDAL, IDemandTypeDAL demandTypeDAL, IOptions<FileUploadSettings> fileUploadSettings)
+        private readonly IProductColorDAL _productColorDAL;
+        public ProductManager(IUnitOfWork uow, IProductDAL productDAL, IProductDemandDAL productDemandDAL, IProductImageDAL productImageDAL, IBrandDAL brandDAL, IColorDAL colorDAL, ICategoryDAL categoryDAL, IDemandTypeDAL demandTypeDAL, IOptions<FileUploadSettings> fileUploadSettings, IProductColorDAL productColorDAL)
         {
             _uow = uow;
             _productDAL = productDAL;
             _productDemandDAL = productDemandDAL;
+            _productColorDAL = productColorDAL;
             _productImageDAL = productImageDAL;
             _brandDAL = brandDAL;
             _colorDAL = colorDAL;
@@ -40,74 +42,34 @@ namespace Business.Concrete
             _fileUploadSettings = fileUploadSettings.Value;
         }
 
-        public async Task<IResult> CreateOrEditProductAsync(CreateProductDto productDto)
+        public async Task<IResult> CreateProduct(CreateProductDto productDto)
         {
-            //! Ürün tabloya kayıt yada güncelleme yapılıyor
-            Product product;
-            if (productDto.ProductId != null)
-                product = await _productDAL.GetAsync(x => x.Id == productDto.ProductId.Value);
-            else
-                product = new Product();
+            Product product = new Product
+            {
+                BrandId = productDto.BrandId,
+                CanNotable = productDto.CanNotable,
+                CategoryId = productDto.CategoryId,
+                Description = productDto.Description,
+                DiscountRate = productDto.DiscountRate,
+                InStock = productDto.InStock,
+                IsNew = productDto.IsNew,
+                IsPopular = productDto.IsPopular,
+                Name = productDto.Name,
+                Price = productDto.Price
+            };
+            product = _productDAL.Add(product);
 
-            product.BrandId = productDto.BrandId.Value;
-            product.CanNotable = productDto.CanNotable;
-            product.CategoryId = productDto.CategoryId;
-            product.ColorId = productDto.ColorId;
-            product.CreatedAt = DateTime.Now;
-            product.Description = productDto.Description;
-            product.DiscountRate = productDto.DiscountRate.HasValue ? productDto.DiscountRate.Value : 0;
-            product.InStock = productDto.IsStock;
-            product.IsNew = productDto.IsNew;
-            product.IsPopular = productDto.IsPopular;
-            product.Price = productDto.Price;
-            product.Name = productDto.Name;
+            foreach (var colorId in productDto.ColorIds)
+                product.ProductColors.Add(new ProductColor(product.Id, colorId));
 
-            if (productDto.ProductId.HasValue)
-                _productDAL.Update(product);
-            else
-                product = _productDAL.Add(product);
-
-            //! Producta bağlı DemandType'lar güncelleniyor
             if (productDto.DemandTypeIds != null && productDto.DemandTypeIds.Count() != 0)
             {
-                if (productDto.ProductId.HasValue)
-                {
-                    List<ProductDemand> productDemands = await _productDemandDAL.GetListAsync(x => x.ProductId == productDto.ProductId.Value);
-                    List<ProductDemand> removedDemands = productDemands.Where(x => !productDto.DemandTypeIds.Contains(x.DemandTypeId)).ToList();
-                    foreach (var demandTypeId in productDto.DemandTypeIds)
-                    {
-                        bool isExist = productDemands.Any(x => x.DemandTypeId == demandTypeId);
-                        if (!isExist)
-                            _productDemandDAL.Add(new ProductDemand { DemandTypeId = demandTypeId, ProductId = product.Id });
-
-                        ProductDemand isRemove = removedDemands.Count > 0 ? removedDemands.FirstOrDefault(x => x.DemandTypeId == demandTypeId) : null;
-                        if (isRemove != null)
-                            _productDemandDAL.Remove(isRemove);
-                    }
-                }
-                else
-                {
-                    product.ProductDemands = new List<ProductDemand>();
-                    productDto.DemandTypeIds.ToList().ForEach(demandType => product.ProductDemands.Add(new ProductDemand { DemandTypeId = demandType, ProductId = product.Id }));
-                }
+                foreach (var demandTypeId in productDto.DemandTypeIds)
+                    product.ProductDemands.Add(new ProductDemand(product.Id, demandTypeId));
             }
 
-
-            //! Producta bağlı resimler hem fiziksel hemde db'ye kaydediliyor
             if (productDto.Images != null && productDto.Images.Count() > 0)
             {
-                if (productDto.ProductId.HasValue)
-                {
-                    var currentImages = await _productImageDAL.GetListAsync(x => x.ProductId == product.Id);
-                    if (currentImages.Count > 0)
-                        currentImages.ForEach(image =>
-                        {
-                            var fileLocate = $"{productDto.FilePath}/{image.ImageName}";
-                            File.Delete(fileLocate);
-                            _productImageDAL.Remove(image);
-                        });
-                }
-                product.ProductImages = new HashSet<ProductImage>();
                 foreach (var image in productDto.Images)
                 {
                     string imageName = Guid.NewGuid() + "." + image.FileName.Split('.')[1];
@@ -120,13 +82,80 @@ namespace Business.Concrete
                     }
                 }
             }
-            await _uow.Complete();
-            return new SuccessResult();
+
+            int result = await _uow.Complete();
+            return ResultHelper<int>.ResultReturn(result);
+        }
+
+        public async Task<IResult> UpdateProduct(UpdateProductDto productDto)
+        {
+            Product product = await _productDAL.GetAsync(x => x.Id == productDto.Id);
+
+            product.BrandId = productDto.BrandId;
+            product.CanNotable = productDto.CanNotable;
+            product.CategoryId = productDto.CategoryId;
+            product.Description = productDto.Description;
+            product.DiscountRate = productDto.DiscountRate;
+            product.InStock = productDto.InStock;
+            product.IsNew = productDto.IsNew;
+            product.IsPopular = productDto.IsPopular;
+            product.Name = productDto.Name;
+            product.Price = productDto.Price;
+
+            _productDAL.Update(product);
+
+            List<ProductColor> productColors = await _productColorDAL.GetListAsyncTracked(x => x.ProductId == productDto.Id);
+            for (int i = 0; i < productColors.Count; i++)
+            {
+                if (i <= productDto.ColorIds.Count() - 1)
+                {
+                    productColors[i].ColorId = productDto.ColorIds[i];
+                    _productColorDAL.Update(productColors[i]);
+                }
+                else
+                {
+                    _productColorDAL.Remove(productColors[i]);
+                }
+            }
+
+            if (productDto.DemandTypeIds != null && productDto.DemandTypeIds.Count() != 0)
+            {
+                List<ProductDemand> productDemands = await _productDemandDAL.GetListAsync(x => x.ProductId == productDto.Id);
+                List<ProductDemand> removedDemands = productDemands.Where(x => !productDto.DemandTypeIds.Contains(x.DemandTypeId)).ToList();
+                foreach (var demandTypeId in productDto.DemandTypeIds)
+                {
+                    bool isExist = productDemands.Any(x => x.DemandTypeId == demandTypeId);
+                    if (!isExist)
+                        _productDemandDAL.Add(new ProductDemand(product.Id, demandTypeId));
+
+                    ProductDemand isRemove = removedDemands.Count > 0 ? removedDemands.FirstOrDefault(x => x.DemandTypeId == demandTypeId) : null;
+                    if (isRemove != null)
+                        _productDemandDAL.Remove(isRemove);
+                }
+            }
+
+            if (productDto.Images != null && productDto.Images.Count() > 0)
+            {
+                foreach (var image in productDto.Images)
+                {
+                    string imageName = Guid.NewGuid() + "." + image.FileName.Split('.')[1];
+                    var fileLocate = $"{productDto.FilePath}/{imageName}";
+                    product.ProductImages.Add(new ProductImage { ImageName = imageName, ProductId = product.Id });
+
+                    using (var stream = new FileStream(fileLocate, FileMode.Create))
+                    {
+                        image.CopyTo(stream);
+                    }
+                }
+            }
+
+            int result = await _uow.Complete();
+            return ResultHelper<int>.ResultReturn(result);
         }
 
         public async Task<IDataResult<Product>> GetByIdAsync(int id)
         {
-            Product product = await _productDAL.GetAsync(x => x.Id == id, x => x.ProductImages, x => x.ProductDemands);
+            Product product = await _productDAL.GetAsync(x => x.Id == id, x => x.ProductImages, x => x.ProductDemands, x => x.ProductColors);
             return new SuccessDataResult<Product>(product);
         }
         public async Task<IDataResult<Product>> GetProductWithDemandAsync(int productId)

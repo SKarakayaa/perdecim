@@ -5,6 +5,13 @@ namespace Entities.Concrete
 {
     public class ProductDemand:IEntity
     {
+        public ProductDemand(){}
+        public ProductDemand(int productId, int demandTypeId)
+        {
+            ProductId = productId;
+            DemandTypeId = demandTypeId;
+        }
+
         public int Id { get; set; }
         public int ProductId { get; set; }
         public int DemandTypeId{ get; set; }

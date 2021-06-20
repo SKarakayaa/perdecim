@@ -55,6 +55,8 @@ namespace Business.DependencyResolvers
             builder.RegisterType<EventDAL>().As<IEventDAL>().InstancePerLifetimeScope();
             builder.RegisterType<EventManager>().As<IEventService>().InstancePerLifetimeScope();
 
+            builder.RegisterType<ProductColorDAL>().As<IProductColorDAL>().InstancePerLifetimeScope();
+
             builder.RegisterType<UnitOfWork.UnitOfWork>().As<UnitOfWork.IUnitOfWork>().InstancePerLifetimeScope();
 
 

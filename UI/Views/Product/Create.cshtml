@@ -9,8 +9,7 @@
                 aria-expanded="true" aria-controls="collapse-two">ÜRÜN EKLE</button>
         </div>
         <div class="panel-body">
-            <form asp-action="CreateOrEditProduct" asp-controller="Product" enctype="multipart/form-data">
-                <input hidden asp-for="ProductId" />
+            <form asp-action="Create" asp-controller="Product" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly"></div>
                 <div class="form-group">
                     <label>Ürün Adı</label>
@@ -36,11 +35,11 @@
                 </div>
                 <div class="form-group">
                     <label>Renk</label>
-                    <select class="form-control" asp-for="ColorId"
+                    <select class="form-control" asp-for="ColorIds"
                         asp-items="@(new SelectList(ViewBag.CreateProductElements.Colors,"Id","Name"))">
                         <option>Seçiniz</option>
                     </select>
-                    <span asp-validation-for="ColorId" class="text-danger"></span>
+                    <span asp-validation-for="ColorIds" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label>Fiyat</label>
@@ -63,7 +62,7 @@
                     <label>Popüler Ürün</label>
                 </div>
                 <div class="form-group">
-                    <input asp-for="IsStock" type="checkbox" />
+                    <input asp-for="InStock" type="checkbox" />
                     <label>Stok Durumu</label>
                 </div>
                 <div class="form-group">
@@ -91,22 +90,12 @@
                     <input type="submit" class="btn btn-success" value="Kaydet" />
                 </div>
             </form>
-            @if (ViewBag.ImagePaths != null)
-            {
-                <div class="row">
-                    @foreach (var image in ViewBag.ImagePaths)
-                    {
-                        <div class="col-md-3">
-                            <img src="@image" width="50" height="50" />
-                        </div>
-                    }
-                </div>
-            }
         </div>
     </div>
 </div>
 <script>
     $(document).ready(() => {
         $("#DemandTypeIds").select2({ width: '100%' });
+        $("#ColorIds").select2({ width: '100%' });
     })
 </script>

@@ -6,7 +6,7 @@
     <div class="accordion" id="product-accordion">
         <div class="panel panel-danger">
             <div class="panel-heading" id="head-two">
-                <a class="btn btn-link" asp-controller="Product" asp-action="CreateOrEditProduct">ÜRÜN EKLE</a>
+                <a class="btn btn-link" asp-controller="Product" asp-action="Create">ÜRÜN EKLE</a>
             </div>
         </div>
         <div class="panel panel-success">
@@ -21,7 +21,6 @@
                             <tr>
                                 <th>Ürün Adı</th>
                                 <th>Kategori</th>
-                                <th>Renk</th>
                                 <th>Marka</th>
                                 <th>Stok Durumu</th>
                                 <th>Popülerlik</th>
@@ -35,14 +34,13 @@
                                 <tr>
                                     <td>@item.Name</td>
                                     <td>@item.Category.Name</td>
-                                    <td>@item.Color.Name</td>
                                     <td>@item.Brand.Name</td>
                                     <td>@item.InStock</td>
                                     <td>@item.IsPopular</td>
                                     <td>@item.Price ₺</td>
                                     <td class="text-center">
                                         <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>&emsp;
-                                        <a href="/Product/CreateOrEditProduct/@item.Id" class="btn btn-info btn-sm"><i
+                                        <a href="/Product/Update/@item.Id" class="btn btn-info btn-sm"><i
                                                 class="fa fa-edit"></i></a>
                                     </td>
                                 </tr>

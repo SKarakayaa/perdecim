@@ -14,6 +14,7 @@ namespace Business.Abstract
         Task<IDataResult<Product>> GetByIdAsync(int id);
         Task<IDataResult<Product>> GetProductWithDemandAsync(int productId);
         Task<IDataResult<CreateProductElementsDto>> GetCreateProductElements();
-        Task<IResult> CreateOrEditProductAsync(CreateProductDto productDto);
+        Task<IResult> CreateProduct(CreateProductDto productDto);
+        Task<IResult> UpdateProduct(UpdateProductDto productDto);
     }
 }

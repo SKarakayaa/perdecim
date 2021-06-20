@@ -29,7 +29,7 @@ namespace Business.Helpers
                 Note = model.Note,
                 ImageName = product.ProductImages.FirstOrDefault().ImageName
             };
-            cartModel.ApplyDiscount(product.DiscountRate!.Value);
+            cartModel.ApplyDiscount(product.DiscountRate);
             return cartModel;
         }
     }

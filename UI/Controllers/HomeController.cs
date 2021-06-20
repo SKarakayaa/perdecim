@@ -50,9 +50,9 @@ namespace UI.Controllers
         {
             List<Product> products;
             if (categoryId != 1)
-                products = (await _productService.GetListAsync(x => x.CategoryId == categoryId, x => x.ProductImages)).Data;
+                products = (await _productService.GetListAsync(x => x.CategoryId == categoryId, x => x.ProductImages, x => x.ProductColors)).Data;
             else
-                products = (await _productService.GetListAsync(null, x => x.ProductImages)).Data;
+                products = (await _productService.GetListAsync(null, x => x.ProductImages, x => x.ProductColors)).Data;
             return Json(products);
         }
     }

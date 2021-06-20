@@ -27,6 +27,7 @@ namespace Data.Context
         public DbSet<EventType> EventTypes { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<UserCoupon> UserCoupons { get; set; }
+        public DbSet<ProductColor> ProductColors { get; set; }
 
     }
 }

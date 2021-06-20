@@ -26,6 +26,9 @@ $(document).ready(function () {
     { categoryId: categoryId },
     function (response) {
       response.forEach((product) => {
+        var colorIds = [];
+        product.productColors.forEach(pColor => colorIds.push(pColor.colorId));
+        product.colorIds = colorIds;
         products.push(product);
       });
       originalProductDatas = products;
@@ -42,17 +45,27 @@ loadProducts = () => {
       row += '<div class="col-md-4 product-tab-grid simpleCart_shelfItem">';
       row += '<div class="grid-arr" style="height: 430px;">';
       row += '<div class="grid-arrival">';
-      row += '<figure>';
-      row += '<a href="#" class="new-gri" data-toggle="modal" data-target="#myModal1">';
-      product.productImages.forEach(image => 
-        {
-          row += `<div class='grid-img'><img src='/images/${image.imageName}' class='img-responsive' alt='${image.imageName}'/></div>`;
-        })
-      row += `</a></figure></div><div class="block"><div class="starbox small ghosting"> </div></div><div class="women"><h6><a href="/Product/Index/${product.id}">${product.name}</a></h6><span class="size">${product.description.length <= 25 ? product.description : product.description.substring(0,25)+"..."}</span>`;
+      row += "<figure>";
+      row +=
+        '<a href="#" class="new-gri" data-toggle="modal" data-target="#myModal1">';
+      product.productImages.forEach((image) => {
+        row += `<div class='grid-img'><img src='/images/${image.imageName}' class='img-responsive' alt='${image.imageName}'/></div>`;
+      });
+      row += `</a></figure></div><div class="block"><div class="starbox small ghosting"> </div></div><div class="women"><h6><a href="/Product/Index/${
+        product.id
+      }">${product.name}</a></h6><span class="size">${
+        product.description.length <= 25
+          ? product.description
+          : product.description.substring(0, 25) + "..."
+      }</span>`;
       if (product.discountRate !== 0) {
         var discountedPrice =
           product.price - product.price * (product.discountRate / 100);
-        row += `<p><del>${product.price} ₺</del><em class="item_price">${discountedPrice.toFixed(2)} ₺</em></p>`;
+        row += `<p><del>${
+          product.price
+        } ₺</del><em class="item_price">${discountedPrice.toFixed(
+          2
+        )} ₺</em></p>`;
       } else {
         row += `<p><em class="item_price">${product.price} ₺</em></p>`;
       }

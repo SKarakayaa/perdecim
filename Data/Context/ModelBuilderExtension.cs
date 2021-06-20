@@ -45,10 +45,10 @@ namespace Data.Context
                 new Demand { Id = 4, DemandTypeId = 2, ImageName = "plasti_zincir.jpeg", Name = "Plastik Zincir", Price = 0 }
             );
 
-            modelBuilder.Entity<Product>().HasData(
-                new Product { Id = 1, Name = "Yıldız Desen Baskılı Zebra Stor Perde", BrandId = 4, CategoryId = 6, ColorId = 1, Description = "Zebra Stor Perde", DiscountRate = 0, InStock = true, IsNew = true, IsPopular = true, Price = 65.00M },
-                new Product { Id = 2, Name = "Jakarlı Zebra Stop Perde Su Yolu", BrandId = 4, CategoryId = 6, ColorId = 2, Description = "Zebra Stor Perde", DiscountRate = 20, InStock = true, IsNew = false, IsPopular = false, Price = 65.00M }
-            );
+            // modelBuilder.Entity<Product>().HasData(
+            //     new Product { Id = 1, Name = "Yıldız Desen Baskılı Zebra Stor Perde", BrandId = 4, CategoryId = 6, ColorId = 1, Description = "Zebra Stor Perde", DiscountRate = 0, InStock = true, IsNew = true, IsPopular = true, Price = 65.00M },
+            //     new Product { Id = 2, Name = "Jakarlı Zebra Stop Perde Su Yolu", BrandId = 4, CategoryId = 6, ColorId = 2, Description = "Zebra Stor Perde", DiscountRate = 20, InStock = true, IsNew = false, IsPopular = false, Price = 65.00M }
+            // );
 
             modelBuilder.Entity<ProductDemand>().HasData(
                 new ProductDemand { Id = 1, DemandTypeId = 1, ProductId = 1 },
